@@ -554,7 +554,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
     <div class="auth-alt">
       <span id="auToggleTxt">¿No tienes cuenta?</span> <b class="link" onclick="toggleAuthMode()" id="auToggleBtn">Crear cuenta</b>
     </div>
-    <div class="auth-alt"><span class="link" onclick="useLocal()">Usar solo en este dispositivo</span></div>
+    <div class="auth-alt"><span class="link" id="auLocalLink" onclick="useLocal()">Usar solo en este dispositivo</span></div>
   </div>
 </div>
 
@@ -634,6 +634,11 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 <div class="toast" id="toast"></div>
 <input type="file" id="filePick" accept="image/*" class="hidden">
 
+<!-- ============ FIREBASE SDK (login + sincronización) ============ -->
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.5/firebase-firestore-compat.js"></script>
+
 <script>
 /* =====================================================================
    RODOVELOCITY
@@ -662,6 +667,18 @@ const LOGO=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
 </svg>`;
 
 /* =====================================================================
+   FIREBASE — login por correo/contraseña + sincronización
+   ===================================================================== */
+const FIREBASE_CONFIG={
+  apiKey:"AIzaSyBMWrR4sFQJ8hI6LOAuDIsNBFQQHuzxIO8",
+  authDomain:"rodovelocity-c252c.firebaseapp.com",
+  projectId:"rodovelocity-c252c",
+  storageBucket:"rodovelocity-c252c.firebasestorage.app",
+  messagingSenderId:"887399898824",
+  appId:"1:887399898824:web:d79da8cf842b98610c4ffd"
+};
+
+/* =====================================================================
    IDIOMAS (i18n) — Español / English / Français   (punto 5)
    ===================================================================== */
 let LANG=(function(){try{return localStorage.getItem('rodo_lang')||'es'}catch(e){return 'es'}})();
@@ -683,6 +700,8 @@ const I18N={
   save:'Guardar',cancel:'Cancelar',close:'Cerrar',understood:'Entendido',reset:'Reiniciar',
   language:'Idioma',coachIA:'Coach IA',smartCoach:'Coach inteligente',coachDesc:'Ajusta tus pesos según cómo te sientes. Siempre activo, sin internet.',coachAdjustTitle:'Ajustes del coach por ejercicio',noAdjust:'Aún no hay ajustes. El coach los creará según tus sensaciones al entrenar.',resetAdjust:'Reiniciar ajustes',dataSec:'Datos',savedLocalT:'Guardados localmente',savedLocalD:'Tus datos se guardan en este dispositivo. Cada teléfono/PC guarda los suyos.',shareApp:'📲 Compartir la app',switchProfile:'Cambiar de perfil',howCoach:'🧠 ¿Cómo funciona el coach?',deleteProfile:'Eliminar este perfil',
   logLast:'última vez',logWeightUsed:'Peso que usaste',tapToLog:'Toca para anotar el peso',
+  au_login:'Entra en tu cuenta',au_register:'Crea tu cuenta',au_email:'Correo',au_pass:'Contraseña',au_enter:'Entrar',au_create:'Crear cuenta',au_noAcc:'¿No tienes cuenta?',au_hasAcc:'¿Ya tienes cuenta?',au_toReg:'Crear cuenta',au_toLog:'Entrar',au_local:'Usar solo en este dispositivo',au_wait:'Un momento…',logout:'Cerrar sesión',cloud_on:'☁️ Sincronizado en la nube',account:'Cuenta',
+  e_badpass:'Contraseña incorrecta',e_nouser:'No existe esa cuenta',e_inuse:'Ese correo ya está registrado',e_weak:'La contraseña debe tener 6+ caracteres',e_email:'Correo no válido',e_generic:'No se pudo, revisa correo y contraseña',
  },
  en:{
   nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',
@@ -701,6 +720,8 @@ const I18N={
   save:'Save',cancel:'Cancel',close:'Close',understood:'Got it',reset:'Reset',
   language:'Language',coachIA:'AI Coach',smartCoach:'Smart coach',coachDesc:'Adjusts your weights based on how you feel. Always on, offline.',coachAdjustTitle:'Coach adjustments per exercise',noAdjust:'No adjustments yet. The coach creates them from how you feel while training.',resetAdjust:'Reset adjustments',dataSec:'Data',savedLocalT:'Saved locally',savedLocalD:'Your data is stored on this device. Each phone/PC keeps its own.',shareApp:'📲 Share the app',switchProfile:'Switch profile',howCoach:'🧠 How does the coach work?',deleteProfile:'Delete this profile',
   logLast:'last time',logWeightUsed:'Weight you used',tapToLog:'Tap to log the weight',
+  au_login:'Sign in to your account',au_register:'Create your account',au_email:'Email',au_pass:'Password',au_enter:'Sign in',au_create:'Create account',au_noAcc:"No account yet?",au_hasAcc:'Already have an account?',au_toReg:'Create account',au_toLog:'Sign in',au_local:'Use on this device only',au_wait:'One moment…',logout:'Log out',cloud_on:'☁️ Synced to the cloud',account:'Account',
+  e_badpass:'Wrong password',e_nouser:'No such account',e_inuse:'That email is already registered',e_weak:'Password must be 6+ characters',e_email:'Invalid email',e_generic:'Failed, check email and password',
  },
  fr:{
   nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',
@@ -719,6 +740,8 @@ const I18N={
   save:'Enregistrer',cancel:'Annuler',close:'Fermer',understood:'Compris',reset:'Réinitialiser',
   language:'Langue',coachIA:'Coach IA',smartCoach:'Coach intelligent',coachDesc:'Ajuste tes poids selon ton ressenti. Toujours actif, hors ligne.',coachAdjustTitle:'Ajustements du coach par exercice',noAdjust:'Aucun ajustement pour le moment. Le coach les crée selon ton ressenti.',resetAdjust:'Réinitialiser les ajustements',dataSec:'Données',savedLocalT:'Enregistré localement',savedLocalD:'Tes données sont sur cet appareil. Chaque téléphone/PC garde les siennes.',shareApp:"📲 Partager l'app",switchProfile:'Changer de profil',howCoach:'🧠 Comment marche le coach ?',deleteProfile:'Supprimer ce profil',
   logLast:'dernière fois',logWeightUsed:'Poids utilisé',tapToLog:'Touche pour noter le poids',
+  au_login:'Connecte-toi à ton compte',au_register:'Crée ton compte',au_email:'E-mail',au_pass:'Mot de passe',au_enter:'Se connecter',au_create:'Créer le compte',au_noAcc:'Pas de compte ?',au_hasAcc:'Déjà un compte ?',au_toReg:'Créer un compte',au_toLog:'Se connecter',au_local:'Utiliser seulement sur cet appareil',au_wait:'Un instant…',logout:'Se déconnecter',cloud_on:'☁️ Synchronisé dans le cloud',account:'Compte',
+  e_badpass:'Mot de passe incorrect',e_nouser:'Ce compte n\'existe pas',e_inuse:'Cet e-mail est déjà enregistré',e_weak:'Le mot de passe doit avoir 6+ caractères',e_email:'E-mail invalide',e_generic:'Échec, vérifie e-mail et mot de passe',
  }
 };
 function t(k){const d=I18N[LANG]||I18N.es;return d[k]!==undefined?d[k]:(I18N.es[k]!==undefined?I18N.es[k]:k)}
@@ -961,8 +984,87 @@ const LS='rodovelocity_v1';
 let DB=load();
 let CUR=null,VIEW={plan:null,week:0,day:0},SESS=null;
 
+/* ---- estado de nube / auth ---- */
+let CLOUD=false,AUTH=null,cloudUnsub=null,cloudTimer=null,applyingRemote=false;
 function load(){try{return JSON.parse(localStorage.getItem(LS))||{profiles:[]}}catch(e){return{profiles:[]}}}
-function save(){DB.updatedAt=Date.now();try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}}
+function save(){DB.updatedAt=Date.now();try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}
+  if(CLOUD&&AUTH&&!applyingRemote)queueCloudSave()}
+function queueCloudSave(){clearTimeout(cloudTimer);cloudTimer=setTimeout(pushCloud,900)}
+function pushCloud(){if(!(CLOUD&&AUTH))return;
+  try{firebase.firestore().collection('users').doc(AUTH.uid).set({db:DB,updatedAt:DB.updatedAt||Date.now(),email:AUTH.email},{merge:true}).catch(()=>{})}catch(e){}}
+
+/* ---- Firebase init + auth ---- */
+function initFirebase(){
+  if(typeof firebase==='undefined'||!FIREBASE_CONFIG||!FIREBASE_CONFIG.apiKey)return false;
+  try{if(!firebase.apps.length)firebase.initializeApp(FIREBASE_CONFIG);CLOUD=true;return true}
+  catch(e){console.warn('[RODO] Firebase init falló:',e.message);CLOUD=false;return false}}
+async function loadCloud(){
+  if(!(CLOUD&&AUTH))return;
+  try{
+    const ref=firebase.firestore().collection('users').doc(AUTH.uid);
+    const snap=await ref.get();
+    if(snap.exists&&snap.data()&&snap.data().db){
+      const rd=snap.data().db;
+      // usa la nube como fuente de verdad
+      applyingRemote=true;DB=rd;(DB.profiles||[]).forEach(ensureFields);
+      try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}applyingRemote=false;
+    }else{
+      // primera vez: sube lo que haya local a la nube
+      pushCloud();
+    }
+  }catch(e){console.warn('[RODO] loadCloud:',e.message)}
+}
+function startCloudSync(){
+  if(!(CLOUD&&AUTH))return;
+  if(cloudUnsub){cloudUnsub();cloudUnsub=null}
+  const ref=firebase.firestore().collection('users').doc(AUTH.uid);
+  cloudUnsub=ref.onSnapshot(snap=>{
+    if(snap.metadata.hasPendingWrites)return;       // eco de nuestra propia escritura
+    if(SESS)return;                                  // no interrumpir un entrenamiento en curso
+    if(!snap.exists||!snap.data()||!snap.data().db)return;
+    const rd=snap.data().db;
+    if((rd.updatedAt||0)<=(DB.updatedAt||0))return;  // ya tenemos algo igual o más nuevo
+    applyingRemote=true;DB=rd;(DB.profiles||[]).forEach(ensureFields);
+    try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}applyingRemote=false;
+    if(CUR){const f=DB.profiles.find(p=>p.id===CUR.id);if(f){CUR=f;rerender()}else{switchProfile()}}
+    else if(document.getElementById('gate').style.display!=='none')initGate();
+  },err=>console.warn('[RODO] sync:',err.message));
+}
+function authErrMsg(code){const m={'auth/wrong-password':'e_badpass','auth/invalid-credential':'e_badpass','auth/user-not-found':'e_nouser','auth/email-already-in-use':'e_inuse','auth/weak-password':'e_weak','auth/invalid-email':'e_email'};
+  return t(m[code]||'e_generic')}
+let authMode='login';
+function showAuth(){document.getElementById('auth').style.display='flex';document.getElementById('gate').style.display='none';
+  document.getElementById('app').classList.add('hidden');document.getElementById('nav').classList.add('hidden');updateAuthUI()}
+function hideAuth(){document.getElementById('auth').style.display='none'}
+function updateAuthUI(){
+  const set=(id,txt)=>{const e=document.getElementById(id);if(e)e.textContent=txt};
+  const reg=authMode==='register';
+  set('authSub',reg?t('au_register'):t('au_login'));
+  const em=document.getElementById('auEmail'),pa=document.getElementById('auPass');
+  if(em)em.placeholder=t('au_email');if(pa)pa.placeholder=t('au_pass');
+  set('auBtn',reg?t('au_create'):t('au_enter'));
+  set('auToggleTxt',reg?t('au_hasAcc'):t('au_noAcc'));
+  set('auToggleBtn',reg?t('au_toLog'):t('au_toReg'));
+  const lk=document.getElementById('auLocalLink');if(lk)lk.textContent=t('au_local');
+}
+function toggleAuthMode(){authMode=authMode==='register'?'login':'register';updateAuthUI()}
+async function doAuth(){
+  if(!(CLOUD)){useLocal();return}
+  const email=(document.getElementById('auEmail').value||'').trim();
+  const pass=document.getElementById('auPass').value||'';
+  if(!email||!pass)return toast(t('au_email')+' / '+t('au_pass'),'warn');
+  const btn=document.getElementById('auBtn');const old=btn.textContent;btn.textContent=t('au_wait');btn.disabled=true;
+  try{
+    if(authMode==='register')await firebase.auth().createUserWithEmailAndPassword(email,pass);
+    else await firebase.auth().signInWithEmailAndPassword(email,pass);
+    // onAuthStateChanged se encarga del resto
+  }catch(e){toast(authErrMsg(e.code),'warn');btn.textContent=old;btn.disabled=false}
+}
+function useLocal(){CLOUD=false;hideAuth();showGate()}
+function logout(){try{firebase.auth().signOut()}catch(e){}
+  if(cloudUnsub){cloudUnsub();cloudUnsub=null}CUR=null;
+  document.getElementById('app').classList.add('hidden');document.getElementById('nav').classList.add('hidden');
+  document.getElementById('gate').style.display='none';authMode='login';showAuth()}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function newProfile(name,color){return{id:uid(),name,color,photo:null,maxes:{squat:null,bench:null,clean:null},
   maxHistory:[],sessions:[],progress:{},adjust:{},activePlan:null,unit:'kg',round:2.5,
@@ -992,7 +1094,8 @@ function initGate(){
   add.onclick=createProfileModal;
   add.innerHTML=`<div class="p-ava add">+</div><div class="p-name">Nuevo perfil</div>`;
   g.appendChild(add);
-  const acc=document.getElementById('gateAccount');if(acc)acc.innerHTML='';
+  const acc=document.getElementById('gateAccount');
+  if(acc){acc.innerHTML=(CLOUD&&AUTH)?`<div style="margin-top:22px"><div class="sub" style="font-size:12px">${t('cloud_on')}</div><div style="font-size:12px;color:var(--muted);margin:2px 0 8px">${esc(AUTH.email||'')}</div><span class="link" onclick="logout()">${t('logout')}</span></div>`:'';}
 }
 function initials(n){return n.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()}
 function esc(s){return(s+'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
@@ -1499,6 +1602,7 @@ function renderProfile(){const el=document.getElementById('profile');const m=CUR
     <div class="card"><b>${t('savedLocalT')}</b><p class="sub" style="margin:6px 0 10px">${t('savedLocalD')}</p></div>
     <button class="btn" onclick="shareApp()">${t('shareApp')}</button>
     <button class="btn dark" style="margin-top:10px" onclick="switchProfile()">${t('switchProfile')}</button>
+    ${(CLOUD&&AUTH)?`<div class="card" style="margin-top:14px;padding:14px"><div class="sub" style="font-size:12px">${t('cloud_on')}</div><b style="font-size:13px">${esc(AUTH.email||'')}</b></div><button class="btn ghost" style="margin-top:6px" onclick="logout()">${t('logout')}</button>`:''}
     <button class="btn ghost" style="margin-top:10px" onclick="coachInfo()">${t('howCoach')}</button>
     <button class="btn ghost" style="margin-top:10px;color:var(--danger)" onclick="deleteProfile()">${t('deleteProfile')}</button>
     <div style="text-align:center;color:var(--muted);font-size:11px;margin:20px 0 4px">RODOVELOCITY · TopVelocity Fusion System</div>`}
@@ -1555,11 +1659,27 @@ document.getElementById('brandLogo').innerHTML=LOGO;
 document.documentElement.lang=LANG;
 applyStaticI18n();
 (function boot(){
-  // Splash screen 3 s → gate de perfiles
-  setTimeout(()=>{
+  const cloudOk=initFirebase();
+  let splashDone=false,authKnown=false;
+  function routeAfterSplash(){
     document.getElementById('splash').style.display='none';
-    showGate();     // abre con tus perfiles guardados localmente
-  },3000);
+    if(!cloudOk){showGate();return}                 // sin Firebase → modo local
+    if(AUTH){hideAuth();showGate()}                 // sesión ya iniciada → perfiles
+    else{showAuth()}                                // pedir login
+  }
+  setTimeout(()=>{splashDone=true;routeAfterSplash()},3000);
+  if(cloudOk){
+    firebase.auth().onAuthStateChanged(async user=>{
+      authKnown=true;
+      if(user){
+        AUTH=user;await loadCloud();startCloudSync();
+        if(splashDone){hideAuth();if(!CUR&&document.getElementById('app').classList.contains('hidden'))showGate()}
+      }else{
+        AUTH=null;if(cloudUnsub){cloudUnsub();cloudUnsub=null}
+        if(splashDone)showAuth();
+      }
+    });
+  }
   // Register service worker for offline + PWA (ruta relativa: funciona en Netlify raíz o subcarpeta)
   if('serviceWorker' in navigator){
     navigator.serviceWorker.register('service-worker.js').then(reg=>{

@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'rodovelocity-v3';
+const CACHE_VERSION = 'rodovelocity-v4';
 const CACHE_NAME = CACHE_VERSION;
 const urlsToCache = [
   './',
@@ -45,12 +45,10 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // Skip external domains except Firebase CDN
+  // Only handle same-origin requests. Firebase (gstatic/googleapis) goes
+  // straight to the network so login and realtime sync are never intercepted.
   const url = new URL(event.request.url);
-  const isSameOrigin = url.origin === self.location.origin;
-  const isFirebaseCDN = url.hostname.includes('gstatic.com') || url.hostname.includes('googleapis.com');
-
-  if (!isSameOrigin && !isFirebaseCDN) {
+  if (url.origin !== self.location.origin) {
     return;
   }
 
