@@ -1,34 +1,36 @@
 {
-  "name": "RODOVELOCITY - Pitcher Training",
+  "name": "RODOVELOCITY",
   "short_name": "RODOVELOCITY",
-  "description": "TopVelocity Fusion System training app. Calculate weights, track workouts, sync with cloud.",
-  "start_url": "/",
+  "description": "App de entrenamiento para pitchers de beisbol - sistema TopVelocity: calculo de pesos, seguimiento de entrenos y progreso.",
+  "start_url": "./?v=3",
+  "id": "/?v=3",
   "display": "standalone",
+  "display_override": ["standalone", "fullscreen", "minimal-ui"],
   "background_color": "#0a0a0a",
-  "theme_color": "#E10600",
-  "orientation": "portrait-primary",
-  "scope": "/",
+  "theme_color": "#0a0a0a",
+  "orientation": "portrait",
+  "scope": "./",
+  "lang": "es",
+  "dir": "ltr",
+  "categories": ["sports", "health", "fitness"],
   "icons": [
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='44' fill='%230a0a0a'/%3E%3Cpath d='M124 24c6 8 5.2 14.8 2 20 6.4-1.2 9.6 4 8.8 10.4-1.2 11.2-10.8 18.4-21.6 17.2-10.8-1.6-18-11.2-15.6-21.2 1.6-7.2 6.4-10 10-9.6-4-8.8.8-18.8 4-24 0 7.6 2.4 11.6 5.6 13.6 2-4.4.8-10.4-2.8-14.4z' fill='%23ff5a1f'/%3E%3C/svg%3E",
+      "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any"
     },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='44' fill='%230a0a0a'/%3E%3Cpath d='M124 24c6 8 5.2 14.8 2 20 6.4-1.2 9.6 4 8.8 10.4-1.2 11.2-10.8 18.4-21.6 17.2-10.8-1.6-18-11.2-15.6-21.2 1.6-7.2 6.4-10 10-9.6-4-8.8.8-18.8 4-24 0 7.6 2.4 11.6 5.6 13.6 2-4.4.8-10.4-2.8-14.4z' fill='%23ff5a1f'/%3E%3C/svg%3E",
-      "sizes": "192x192",
-      "type": "image/svg+xml",
-      "purpose": "maskable"
-    }
-  ],
-  "categories": ["sports", "fitness"],
-  "screenshots": [
+      "src": "icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
     {
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 540 720'%3E%3Crect width='540' height='720' fill='%230a0a0a'/%3E%3Ctext x='270' y='360' font-size='48' fill='%23E10600' text-anchor='middle' dominant-baseline='middle' font-weight='bold'%3ERODOVELOCITY%3C/text%3E%3C/svg%3E",
-      "sizes": "540x720",
-      "type": "image/svg+xml",
-      "form_factor": "narrow"
+      "src": "icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
     }
   ]
 }

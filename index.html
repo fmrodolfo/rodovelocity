@@ -5,16 +5,18 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <meta name="theme-color" content="#0a0a0a">
 <meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="manifest" content="manifest.json">
+<meta name="apple-mobile-web-app-title" content="RODOVELOCITY">
+<meta name="application-name" content="RODOVELOCITY">
 <link rel="manifest" href="manifest.json">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='44' fill='%230a0a0a'/%3E%3Cpath d='M124 24c6 8 5.2 14.8 2 20 6.4-1.2 9.6 4 8.8 10.4-1.2 11.2-10.8 18.4-21.6 17.2-10.8-1.6-18-11.2-15.6-21.2 1.6-7.2 6.4-10 10-9.6-4-8.8.8-18.8 4-24 0 7.6 2.4 11.6 5.6 13.6 2-4.4.8-10.4-2.8-14.4z' fill='%23ff5a1f'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icon-512.png">
 <title>RODOVELOCITY</title>
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='11' fill='%230a0a0a'/%3E%3Cpath d='M31 6c1.5 2 1.3 3.7.5 5 1.6-.3 2.4 1 2.2 2.6-.3 2.8-2.7 4.6-5.4 4.3-2.7-.4-4.5-2.8-3.9-5.3.4-1.8 1.6-2.5 2.5-2.4-1-2.2.2-4.7 1-6 0 1.9.6 2.9 1.4 3.4.5-1.1.2-2.6-.7-3.6z' fill='%23ff5a1f'/%3E%3C/svg%3E">
-<!-- Firebase (se cargan desde CDN; si no hay internet, la app funciona en local) -->
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+<!-- Sin Firebase - datos guardados en localStorage del dispositivo -->
 <style>
 :root{
   --red:#E10600; --red-dark:#a30400; --red-glow:rgba(225,6,0,.45);
@@ -47,6 +49,210 @@ input,select,textarea{font-family:inherit}
 @keyframes slideIn{from{transform:translateX(40px);opacity:0}to{transform:none;opacity:1}}
 @keyframes barGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
 @keyframes flick{0%,100%{transform:rotate(-2deg) scale(1)}50%{transform:rotate(2deg) scale(1.05)}}
+
+/* ============ SPLASH SCREEN ANIMATIONS (Modern + Technological + Brutal) ============ */
+
+/* Grid background scanline animation */
+@keyframes gridScan{
+  0%{opacity:0.3;transform:translateY(-100%)}
+  50%{opacity:0.6}
+  100%{opacity:0.2;transform:translateY(100%)}
+}
+
+/* Logo entrance with scale + rotate */
+@keyframes logoEnter{
+  0%{
+    opacity:0;
+    transform:scale(0.3) rotateY(-180deg);
+    filter:blur(20px)
+  }
+  60%{
+    opacity:1;
+    transform:scale(1.1) rotateY(10deg);
+    filter:blur(0)
+  }
+  100%{
+    opacity:1;
+    transform:scale(1) rotateY(0deg);
+    filter:blur(0);
+    text-shadow:0 0 20px rgba(225,6,0,0.6)
+  }
+}
+
+/* Logo pulse glow */
+@keyframes logoPulse{
+  0%,100%{
+    filter:drop-shadow(0 0 10px rgba(225,6,0,0.4))
+  }
+  50%{
+    filter:drop-shadow(0 0 25px rgba(225,6,0,0.8))
+  }
+}
+
+/* Title text glitch effect */
+@keyframes titleGlitch{
+  0%{
+    opacity:0;
+    transform:translateY(30px) scaleX(0.8);
+    text-shadow:none
+  }
+  35%{
+    opacity:0.7;
+    transform:translateY(0) scaleX(1);
+    text-shadow:-2px 0 #E10600,2px 0 rgba(255,255,255,0.3)
+  }
+  70%{
+    opacity:1;
+    text-shadow:0 0 0 rgba(0,0,0,0)
+  }
+  100%{
+    opacity:1;
+    transform:translateY(0) scaleX(1);
+    text-shadow:0 0 15px rgba(225,6,0,0.5)
+  }
+}
+
+/* Subtitle fade in */
+@keyframes subtitleFade{
+  0%{
+    opacity:0;
+    transform:translateY(15px)
+  }
+  60%{
+    opacity:0;
+    transform:translateY(15px)
+  }
+  100%{
+    opacity:0.8;
+    transform:translateY(0)
+  }
+}
+
+/* Splash exit - dramatic fade with blur */
+@keyframes splashExit{
+  0%{
+    opacity:1;
+    backdrop-filter:blur(0px)
+  }
+  85%{
+    opacity:1;
+    backdrop-filter:blur(0px)
+  }
+  100%{
+    opacity:0;
+    backdrop-filter:blur(8px);
+    pointer-events:none
+  }
+}
+
+/* Grid lines tech background */
+@keyframes gridMove{
+  0%{
+    background-position:0 0
+  }
+  100%{
+    background-position:0 100px
+  }
+}
+
+#splash{
+  position:fixed;inset:0;z-index:1000;
+  background:linear-gradient(180deg,#0a0a0a 0%,#1a0a0a 50%,#0a0a0a 100%);
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+  animation:splashExit 3s ease-in forwards;
+  perspective:1000px
+}
+
+/* Tech grid background */
+#splash::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:
+    linear-gradient(0deg,rgba(225,6,0,0.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(225,6,0,0.05) 1px,transparent 1px);
+  background-size:40px 40px;
+  background-position:0 0;
+  animation:gridMove 4s linear infinite;
+  z-index:1;
+  pointer-events:none
+}
+
+/* Scanline effect */
+#splash::after{
+  content:'';
+  position:absolute;
+  inset:0;
+  background:repeating-linear-gradient(
+    0deg,
+    rgba(225,6,0,0.08) 0px,
+    rgba(225,6,0,0.08) 2px,
+    transparent 2px,
+    transparent 4px
+  );
+  z-index:2;
+  pointer-events:none;
+  animation:none
+}
+
+.splash-content{
+  position:relative;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:20px;
+  text-align:center
+}
+
+.logo-splash{
+  width:120px;
+  height:120px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:radial-gradient(circle at 30% 30%,rgba(225,6,0,0.2),transparent 70%);
+  border-radius:24px;
+  border:2px solid rgba(225,6,0,0.3);
+  backdrop-filter:blur(10px);
+  animation:logoEnter 1.2s cubic-bezier(0.34,1.56,0.64,1) both,
+            logoPulse 2.5s ease-in-out 1.2s infinite;
+  box-shadow:0 0 40px rgba(225,6,0,0.3),inset 0 0 20px rgba(225,6,0,0.1)
+}
+
+.logo-splash svg{
+  width:90px;
+  height:90px;
+  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))
+}
+
+.splash-title{
+  font-size:48px;
+  font-weight:900;
+  letter-spacing:3px;
+  margin:0;
+  color:var(--white);
+  animation:titleGlitch 1.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.4s both;
+  text-transform:uppercase;
+  line-height:1.1
+}
+
+.splash-title span{
+  color:var(--red);
+  display:block;
+  animation:titleGlitch 1.4s cubic-bezier(0.25,0.46,0.45,0.94) 0.5s both
+}
+
+.splash-subtitle{
+  font-size:13px;
+  letter-spacing:2px;
+  color:var(--muted);
+  text-transform:uppercase;
+  font-weight:700;
+  margin:0;
+  animation:subtitleFade 1.2s ease-out 1.8s both
+}
 
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 18px 10px;position:sticky;top:0;z-index:30;
   background:linear-gradient(180deg,rgba(10,10,10,.92),rgba(10,10,10,.55) 70%,transparent);backdrop-filter:blur(6px)}
@@ -215,9 +421,126 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 .badge.b3{background:rgba(240,165,0,.15);color:var(--warn)}.badge.b4{background:rgba(255,122,0,.15);color:#ff7a00}
 .badge.b5{background:rgba(255,59,48,.15);color:var(--danger)}
 .swatch{display:flex;gap:8px;flex-wrap:wrap;margin-top:8px}
+
+/* ============ TRANSICIONES MODERNAS (punto 10) ============ */
+@keyframes screenIn{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:none}}
+@keyframes cardRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes floatGlow{0%,100%{box-shadow:0 0 0 0 var(--red-glow)}50%{box-shadow:0 0 22px 1px var(--red-glow)}}
+.screen.active{animation:screenIn .5s cubic-bezier(.16,.84,.3,1) both}
+/* aparición escalonada de tarjetas dentro de cada pantalla */
+.screen.active>.card,.screen.active>.stat-row,.screen.active>.h-sec,.screen.active>[data-rise],.screen.active>.week{animation:cardRise .55s cubic-bezier(.16,.84,.3,1) both}
+.screen.active>*:nth-child(1){animation-delay:.02s}
+.screen.active>*:nth-child(2){animation-delay:.06s}
+.screen.active>*:nth-child(3){animation-delay:.10s}
+.screen.active>*:nth-child(4){animation-delay:.14s}
+.screen.active>*:nth-child(5){animation-delay:.18s}
+.screen.active>*:nth-child(6){animation-delay:.22s}
+.screen.active>*:nth-child(7){animation-delay:.26s}
+.screen.active>*:nth-child(8){animation-delay:.30s}
+.card{transition:transform .22s cubic-bezier(.2,.8,.2,1),border-color .22s,box-shadow .22s}
+.card.tap:active{transform:scale(.98)}
+.btn{position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at var(--rx,50%) var(--ry,50%),rgba(255,255,255,.35),transparent 45%);opacity:0;transition:opacity .5s}
+.btn:active::after{opacity:1;transition:opacity 0s}
+.nav-b{transition:color .2s,transform .15s}
+.nav-b:active{transform:scale(.9)}
+.nav-b.on svg{animation:pop .4s both}
+.modal-card{animation:pop .32s cubic-bezier(.16,.84,.3,1) both}
+.chip{transition:transform .15s,background .2s,color .2s,border-color .2s}
+.chip:active{transform:scale(.94)}
+
+/* ============ SELECTOR DE IDIOMA ============ */
+.lang-row{display:flex;gap:8px;margin-top:4px}
+.lang-b{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;padding:12px 6px;border-radius:14px;background:var(--card2);border:1px solid var(--line);transition:.18s}
+.lang-b .fl{font-size:24px}
+.lang-b b{font-size:12px}
+.lang-b.on{border-color:var(--red);background:rgba(225,6,0,.12);box-shadow:0 6px 16px var(--red-glow)}
+
+/* ============ REGISTRO DE PESO EN ACCESORIOS (punto 7) ============ */
+.set.log .set-info{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.wlog{display:flex;align-items:center;gap:6px;background:#000;border:1px solid var(--line);border-radius:11px;padding:6px 10px}
+.wlog input{width:60px;background:transparent;border:none;color:var(--red);font-size:20px;font-weight:900;text-align:right}
+.wlog input:focus{outline:none}
+.wlog .u{color:var(--muted);font-weight:800;font-size:13px}
+.set-hint{font-size:11px;color:var(--muted);margin-top:3px}
+.set-hint b{color:#ffb03a}
+
+/* ============ SIGUIENTES EJERCICIOS (punto 8) ============ */
+.up-next{background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);border-radius:14px;padding:12px 14px;margin-bottom:16px}
+.up-next .un-h{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.up-next .un-t{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--red);font-weight:800}
+.up-next .un-list{margin-top:10px;display:flex;flex-direction:column;gap:7px}
+.up-next .un-i{display:flex;align-items:center;gap:10px;font-size:13.5px}
+.up-next .un-n{width:22px;height:22px;border-radius:7px;background:var(--card2);display:grid;place-items:center;font-size:11px;font-weight:800;color:var(--muted);flex:0 0 auto}
+.up-next .un-i.first .un-n{background:var(--red);color:#fff}
+.up-next .un-x{color:var(--muted);font-size:12px;margin-left:auto}
+.up-next .un-caret{color:var(--muted);transition:transform .3s;font-size:18px}
+.up-next.closed .un-list{display:none}
+.up-next.closed .un-caret{transform:rotate(-90deg)}
+.up-done{color:var(--muted);font-size:12.5px;text-align:center;padding:6px}
+
+/* ============ PROGRESO PRO (punto 9) ============ */
+.pg-hero{background:linear-gradient(135deg,rgba(225,6,0,.16),rgba(225,6,0,.02));border:1px solid rgba(225,6,0,.3);border-radius:18px;padding:18px;margin-bottom:14px}
+.pg-metric{display:flex;align-items:flex-end;gap:8px}
+.pg-metric b{font-size:40px;font-weight:900;line-height:1}
+.pg-metric .u{color:var(--muted);font-weight:800;font-size:15px;margin-bottom:5px}
+.pg-metric .dlt{margin-left:auto;font-size:13px;font-weight:800;padding:4px 10px;border-radius:9px}
+.pg-metric .dlt.up{background:rgba(46,204,113,.15);color:var(--ok)}
+.pg-metric .dlt.down{background:rgba(58,160,255,.15);color:#3aa0ff}
+.pg-metric .dlt.flat{background:var(--card2);color:var(--muted)}
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.daily-c{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:14px}
+.daily-c .dc-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.daily-c .dc-ico{font-size:20px}
+.daily-c .dc-lbl{font-size:11px;letter-spacing:.5px;text-transform:uppercase;color:var(--muted);font-weight:800}
+.daily-c .dc-val{font-size:22px;font-weight:900}
+.daily-c .dc-val small{font-size:12px;color:var(--muted);font-weight:700}
+.daily-c .dc-bar{height:7px;background:#000;border-radius:7px;overflow:hidden;margin-top:9px}
+.daily-c .dc-bar i{display:block;height:100%;border-radius:7px;transition:width .5s}
+.daily-c .dc-btns{display:flex;gap:6px;margin-top:10px}
+.mini-b{flex:1;padding:8px;border-radius:10px;background:#000;border:1px solid var(--line);font-weight:800;font-size:14px;transition:.15s}
+.mini-b:active{transform:scale(.94);border-color:var(--red)}
+.goal-pill{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:999px;background:var(--card2);border:1px solid var(--line);font-weight:700;font-size:13px}
+.goal-pill.on{background:var(--red);border-color:var(--red);color:#fff}
+.ai-tip{background:linear-gradient(135deg,rgba(225,6,0,.12),rgba(225,6,0,.02));border:1px solid rgba(225,6,0,.3);border-radius:15px;padding:15px;display:flex;gap:12px;margin-bottom:14px}
+.ai-tip .ai-ava{width:40px;height:40px;border-radius:12px;flex:0 0 auto;background:linear-gradient(135deg,var(--red),#ff4d38);display:grid;place-items:center;font-size:20px;box-shadow:0 6px 16px var(--red-glow)}
+.ai-tip .who{font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--red);font-weight:800;margin-bottom:3px}
+.ai-tip p{font-size:13.5px;line-height:1.5}
+.seg{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 </style>
 </head>
 <body>
+
+<!-- ============ SPLASH SCREEN (Moderno y Brutal) ============ -->
+<div id="splash">
+  <div class="splash-grid"></div>
+  <div class="splash-lines"></div>
+  <div class="splash-content">
+    <div class="logo-splash">
+      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+        <g>
+          <!-- Pitcher in throwing mechanics - professional minimalist -->
+          <!-- Head -->
+          <circle cx="32" cy="10" r="5" fill="#E10600"/>
+          <!-- Body/Torso (rotated back in throwing position) -->
+          <g transform="translate(32, 22) rotate(-25)">
+            <rect x="-3" y="-8" width="6" height="16" rx="3" fill="#E10600"/>
+          </g>
+          <!-- Throwing arm (extended back and DOWN) -->
+          <path d="M29 20 Q16 25 6 32" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <!-- Glove arm (forward and UP for balance) -->
+          <path d="M35 20 Q48 16 54 10" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <!-- Back leg (grounded) -->
+          <path d="M30 38 L27 58" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+          <!-- Front leg (lifted higher - more visible difference) -->
+          <path d="M34 38 L40 48" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+        </g>
+      </svg>
+    </div>
+    <h1 class="splash-title">RODO<span>VELOCITY</span></h1>
+    <div class="splash-subtitle">Baseball Training System</div>
+  </div>
+</div>
 
 <!-- ============ AUTH (solo si Firebase está configurado) ============ -->
 <div id="auth">
@@ -239,7 +562,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 <div id="gate">
   <div class="gate-logo" id="gateLogo"></div>
   <div class="gate-title">RODO<span>VELOCITY</span></div>
-  <div class="gate-sub">Elige tu perfil</div>
+  <div class="gate-sub" id="gateSubL">Elige tu perfil</div>
   <div class="profile-grid" id="profileGrid"></div>
   <div class="auth-alt" id="gateAccount"></div>
 </div>
@@ -263,13 +586,13 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 <!-- ============ NAV ============ -->
 <div id="nav" class="hidden">
   <button class="nav-b on" data-s="home" onclick="go('home')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>Inicio</button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span id="navHomeL">Inicio</span></button>
   <button class="nav-b" data-s="plans" onclick="go('plans')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>Planes</button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span id="navPlansL">Planes</span></button>
   <button class="nav-b" data-s="progress" onclick="go('progress')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg>Progreso</button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg><span id="navProgL">Progreso</span></button>
   <button class="nav-b" data-s="profile" onclick="go('profile')">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg>Perfil</button>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span id="navProfL">Perfil</span></button>
 </div>
 
 <!-- ============ WORKOUT ============ -->
@@ -282,7 +605,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
   <div class="wk-prog"><i id="wkBar" style="width:0"></i></div>
   <div class="wk-body" id="wkBody"></div>
   <div class="rest" id="rest">
-    <h3>Descanso</h3>
+    <h3 id="restTitle">Descanso</h3>
     <div class="timer-ring">
       <svg viewBox="0 0 220 220"><circle cx="110" cy="110" r="100" stroke="#222" stroke-width="12" fill="none"/>
       <circle id="restRing" cx="110" cy="110" r="100" stroke="var(--red)" stroke-width="12" fill="none" stroke-linecap="round" stroke-dasharray="628" stroke-dashoffset="0" transform="rotate(-90 110 110)"/></svg>
@@ -290,20 +613,20 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
     </div>
     <div class="rest-actions">
       <button class="btn ghost sm" onclick="addRest(15)">+15s</button>
-      <button class="btn sm" onclick="skipRest()">Saltar descanso →</button>
+      <button class="btn sm" id="skipRestBtn" onclick="skipRest()">Saltar descanso →</button>
     </div>
   </div>
 </div>
 
 <div class="sheet" id="feelSheet">
   <div class="sheet-grip"></div>
-  <div style="text-align:center;margin-bottom:6px"><b id="feelEx" style="font-size:18px"></b><div class="sub">¿Cómo te sentiste físicamente?</div></div>
+  <div style="text-align:center;margin-bottom:6px"><b id="feelEx" style="font-size:18px"></b><div class="sub" id="feelQ">¿Cómo te sentiste físicamente?</div></div>
   <div class="feel-grid">
-    <button class="feel f1" onclick="feel(1)"><span class="emo">🪶</span><div><b>Muy fácil</b><small>Podía con bastante más</small></div></button>
-    <button class="feel f2" onclick="feel(2)"><span class="emo">💪</span><div><b>Bien / sólido</b><small>Exigente pero controlado</small></div></button>
-    <button class="feel f3" onclick="feel(3)"><span class="emo">🥵</span><div><b>Duro</b><small>Me costó terminar</small></div></button>
-    <button class="feel f4" onclick="feel(4)"><span class="emo">🧨</span><div><b>Al fallo</b><small>No me quedaban reps</small></div></button>
-    <button class="feel f5" onclick="feel(5)"><span class="emo">⚠️</span><div><b>Molestia / dolor</b><small>Noté el hombro o una articulación</small></div></button>
+    <button class="feel f1" onclick="feel(1)"><span class="emo">🪶</span><div><b id="fl1">Muy fácil</b><small id="fl1d">Podía con bastante más</small></div></button>
+    <button class="feel f2" onclick="feel(2)"><span class="emo">💪</span><div><b id="fl2">Bien / sólido</b><small id="fl2d">Exigente pero controlado</small></div></button>
+    <button class="feel f3" onclick="feel(3)"><span class="emo">🥵</span><div><b id="fl3">Duro</b><small id="fl3d">Me costó terminar</small></div></button>
+    <button class="feel f4" onclick="feel(4)"><span class="emo">🧨</span><div><b id="fl4">Al fallo</b><small id="fl4d">No me quedaban reps</small></div></button>
+    <button class="feel f5" onclick="feel(5)"><span class="emo">⚠️</span><div><b id="fl5">Molestia / dolor</b><small id="fl5d">Noté el hombro o una articulación</small></div></button>
   </div>
 </div>
 
@@ -316,29 +639,96 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
    RODOVELOCITY
    ===================================================================== */
 
-/* ⬇⬇⬇  PEGA AQUÍ TU CONFIGURACIÓN DE FIREBASE  ⬇⬇⬇
-   (Firebase → Configuración del proyecto → Tus apps → Config)
-   Mientras esté vacío, la app funciona en LOCAL en este dispositivo.   */
-const FIREBASE_CONFIG = {
-  apiKey: "",
-  authDomain: "",
-  projectId: "",
-  storageBucket: "",
-  messagingSenderId: "",
-  appId: ""
-};
-/* ⬆⬆⬆  ------------------------------------------  ⬆⬆⬆ */
+/* ✅ Datos guardados en localStorage (cada dispositivo guarda los suyos) */
 
-const LOGO=`<svg viewBox="0 0 48 48" fill="none">
-<path d="M22 28 L12 38" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/>
-<path d="M22 28 L30 26 L31 35" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18 16 L22 28" stroke="#fff" stroke-width="3.8" stroke-linecap="round"/>
-<path d="M18 17 L12 20 L9 17" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M18 17 L23 13 L27 9" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-<circle cx="16.5" cy="12" r="3.3" fill="#fff"/>
-<path d="M31 4 c1.6 2.2 1.4 4 0.6 5.4 c1.7 -0.4 2.6 1 2.4 2.8 c-0.3 3 -2.9 5 -5.8 4.6 c-2.9 -0.4 -4.8 -3 -4.2 -5.7 c0.4 -1.9 1.7 -2.7 2.7 -2.6 c-1.1 -2.4 0.2 -5.1 1 -6.4 c-0.1 2 0.7 3.1 1.5 3.6 c0.6 -1.2 0.3 -2.8 -0.6 -3.9 z" fill="url(#fireG)"/>
-<defs><linearGradient id="fireG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffd23f"/><stop offset="0.45" stop-color="#ff6a1f"/><stop offset="1" stop-color="#E10600"/></linearGradient></defs>
+const LOGO=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
+<g>
+<!-- Pitcher in throwing mechanics - professional minimalist -->
+<!-- Head -->
+<circle cx="32" cy="10" r="5" fill="#E10600"/>
+<!-- Body/Torso (rotated back in throwing position) -->
+<g transform="translate(32, 22) rotate(-25)">
+  <rect x="-3" y="-8" width="6" height="16" rx="3" fill="#E10600"/>
+</g>
+<!-- Throwing arm (extended back and DOWN) -->
+<path d="M29 20 Q16 25 6 32" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+<!-- Glove arm (forward and UP for balance) -->
+<path d="M35 20 Q48 16 54 10" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+<!-- Back leg (grounded) -->
+<path d="M30 38 L27 58" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+<!-- Front leg (lifted higher - more visible difference) -->
+<path d="M34 38 L40 48" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
+</g>
 </svg>`;
+
+/* =====================================================================
+   IDIOMAS (i18n) — Español / English / Français   (punto 5)
+   ===================================================================== */
+let LANG=(function(){try{return localStorage.getItem('rodo_lang')||'es'}catch(e){return 'es'}})();
+const I18N={
+ es:{
+  nav_home:'Inicio',nav_plans:'Planes',nav_progress:'Progreso',nav_profile:'Perfil',
+  chooseProfile:'Elige tu perfil',newProfile:'Nuevo perfil',createProfile:'Crear perfil',np_desc:'Cada perfil guarda sus propios máximos y progreso.',name:'Nombre',color:'Color',
+  activePlan:'Plan activo',changePlan:'🔄 Cambiar plan',notStarted:'Aún no empezado',week:'Semana',daysCompleted:'días completados',continueTr:'▶ Continuar entrenamiento',startPlan:'⚡ Empezar plan',
+  streak:'DÍAS RACHA',sessions:'SESIONES',totalTons:'TON. TOTAL',yourMaxes:'Tus máximos',editMaxes:'Editar máximos',registerMaxesT:'Registra tus máximos 📏',registerMaxesD:'La app calcula todos los pesos a partir de tu Back Squat, Bench Press y Power Clean.',introMaxes:'Introducir máximos',lastSessions:'Últimas sesiones',noTrained:'Aún no has entrenado.',startFirst:'Empieza tu primer día para ver tu progreso aquí.',
+  plansSub:'Programas oficiales TopVelocity · movilidad + tiro + gimnasio',yourPrograms:'Tus programas',weeks:'semanas',days:'días',done:'hechos',
+  weeksPct:'semanas · sistema de porcentajes',maxesLabel:'Máximos',edit:'editar',introMaxesShort:'Introduce tus máximos',needCalc:'Necesarios para calcular los pesos.',introduce:'Introducir',
+  exercise:'EJERCICIO',of:'/',routineHint:'Rutina · toca cada ejercicio al ritmo indicado',routineDone:'✓ Rutina completada',bodyweight:'Peso corporal / accesorio',reps:'reps',freeWeight:'peso libre',next:'Siguiente →',reference:'Referencia',
+  upNext:'Siguientes ejercicios',lastEx:'Último ejercicio del día',rest:'Descanso',skipRest:'Saltar descanso →',
+  dayComplete:'¡Día completado!',duration:'DURACIÓN',tonsToday:'TON. HOY',feeling:'SENSACIÓN',backHome:'Volver al inicio',updateMaxes:'📈 Actualizar mis máximos',
+  quitTitle:'¿Seguro que quieres salir?',loseProgress:'Perderás el progreso de este día.',keepTraining:'Seguir entrenando 🔥',yesQuit:'Sí, salir',yourCoach:'Tu coach',
+  feelQ:'¿Cómo te sentiste físicamente?',f1:'Muy fácil',f1d:'Podía con bastante más',f2:'Bien / sólido',f2d:'Exigente pero controlado',f3:'Duro',f3d:'Me costó terminar',f4:'Al fallo',f4d:'No me quedaban reps',f5:'Molestia / dolor',f5d:'Noté el hombro o una articulación',
+  progressSub:'Tu asistente diario de rendimiento',bodyWeight:'Peso corporal',logWeight:'Registrar peso',noWeight:'Registra tu peso para empezar',height:'Altura',age:'Edad',goal:'Objetivo',goalCut:'Definir',goalGain:'Ganar músculo',goalMaintain:'Mantener',myData:'Mis datos',setData:'Configurar mis datos',
+  kcalToday:'Calorías hoy',waterToday:'Agua hoy',target:'objetivo',assistant:'Asistente RODO',evolutionMaxes:'Evolución de máximos',volPerSession:'Volumen por sesión (t)',feelEffort:'Sensación / esfuerzo',easyToPain:'1 fácil · 5 molestia',
+  save:'Guardar',cancel:'Cancelar',close:'Cerrar',understood:'Entendido',reset:'Reiniciar',
+  language:'Idioma',coachIA:'Coach IA',smartCoach:'Coach inteligente',coachDesc:'Ajusta tus pesos según cómo te sientes. Siempre activo, sin internet.',coachAdjustTitle:'Ajustes del coach por ejercicio',noAdjust:'Aún no hay ajustes. El coach los creará según tus sensaciones al entrenar.',resetAdjust:'Reiniciar ajustes',dataSec:'Datos',savedLocalT:'Guardados localmente',savedLocalD:'Tus datos se guardan en este dispositivo. Cada teléfono/PC guarda los suyos.',shareApp:'📲 Compartir la app',switchProfile:'Cambiar de perfil',howCoach:'🧠 ¿Cómo funciona el coach?',deleteProfile:'Eliminar este perfil',
+  logLast:'última vez',logWeightUsed:'Peso que usaste',tapToLog:'Toca para anotar el peso',
+ },
+ en:{
+  nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',
+  chooseProfile:'Choose your profile',newProfile:'New profile',createProfile:'Create profile',np_desc:'Each profile keeps its own maxes and progress.',name:'Name',color:'Color',
+  activePlan:'Active plan',changePlan:'🔄 Change plan',notStarted:'Not started yet',week:'Week',daysCompleted:'days completed',continueTr:'▶ Continue training',startPlan:'⚡ Start plan',
+  streak:'DAY STREAK',sessions:'SESSIONS',totalTons:'TOTAL TONS',yourMaxes:'Your maxes',editMaxes:'Edit maxes',registerMaxesT:'Log your maxes 📏',registerMaxesD:'The app calculates every weight from your Back Squat, Bench Press and Power Clean.',introMaxes:'Enter maxes',lastSessions:'Recent sessions',noTrained:"You haven't trained yet.",startFirst:'Start your first day to see your progress here.',
+  plansSub:'Official TopVelocity programs · mobility + throwing + gym',yourPrograms:'Your programs',weeks:'weeks',days:'days',done:'done',
+  weeksPct:'weeks · percentage system',maxesLabel:'Maxes',edit:'edit',introMaxesShort:'Enter your maxes',needCalc:'Needed to calculate the weights.',introduce:'Enter',
+  exercise:'EXERCISE',of:'/',routineHint:'Routine · do each movement at the pace shown',routineDone:'✓ Routine complete',bodyweight:'Bodyweight / accessory',reps:'reps',freeWeight:'free weight',next:'Next →',reference:'Reference',
+  upNext:'Up next',lastEx:'Last exercise of the day',rest:'Rest',skipRest:'Skip rest →',
+  dayComplete:'Day complete!',duration:'DURATION',tonsToday:'TONS TODAY',feeling:'FEELING',backHome:'Back to home',updateMaxes:'📈 Update my maxes',
+  quitTitle:'Sure you want to quit?',loseProgress:"You'll lose this day's progress.",keepTraining:'Keep training 🔥',yesQuit:'Yes, quit',yourCoach:'Your coach',
+  feelQ:'How did it feel physically?',f1:'Very easy',f1d:'Could do a lot more',f2:'Good / solid',f2d:'Hard but controlled',f3:'Tough',f3d:'Struggled to finish',f4:'To failure',f4d:'No reps left',f5:'Discomfort / pain',f5d:'Felt shoulder or a joint',
+  progressSub:'Your daily performance assistant',bodyWeight:'Body weight',logWeight:'Log weight',noWeight:'Log your weight to start',height:'Height',age:'Age',goal:'Goal',goalCut:'Cut',goalGain:'Build muscle',goalMaintain:'Maintain',myData:'My data',setData:'Set up my data',
+  kcalToday:'Calories today',waterToday:'Water today',target:'target',assistant:'RODO Assistant',evolutionMaxes:'Maxes evolution',volPerSession:'Volume per session (t)',feelEffort:'Feeling / effort',easyToPain:'1 easy · 5 pain',
+  save:'Save',cancel:'Cancel',close:'Close',understood:'Got it',reset:'Reset',
+  language:'Language',coachIA:'AI Coach',smartCoach:'Smart coach',coachDesc:'Adjusts your weights based on how you feel. Always on, offline.',coachAdjustTitle:'Coach adjustments per exercise',noAdjust:'No adjustments yet. The coach creates them from how you feel while training.',resetAdjust:'Reset adjustments',dataSec:'Data',savedLocalT:'Saved locally',savedLocalD:'Your data is stored on this device. Each phone/PC keeps its own.',shareApp:'📲 Share the app',switchProfile:'Switch profile',howCoach:'🧠 How does the coach work?',deleteProfile:'Delete this profile',
+  logLast:'last time',logWeightUsed:'Weight you used',tapToLog:'Tap to log the weight',
+ },
+ fr:{
+  nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',
+  chooseProfile:'Choisis ton profil',newProfile:'Nouveau profil',createProfile:'Créer le profil',np_desc:'Chaque profil garde ses propres maxes et progrès.',name:'Nom',color:'Couleur',
+  activePlan:'Plan actif',changePlan:'🔄 Changer de plan',notStarted:'Pas encore commencé',week:'Semaine',daysCompleted:'jours complétés',continueTr:'▶ Continuer',startPlan:'⚡ Démarrer le plan',
+  streak:'JOURS SÉRIE',sessions:'SÉANCES',totalTons:'TONNES TOTAL',yourMaxes:'Tes maxes',editMaxes:'Modifier les maxes',registerMaxesT:'Enregistre tes maxes 📏',registerMaxesD:'L\'app calcule tous les poids à partir de ton Back Squat, Bench Press et Power Clean.',introMaxes:'Saisir les maxes',lastSessions:'Séances récentes',noTrained:"Tu n'as pas encore entraîné.",startFirst:'Commence ton premier jour pour voir tes progrès ici.',
+  plansSub:'Programmes officiels TopVelocity · mobilité + lancer + muscu',yourPrograms:'Tes programmes',weeks:'semaines',days:'jours',done:'faits',
+  weeksPct:'semaines · système de pourcentages',maxesLabel:'Maxes',edit:'modifier',introMaxesShort:'Saisis tes maxes',needCalc:'Nécessaires pour calculer les poids.',introduce:'Saisir',
+  exercise:'EXERCICE',of:'/',routineHint:'Routine · fais chaque mouvement au rythme indiqué',routineDone:'✓ Routine terminée',bodyweight:'Poids du corps / accessoire',reps:'reps',freeWeight:'poids libre',next:'Suivant →',reference:'Référence',
+  upNext:'Exercices suivants',lastEx:'Dernier exercice du jour',rest:'Repos',skipRest:'Passer le repos →',
+  dayComplete:'Jour terminé !',duration:'DURÉE',tonsToday:'TONNES AUJ.',feeling:'RESSENTI',backHome:"Retour à l'accueil",updateMaxes:'📈 Mettre à jour mes maxes',
+  quitTitle:'Sûr de vouloir quitter ?',loseProgress:'Tu perdras la progression de ce jour.',keepTraining:'Continuer 🔥',yesQuit:'Oui, quitter',yourCoach:'Ton coach',
+  feelQ:'Comment tu t\'es senti physiquement ?',f1:'Très facile',f1d:'Je pouvais bien plus',f2:'Bien / solide',f2d:'Exigeant mais maîtrisé',f3:'Dur',f3d:'Difficile à finir',f4:"À l'échec",f4d:'Plus de reps',f5:'Gêne / douleur',f5d:"J'ai senti l'épaule ou une articulation",
+  progressSub:'Ton assistant de performance quotidien',bodyWeight:'Poids du corps',logWeight:'Enregistrer le poids',noWeight:'Enregistre ton poids pour commencer',height:'Taille',age:'Âge',goal:'Objectif',goalCut:'Sécher',goalGain:'Prendre du muscle',goalMaintain:'Maintenir',myData:'Mes données',setData:'Configurer mes données',
+  kcalToday:"Calories aujourd'hui",waterToday:"Eau aujourd'hui",target:'objectif',assistant:'Assistant RODO',evolutionMaxes:'Évolution des maxes',volPerSession:'Volume par séance (t)',feelEffort:'Ressenti / effort',easyToPain:'1 facile · 5 douleur',
+  save:'Enregistrer',cancel:'Annuler',close:'Fermer',understood:'Compris',reset:'Réinitialiser',
+  language:'Langue',coachIA:'Coach IA',smartCoach:'Coach intelligent',coachDesc:'Ajuste tes poids selon ton ressenti. Toujours actif, hors ligne.',coachAdjustTitle:'Ajustements du coach par exercice',noAdjust:'Aucun ajustement pour le moment. Le coach les crée selon ton ressenti.',resetAdjust:'Réinitialiser les ajustements',dataSec:'Données',savedLocalT:'Enregistré localement',savedLocalD:'Tes données sont sur cet appareil. Chaque téléphone/PC garde les siennes.',shareApp:"📲 Partager l'app",switchProfile:'Changer de profil',howCoach:'🧠 Comment marche le coach ?',deleteProfile:'Supprimer ce profil',
+  logLast:'dernière fois',logWeightUsed:'Poids utilisé',tapToLog:'Touche pour noter le poids',
+ }
+};
+function t(k){const d=I18N[LANG]||I18N.es;return d[k]!==undefined?d[k]:(I18N.es[k]!==undefined?I18N.es[k]:k)}
+function setLang(l){LANG=l;try{localStorage.setItem('rodo_lang',l)}catch(e){}document.documentElement.lang=l;applyStaticI18n();rerender();
+  if(document.getElementById('profile').classList.contains('active'))renderProfile()}
+function applyStaticI18n(){
+  const set=(id,txt)=>{const e=document.getElementById(id);if(e)e.textContent=txt};
+  set('navHomeL',t('nav_home'));set('navPlansL',t('nav_plans'));set('navProgL',t('nav_progress'));set('navProfL',t('nav_profile'));
+  set('gateSubL',t('chooseProfile'));
+}
 
 /* ---- Sistema de porcentajes TopVelocity (Fusion / Level 1) ---- */
 const REF={clean:m=>m.clean,clean85:m=>m.clean*0.85,squat:m=>m.squat,squat85:m=>m.squat*0.85,bench:m=>m.bench,bench85:m=>m.bench*0.85};
@@ -526,7 +916,18 @@ const PRE={id:'pre',name:'Pre-Season (Abridor)',weeks:[
    D('Jueves',[EXP('Power Clean','5x50 3x55 2x60 2x60'),EXP('Front Squat','8x50 6x55 4x60'),EXP('Power Lunge','5x35 5x35 5x35'),EXP('RDL','5x35 5x35 5x35'),ACP])]}
 ]};
 const INSEA={id:'inseason',name:'In-Season (Mantenimiento)',weeks:[
- {tag:'Base',days:[]},{tag:'Volumen',days:[]},{tag:'Recuperación',days:[]},{tag:'Mantenimiento',days:[]}
+ {tag:'Base',days:[
+   D('Lunes',[EXP('Back Squat','5x55 5x60 5x60'),EXP('Power Clean','4x55 4x60 3x65'),EXP('RDL','5x50 5x55'),ACP]),
+   D('Jueves',[EXP('Front Squat','5x55 5x60 5x60'),EXP('Clean Pull','5x60 5x65 3x70'),EXP('Power Lunge','5x50 5x55'),ACP])]},
+ {tag:'Volumen',days:[
+   D('Lunes',[EXP('Back Squat','5x60 5x65 5x65'),EXP('Power Clean','4x60 4x65 3x70'),EXP('RDL','5x55 5x60'),ACP]),
+   D('Jueves',[EXP('Front Squat','5x60 5x65 5x65'),EXP('Clean Pull','5x65 5x70 3x75'),EXP('Power Lunge','5x55 5x60'),ACP])]},
+ {tag:'Recuperación',days:[
+   D('Lunes',[EXP('Back Squat','5x45 5x50 5x50'),EXP('Power Clean','4x45 4x50 3x55'),EXP('RDL','5x45 5x50'),ACP]),
+   D('Jueves',[EXP('Front Squat','5x45 5x50 5x50'),EXP('Clean Pull','5x50 5x55 3x60'),EXP('Power Lunge','5x45'),ACP])]},
+ {tag:'Mantenimiento',days:[
+   D('Lunes',[EXP('Back Squat','5x60 3x65 2x70'),EXP('Power Clean','3x65 2x70 2x75'),EXP('RDL','5x55'),ACP]),
+   D('Jueves',[EXP('Front Squat','5x60 3x65 2x70'),EXP('Clean Pull','3x70 2x75 2x80'),EXP('Power Lunge','5x55'),ACP])]}
 ]};
 /* ---- ensamblado: movilidad → tiro → gimnasio, en días de calendario ---- */
 const WD=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
@@ -550,84 +951,30 @@ const PLANS=[
   assemble({src:LVL2,mob:'movDyn',throwDays:['Martes','Jueves','Sábado'],throw:'throwL2',note:'8 semanas. Gimnasio L/X/V · tiro 3X Advanced M/J/S.'}),
   assemble({src:LVL3,mob:'movL3',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL3',note:'8 semanas. Requiere ratio potencia/peso 1.3. Movilidad de cadera + 3X Torsion.'}),
   assemble({src:PRE,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwPre',note:'4 semanas cerca de temporada. Tiro L/X/V · fuerza M/J.'}),
-  assemble({src:INSEA,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwIn',note:'Las tablas de fuerza del PDF vienen como imagen: de momento incluye movilidad + 3X Mechanics Series. Pásame los pesos y las añado.'})
+  assemble({src:INSEA,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwIn',note:'4 semanas de mantenimiento alrededor de la rotación del abridor. Gym L/J (mantenimiento del Fusion System) · tiro + 3X Mechanics Series L/X/V.'})
 ];
 
 /* =====================================================================
-   ESTADO / STORAGE + NUBE
+   ESTADO / STORAGE LOCAL
    ===================================================================== */
 const LS='rodovelocity_v1';
 let DB=load();
 let CUR=null,VIEW={plan:null,week:0,day:0},SESS=null;
-let CLOUD=false,cloudCode=null,spaceRef=null,saveTimer=null,unsub=null;
 
 function load(){try{return JSON.parse(localStorage.getItem(LS))||{profiles:[]}}catch(e){return{profiles:[]}}}
-function save(){DB.updatedAt=Date.now();try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}
-  if(CLOUD&&spaceRef){clearTimeout(saveTimer);saveTimer=setTimeout(pushCloud,600)}}
-function pushCloud(){if(!CLOUD||!spaceRef)return;
-  spaceRef.set({db:DB,updatedAt:DB.updatedAt||Date.now()}).catch(e=>toast('Sin sincronizar: '+e.message,'warn'))}
+function save(){DB.updatedAt=Date.now();try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}}
 function uid(){return Date.now().toString(36)+Math.random().toString(36).slice(2,6)}
 function newProfile(name,color){return{id:uid(),name,color,photo:null,maxes:{squat:null,bench:null,clean:null},
-  maxHistory:[],sessions:[],progress:{},adjust:{},ai:{on:false,key:'',model:'claude-sonnet-4-5-20250929'},unit:'kg',round:2.5}}
+  maxHistory:[],sessions:[],progress:{},adjust:{},activePlan:null,unit:'kg',round:2.5,
+  accessory:{},                                   /* peso registrado por ejercicio accesorio */
+  body:{height:null,age:null,goal:null},          /* altura(cm), edad, objetivo: cut|gain|maintain */
+  weightLog:[],                                   /* [{date, kg}] peso corporal */
+  daily:{}                                        /* {'YYYY-M-D':{kcal, water}} */
+}}
+/* migración: perfiles antiguos sin los campos nuevos */
+function ensureFields(p){if(!p)return;if(!p.accessory)p.accessory={};if(!p.body)p.body={height:null,age:null,goal:null};if(!p.weightLog)p.weightLog=[];if(!p.daily)p.daily={};if(!p.adjust)p.adjust={}}
 
-/* ---- Nube (código de 4 dígitos) ---- */
-function effectiveConfig(){
-  try{const rt=localStorage.getItem('rodo_fbconfig');if(rt){const c=JSON.parse(rt);if(c&&c.apiKey)return c}}catch(e){}
-  if(FIREBASE_CONFIG&&FIREBASE_CONFIG.apiKey)return FIREBASE_CONFIG;
-  return null;
-}
-function fbReady(){const cfg=effectiveConfig();if(!cfg||typeof firebase==='undefined')return false;
-  try{if(!firebase.apps.length)firebase.initializeApp(cfg);return true}catch(e){return false}}
-function initCloud(){const code=localStorage.getItem('rodo_code');if(code&&fbReady())connectCode(code,true)}
-function connectCode(code,silent){
-  if(!fbReady()){if(!silent)configFirebase();return}
-  firebase.auth().signInAnonymously().then(()=>{
-    cloudCode=code;localStorage.setItem('rodo_code',code);
-    spaceRef=firebase.firestore().collection('spaces').doc('rodo_'+code);CLOUD=true;
-    spaceRef.get().then(snap=>{
-      const rd=snap.exists&&snap.data().db;
-      if(rd&&(rd.updatedAt||0)>(DB.updatedAt||0)){DB=rd;try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}}
-      else pushCloud();
-      if(unsub)unsub();
-      unsub=spaceRef.onSnapshot(s=>{if(!s.exists)return;const r=s.data().db;
-        if(r&&(r.updatedAt||0)>(DB.updatedAt||0)&&!SESS){DB=r;try{localStorage.setItem(LS,JSON.stringify(DB))}catch(e){}
-          if(CUR){const c=DB.profiles.find(p=>p.id===CUR.id);if(c){CUR=c;rerender()}else switchProfile()}else initGate()}});
-      if(!silent){toast('Nube conectada · código '+code,'ok');closeModal();rerender()}
-      if(document.getElementById('gate').style.display!=='none')initGate();
-    }).catch(e=>{if(!silent)toast('Error nube: '+e.message,'warn')});
-  }).catch(e=>{CLOUD=false;if(!silent)toast('Nube: activa "Anónimo" en Authentication ('+e.code+')','warn')});
-}
-function disconnectCloud(){if(unsub){unsub();unsub=null}CLOUD=false;spaceRef=null;cloudCode=null;localStorage.removeItem('rodo_code');rerender();toast('Nube desconectada')}
-function showGate(){initGate();document.getElementById('gate').style.display='flex'}
-function goCloud(){cloudModal()}
-function cloudModal(){
-  openModal(`<div style="text-align:center"><div class="coach-ava" style="width:54px;height:54px;font-size:26px;margin:0 auto 12px;background:linear-gradient(135deg,#2ecc71,#0a7)">☁️</div>
-    <h2 style="font-weight:900;font-size:20px">Sincronizar con la nube</h2></div>
-    ${CLOUD?`<p class="sub" style="text-align:center;margin:8px 0 14px">Conectado con el código <b style="color:#fff;font-size:20px;letter-spacing:3px">${esc(cloudCode)}</b>.<br>Usa este mismo código en tus otros móviles para tener los mismos datos.</p>
-      <button class="btn ghost" onclick="disconnectCloud();closeModal()">Desconectar de la nube</button>`
-    :`<p class="sub" style="text-align:center;margin:8px 0 14px">Elige un código de 4 dígitos y úsalo en todos tus móviles: tendrás los mismos datos en todos. Cada persona puede usar su propio código sin mezclarse.</p>
-      <div class="field"><input class="input" id="cloudCodeIn" inputmode="numeric" maxlength="8" placeholder="1234" style="letter-spacing:8px;font-size:28px"></div>
-      <button class="btn" onclick="submitCode()">Conectar</button>
-      ${effectiveConfig()?'':`<p class="sub" style="font-size:11px;text-align:center;margin-top:12px">Falta configurar Firebase. <span class="link" onclick="configFirebase()">Configurar</span></p>`}`}
-    <button class="btn dark" style="margin-top:10px" onclick="closeModal()">Cerrar</button>`);
-  setTimeout(()=>{const i=document.getElementById('cloudCodeIn');if(i)i.focus()},200);
-}
-function submitCode(){const v=(document.getElementById('cloudCodeIn').value||'').trim();
-  if(!/^\d{4,8}$/.test(v))return toast('Escribe un código de 4 a 8 dígitos','warn');connectCode(v,false)}
-function configFirebase(){
-  openModal(`<h2 style="font-weight:900;font-size:20px">Configurar Firebase</h2>
-  <p class="sub" style="margin:6px 0 14px">Pega el objeto <b>firebaseConfig</b> de tu proyecto (Firebase → Config del proyecto → Tus apps).</p>
-  <div class="field"><textarea class="input" id="fbConf" placeholder='{ "apiKey": "...", "authDomain": "...", "projectId": "...", "appId": "..." }'></textarea></div>
-  <button class="btn" onclick="saveFbConfig()">Guardar</button>
-  <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">Cancelar</button>`);
-}
-function saveFbConfig(){
-  let raw=document.getElementById('fbConf').value.trim();const s=raw.indexOf('{'),e=raw.lastIndexOf('}');
-  if(s<0||e<0)return toast('Pega el objeto completo','warn');raw=raw.slice(s,e+1);
-  try{const cfg=(new Function('return ('+raw+')'))();if(!cfg.apiKey||!cfg.projectId)return toast('Falta apiKey o projectId','warn');
-    localStorage.setItem('rodo_fbconfig',JSON.stringify(cfg));toast('Guardado','ok');closeModal();setTimeout(()=>location.reload(),700);
-  }catch(err){toast('Formato no válido','warn')}
-}
+function showGate(){initGate();applyStaticI18n();document.getElementById('gate').style.display='flex'}
 
 /* =====================================================================
    GATE / PERFILES
@@ -650,11 +997,11 @@ function initGate(){
 function initials(n){return n.trim().split(/\s+/).map(w=>w[0]).slice(0,2).join('').toUpperCase()}
 function esc(s){return(s+'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function createProfileModal(){
-  openModal(`<h2 style="font-weight:900;font-size:22px;margin-bottom:4px">Nuevo perfil</h2>
-  <p class="sub" style="margin-bottom:18px">Cada perfil guarda sus propios máximos y progreso.</p>
-  <div class="field"><label>Nombre</label><input class="input txt" id="npName" placeholder="Ej. Rodolfo" maxlength="20"></div>
-  <div class="field"><label>Color</label><div class="swatch" id="npColors"></div></div>
-  <button class="btn" style="margin-top:10px" onclick="saveNewProfile()">Crear perfil</button>`);
+  openModal(`<h2 style="font-weight:900;font-size:22px;margin-bottom:4px">${t('newProfile')}</h2>
+  <p class="sub" style="margin-bottom:18px">${t('np_desc')}</p>
+  <div class="field"><label>${t('name')}</label><input class="input txt" id="npName" placeholder="—" maxlength="20"></div>
+  <div class="field"><label>${t('color')}</label><div class="swatch" id="npColors"></div></div>
+  <button class="btn" style="margin-top:10px" onclick="saveNewProfile()">${t('createProfile')}</button>`);
   let sel=AV_COLORS[Math.floor(Math.random()*AV_COLORS.length)];
   const cw=document.getElementById('npColors');
   AV_COLORS.forEach(c=>{const b=document.createElement('button');b.style.cssText=`width:38px;height:38px;border-radius:50%;background:${c};border:3px solid ${c===sel?'#fff':'transparent'}`;
@@ -663,12 +1010,12 @@ function createProfileModal(){
 }
 function saveNewProfile(){
   const name=document.getElementById('npName').value.trim();
-  if(!name)return toast('Escribe un nombre','warn');
+  if(!name)return toast('—','warn');
   const color=document.getElementById('npColors').dataset.sel||AV_COLORS[0];
   if(!DB.profiles)DB.profiles=[];
-  DB.profiles.push(newProfile(name,color));save();closeModal();initGate();toast('Perfil creado','ok');
+  DB.profiles.push(newProfile(name,color));save();closeModal();initGate();toast('✓','ok');
 }
-function enter(id){CUR=DB.profiles.find(p=>p.id===id);if(!CUR)return;
+function enter(id){CUR=DB.profiles.find(p=>p.id===id);if(!CUR)return;ensureFields(CUR);
   document.getElementById('gate').style.display='none';
   document.getElementById('app').classList.remove('hidden');document.getElementById('nav').classList.remove('hidden');
   refreshTopAva();go('home')}
@@ -697,35 +1044,55 @@ function calcWeight(ex,pct){if(pct==null||ex.ref==='bw'||ex.ref==='routine')retu
 /* =====================================================================
    HOME
    ===================================================================== */
+function activePlanId(){
+  if(CUR.activePlan&&PLANS.find(p=>p.id===CUR.activePlan))return CUR.activePlan;
+  if(CUR.sessions&&CUR.sessions.length)return CUR.sessions[CUR.sessions.length-1].plan;
+  const pk=Object.keys(CUR.progress||{});if(pk.length)return pk[0];
+  return PLANS[0].id;
+}
+function setActivePlan(id){CUR.activePlan=id;save();closeModal();go('home');toast((PLANS.find(p=>p.id===id)||{}).name)}
+function pickActivePlan(){
+  const cur=activePlanId();
+  openModal(`<h2 style="font-weight:900;font-size:20px">${t('changePlan').replace('🔄 ','')}</h2>
+    <p class="sub" style="margin:6px 0 14px">${t('activePlan')}</p>
+    ${PLANS.map(p=>{const done=CUR.sessions.filter(s=>s.plan===p.id).length;const tot=p.weeks.reduce((a,w)=>a+w.days.length,0);const on=p.id===cur;
+      return`<div class="card tap" style="margin-bottom:10px;${on?'border-color:var(--red)':''}" onclick="setActivePlan('${p.id}')">
+        <b style="font-size:16px">${on?'✅ ':''}${esc(p.name)}</b><div class="sub">${done}/${tot} ${t('daysCompleted')}</div></div>`}).join('')}
+    <button class="btn dark" style="margin-top:6px" onclick="closeModal()">${t('close')}</button>`);
+}
 function renderHome(){
-  const el=document.getElementById('home');const plan=PLANS[0];const prog=CUR.progress[plan.id];
+  const el=document.getElementById('home');const plan=PLANS.find(p=>p.id===activePlanId())||PLANS[0];const prog=CUR.progress[plan.id];
   const totalDays=plan.weeks.reduce((a,w)=>a+w.days.length,0);
   const doneDays=CUR.sessions.filter(s=>s.plan===plan.id).length;
-  const pctDone=Math.round(doneDays/totalDays*100);
-  const nextTxt=prog?`Semana ${prog.week+1} · ${plan.weeks[prog.week].days[prog.day]?plan.weeks[prog.week].days[prog.day].d:''}`:'Aún no empezado';
+  const pctDone=totalDays?Math.round(doneDays/totalDays*100):0;
+  const nextTxt=prog?`${t('week')} ${prog.week+1} · ${plan.weeks[prog.week]&&plan.weeks[prog.week].days[prog.day]?plan.weeks[prog.week].days[prog.day].d:''}`:t('notStarted');
   el.innerHTML=`
     <div style="margin:8px 4px 16px"><div class="sub">${greet()},</div><div class="title-xl">${esc(CUR.name.split(' ')[0])} 👊</div></div>
     <div class="card"><div class="accent"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:12px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;font-weight:800">${t('activePlan')}</div>
+        <button class="chip" onclick="pickActivePlan()">${t('changePlan')}</button></div>
       <div class="ring-wrap">${ringSVG(pctDone)}
         <div><div style="font-size:12px;letter-spacing:1px;color:var(--muted);text-transform:uppercase;font-weight:800">${esc(plan.name)}</div>
-          <div style="font-size:20px;font-weight:900;margin:2px 0">${nextTxt}</div><div class="sub">${doneDays}/${totalDays} días completados</div></div></div>
-      <button class="btn" style="margin-top:16px" onclick="startPlan('${plan.id}')">${prog?'▶ Continuar entrenamiento':'⚡ Empezar plan'}</button></div>
+          <div style="font-size:20px;font-weight:900;margin:2px 0">${nextTxt}</div><div class="sub">${doneDays}/${totalDays} ${t('daysCompleted')}</div></div></div>
+      <button class="btn" style="margin-top:16px" onclick="startPlan('${plan.id}')">${prog?t('continueTr'):t('startPlan')}</button></div>
     <div class="stat-row">
-      <div class="stat red"><b>${calcStreak()}</b><small>DÍAS RACHA</small></div>
-      <div class="stat"><b>${CUR.sessions.length}</b><small>SESIONES</small></div>
-      <div class="stat"><b>${totalVolumeK()}</b><small>TON. TOTAL</small></div></div>
+      <div class="stat red"><b>${calcStreak()}</b><small>${t('streak')}</small></div>
+      <div class="stat"><b>${CUR.sessions.length}</b><small>${t('sessions')}</small></div>
+      <div class="stat"><b>${totalVolumeK()}</b><small>${t('totalTons')}</small></div></div>
     ${hasMaxes(CUR.maxes)?maxesMini():maxesPrompt()}
-    <div class="h-sec">Últimas sesiones</div>${recentSessions()}`;
+    <div class="h-sec">${t('lastSessions')}</div>${recentSessions()}`;
 }
-function greet(){const h=new Date().getHours();return h<6?'Buenas noches':h<12?'Buenos días':h<20?'Buenas tardes':'Buenas noches'}
-function maxesMini(){const m=CUR.maxes;return`<div class="h-sec">Tus máximos</div>
+function greet(){const h=new Date().getHours();const g={es:['Buenas noches','Buenos días','Buenas tardes'],en:['Good night','Good morning','Good afternoon'],fr:['Bonne nuit','Bonjour','Bon après-midi']}[LANG]||['Buenas noches','Buenos días','Buenas tardes'];
+  return h<6?g[0]:h<12?g[1]:h<20?g[2]:g[0]}
+function maxesMini(){const m=CUR.maxes;return`<div class="h-sec">${t('yourMaxes')}</div>
   <div class="stat-row"><div class="stat"><b>${m.squat}</b><small>SQUAT ${U()}</small></div><div class="stat"><b>${m.bench}</b><small>BENCH ${U()}</small></div><div class="stat"><b>${m.clean}</b><small>CLEAN ${U()}</small></div></div>
-  <button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="editMaxes()">Editar máximos</button>`}
+  <button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="editMaxes()">${t('editMaxes')}</button>`}
 function maxesPrompt(){return`<div class="card" style="margin-top:14px;border-color:var(--red)"><div class="accent"></div>
-  <b style="font-size:16px">Registra tus máximos 📏</b><p class="sub" style="margin:6px 0 12px">La app calcula todos los pesos a partir de tu Back Squat, Bench Press y Power Clean.</p>
-  <button class="btn sm" onclick="editMaxes()">Introducir máximos</button></div>`}
+  <b style="font-size:16px">${t('registerMaxesT')}</b><p class="sub" style="margin:6px 0 12px">${t('registerMaxesD')}</p>
+  <button class="btn sm" onclick="editMaxes()">${t('introMaxes')}</button></div>`}
 function recentSessions(){const s=CUR.sessions.slice(-4).reverse();
-  if(!s.length)return`<div class="empty"><div class="em">🏋️</div>Aún no has entrenado.<br>Empieza tu primer día para ver tu progreso aquí.</div>`;
+  if(!s.length)return`<div class="empty"><div class="em">🏋️</div>${t('noTrained')}<br>${t('startFirst')}</div>`;
   return`<div class="card">`+s.map(x=>{const pl=PLANS.find(p=>p.id===x.plan);
     return`<div class="hist-row"><div class="hi">✓</div><div style="flex:1"><b>S${x.week+1} · ${esc(x.dayName)}</b><div class="sub">${esc(pl?pl.name:'')} · ${fmtDate(x.date)}</div></div>${x.avgFeel?feelBadge(x.avgFeel):''}</div>`}).join('')+`</div>`}
 function ringSVG(pct){const r=42,c=2*Math.PI*r,off=c-(pct/100)*c;
@@ -736,15 +1103,15 @@ function ringSVG(pct){const r=42,c=2*Math.PI*r,off=c-(pct/100)*c;
    PLANS
    ===================================================================== */
 function renderPlans(){const el=document.getElementById('plans');
-  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">Planes</div><div class="sub">Programas oficiales TopVelocity · movilidad + tiro + gimnasio</div></div>
-  <div class="h-sec">Tus programas</div>
+  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">${t('nav_plans')}</div><div class="sub">${t('plansSub')}</div></div>
+  <div class="h-sec">${t('yourPrograms')}</div>
   ${PLANS.map(p=>{const done=CUR.sessions.filter(s=>s.plan===p.id).length;const tot=p.weeks.reduce((a,w)=>a+w.days.length,0);
-    return`<div class="card plan-card" onclick="openPlan('${p.id}')"><div class="plan-ico">${LOGO}</div>
-      <div style="flex:1"><b style="font-size:17px">${esc(p.name)}</b><div class="sub">${p.weeks.length} semanas · ${tot} días · ${done} hechos</div>
+    return`<div class="card plan-card tap" onclick="openPlan('${p.id}')"><div class="plan-ico">${LOGO}</div>
+      <div style="flex:1"><b style="font-size:17px">${esc(p.name)}</b><div class="sub">${p.weeks.length} ${t('weeks')} · ${tot} ${t('days')} · ${done} ${t('done')}</div>
       <div class="bar-track"><i style="width:${tot?Math.round(done/tot*100):0}%;background:linear-gradient(90deg,var(--red),#ff5a45)"></i></div></div><div class="caret">›</div></div>`}).join('')}`}
 function openPlan(id){VIEW.plan=id;go('plan')}
 function startPlan(id){if(!hasMaxes(CUR.maxes)){askMaxes(()=>startPlan(id));return}
-  VIEW.plan=id;const prog=CUR.progress[id];if(prog){VIEW.week=prog.week;VIEW.day=prog.day}else{VIEW.week=0;VIEW.day=0}
+  CUR.activePlan=id;VIEW.plan=id;const prog=CUR.progress[id];if(prog){VIEW.week=prog.week;VIEW.day=prog.day}else{VIEW.week=0;VIEW.day=0}
   openWorkout(id,VIEW.week,VIEW.day)}
 
 /* =====================================================================
@@ -754,23 +1121,23 @@ function renderPlan(){const el=document.getElementById('plan');const plan=PLANS.
   const doneSet=new Set(CUR.sessions.filter(s=>s.plan===plan.id).map(s=>s.week+'-'+s.day));
   el.innerHTML=`<div style="display:flex;align-items:center;gap:12px;margin:6px 0 10px">
       <button class="wk-close" style="width:38px;height:38px" onclick="go('plans')">‹</button>
-      <div><div class="title-xl" style="font-size:22px">${esc(plan.name)}</div><div class="sub">${plan.weeks.length} semanas · sistema de porcentajes</div></div></div>
+      <div><div class="title-xl" style="font-size:22px">${esc(plan.name)}</div><div class="sub">${plan.weeks.length} ${t('weeksPct')}</div></div></div>
     ${plan.note?`<div class="card" style="padding:12px 14px"><p class="sub" style="font-size:12.5px;line-height:1.45">${esc(plan.note)}</p></div>`:''}
-    ${hasMaxes(CUR.maxes)?`<div class="chip on" style="margin:4px 4px 12px">Máximos: Sq ${CUR.maxes.squat} · Bn ${CUR.maxes.bench} · Cl ${CUR.maxes.clean} ${U()} <span onclick="editMaxes()" style="text-decoration:underline;margin-left:6px">editar</span></div>`
-      :`<div class="card" style="border-color:var(--red)"><div class="accent"></div><b>Introduce tus máximos</b><p class="sub" style="margin:6px 0 10px">Necesarios para calcular los pesos.</p><button class="btn sm" onclick="askMaxes(()=>renderPlan())">Introducir</button></div>`}
+    ${hasMaxes(CUR.maxes)?`<div class="chip on" style="margin:4px 4px 12px">${t('maxesLabel')}: Sq ${CUR.maxes.squat} · Bn ${CUR.maxes.bench} · Cl ${CUR.maxes.clean} ${U()} <span onclick="editMaxes()" style="text-decoration:underline;margin-left:6px">${t('edit')}</span></div>`
+      :`<div class="card" style="border-color:var(--red)"><div class="accent"></div><b>${t('introMaxesShort')}</b><p class="sub" style="margin:6px 0 10px">${t('needCalc')}</p><button class="btn sm" onclick="askMaxes(()=>renderPlan())">${t('introduce')}</button></div>`}
     <div id="weekList">${plan.weeks.map((w,wi)=>weekHTML(plan,w,wi,doneSet)).join('')}</div>`}
 function weekHTML(plan,w,wi,doneSet){const dc=w.days.filter((d,di)=>doneSet.has(wi+'-'+di)).length;
   return`<div class="week ${wi===VIEW.week?'open':''}" id="wk${wi}"><div class="week-h" onclick="toggleWeek(${wi})">
-      <div class="week-num">${wi+1}</div><div style="flex:1"><div class="week-tag">Semana ${wi+1}</div><b>${esc(w.tag)}</b></div>
+      <div class="week-num">${wi+1}</div><div style="flex:1"><div class="week-tag">${t('week')} ${wi+1}</div><b>${esc(w.tag)}</b></div>
       <div class="sub" style="font-size:12px">${dc}/${w.days.length}</div><div class="caret">›</div></div>
     <div class="week-body">${w.days.map((d,di)=>{const done=doneSet.has(wi+'-'+di);
-        return`<div class="day-row ${done?'done':''}" onclick="openWorkout('${plan.id}',${wi},${di})"><div class="day-ico">${done?'✓':'▶'}</div>
-          <div style="flex:1"><b>${esc(d.d)}</b><div class="sub">${d.ex.filter(e=>e.ref!=='routine').length} ejercicios · ${d.ex.filter(e=>e.ref==='routine').length} rutinas</div></div>
-          ${done?`<button class="wk-close" style="width:32px;height:32px;font-size:15px" title="Reiniciar día" onclick="event.stopPropagation();resetDay('${plan.id}',${wi},${di})">↺</button>`:'<div class="caret">›</div>'}</div>`}).join('')}</div></div>`}
-function resetDay(planId,wi,di){confirm2('Reiniciar día','Este día dejará de contar como completado y podrás volver a hacerlo desde cero.','Reiniciar',()=>{
+        return`<div class="day-row ${done?'done':''}" onclick="previewDay('${plan.id}',${wi},${di})"><div class="day-ico">${done?'✓':'▶'}</div>
+          <div style="flex:1"><b>${esc(d.d)}</b><div class="sub">${d.ex.filter(e=>e.ref!=='routine').length} ${t('exercise').toLowerCase()} · ${d.ex.filter(e=>e.ref==='routine').length} rt</div></div>
+          ${done?`<button class="wk-close" style="width:32px;height:32px;font-size:15px" onclick="event.stopPropagation();resetDay('${plan.id}',${wi},${di})">↺</button>`:'<div class="caret">›</div>'}</div>`}).join('')}</div></div>`}
+function resetDay(planId,wi,di){confirm2(t('reset'),'—',t('reset'),()=>{
   CUR.sessions=CUR.sessions.filter(s=>!(s.plan===planId&&s.week===wi&&s.day===di));
   const pr=CUR.progress[planId];if(pr&&(wi<pr.week||(wi===pr.week&&di<=pr.day)))CUR.progress[planId]={week:wi,day:di};
-  save();renderPlan();toast('Día reiniciado','ok')})}
+  save();renderPlan();toast('✓','ok')})}
 function toggleWeek(wi){const w=document.getElementById('wk'+wi);const was=w.classList.contains('open');
   document.querySelectorAll('.week').forEach(x=>x.classList.remove('open'));if(!was)w.classList.add('open')}
 
@@ -778,76 +1145,134 @@ function toggleWeek(wi){const w=document.getElementById('wk'+wi);const was=w.cla
    WORKOUT
    ===================================================================== */
 let restTimer=null,clockTimer=null;
+function previewDay(planId,wi,di){
+  const plan=PLANS.find(p=>p.id===planId);
+  const day=plan.weeks[wi].days[di];
+  let exList=``;
+  day.ex.forEach((e,i)=>{
+    let details='';
+    if(e.ref==='routine'){
+      const list=e.list||(ROUTINES[e.rk]&&ROUTINES[e.rk].x)||[];
+      details=`<div class="sub" style="font-size:12px;margin-top:4px">📋 ${list.length}</div>`;
+    }else if(e.ref==='bw'){
+      details=`<div class="sub" style="font-size:12px;margin-top:4px">💪 ${t('bodyweight')} · ${e.s.length}</div>`;
+    }else{
+      details=`<div class="sub" style="font-size:12px;margin-top:4px">🏋️ ${e.ref} · ${e.s.length}</div>`;
+    }
+    exList+=`<div class="card" style="margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:flex-start"><div><b style="font-size:15px">${i+1}. ${esc(e.n)}</b>${details}</div></div></div>`;
+  });
+  openModal(`
+    <h2 style="font-weight:900;font-size:22px;margin-bottom:4px">${day.d}</h2>
+    <p class="sub" style="margin:6px 0 14px">
+      <b>${t('week')} ${wi+1}</b> · <b>${plan.weeks[wi].tag}</b> · ${day.ex.length} ${t('exercise').toLowerCase()}
+    </p>
+    ${exList}
+    <button class="btn" style="margin-top:14px" onclick="closeModal();openWorkout('${planId}',${wi},${di})">${t('startPlan')}</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('cancel')}</button>
+  `);
+}
 function openWorkout(planId,wi,di){if(!hasMaxes(CUR.maxes)){askMaxes(()=>openWorkout(planId,wi,di));return}
+  CUR.activePlan=planId;
   const plan=PLANS.find(p=>p.id===planId);const day=plan.weeks[wi].days[di];
   SESS={plan:planId,week:wi,day:di,dayName:day.d,tag:plan.weeks[wi].tag,ex:day.ex,idx:0,
     setDone:day.ex.map(e=>e.ref==='routine'?[false]:(Array.isArray(e.s)?e.s.map(()=>false):[false])),feels:[],start:Date.now()};
+  window._upNextOpen=true;
   document.getElementById('workout').classList.add('on');
   document.getElementById('wkDayTag').textContent=`S${wi+1} · ${plan.weeks[wi].tag} · ${day.d}`;
   startClock();renderExercise()}
 function startClock(){clearInterval(clockTimer);clockTimer=setInterval(()=>{const s=Math.floor((Date.now()-SESS.start)/1000);
   document.getElementById('wkClock').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`},1000)}
+function upNextHTML(){
+  const rest=SESS.ex.slice(SESS.idx+1);
+  if(!rest.length)return`<div class="up-next"><div class="un-h"><span class="un-t">${t('upNext')}</span></div><div class="up-done">🏁 ${t('lastEx')}</div></div>`;
+  const items=rest.slice(0,4).map((e,i)=>{
+    const meta=e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
+    const cnt=e.ref==='routine'?((e.list||(ROUTINES[e.rk]&&ROUTINES[e.rk].x)||[]).length):(e.s?e.s.length:0);
+    return`<div class="un-i ${i===0?'first':''}"><div class="un-n">${SESS.idx+2+i}</div><div style="flex:1">${esc(e.n)}</div><div class="un-x">${meta} ${cnt}</div></div>`}).join('');
+  const more=rest.length>4?`<div class="up-done">+${rest.length-4}</div>`:'';
+  return`<div class="up-next ${window._upNextOpen?'':'closed'}" id="upNext">
+    <div class="un-h" onclick="toggleUpNext()"><span class="un-t">${t('upNext')} · ${rest.length}</span><span class="un-caret">▾</span></div>
+    <div class="un-list">${items}${more}</div></div>`}
+function toggleUpNext(){window._upNextOpen=!window._upNextOpen;const el=document.getElementById('upNext');if(el)el.classList.toggle('closed',!window._upNextOpen)}
+function logAccessory(val){const e=SESS.ex[SESS.idx];const n=parseFloat((val+'').replace(',','.'));
+  if(!isNaN(n)&&n>0)CUR.accessory[e.n]=n;else delete CUR.accessory[e.n];save()}
 function renderExercise(){const e=SESS.ex[SESS.idx];const body=document.getElementById('wkBody');const totalEx=SESS.ex.length;
   document.getElementById('wkBar').style.width=Math.round(SESS.idx/totalEx*100)+'%';
-  let html=`<div class="ex-count">EJERCICIO ${SESS.idx+1} / ${totalEx}</div><div class="ex-name">${esc(e.n)}</div>`;
+  let html=upNextHTML();
+  html+=`<div class="ex-count">${t('exercise')} ${SESS.idx+1} ${t('of')} ${totalEx}</div><div class="ex-name">${esc(e.n)}</div>`;
   if(e.ref==='routine'){const list=e.list||(ROUTINES[e.rk]&&ROUTINES[e.rk].x)||[];
-    html+=`<div class="ex-ref">Rutina · toca cada ejercicio al ritmo indicado</div>
+    html+=`<div class="ex-ref">${t('routineHint')}</div>
       <div class="card pad0" style="margin-bottom:14px"><div class="rt-list" style="padding:6px 16px">${list.map(r=>`<div><span>${esc(r[0])}</span><small>${esc(r[1])}</small></div>`).join('')}</div></div>
-      <button class="btn" onclick="finishRoutine()">✓ Rutina completada</button>`;
+      <button class="btn" onclick="finishRoutine()">${t('routineDone')}</button>`;
   }else if(e.ref==='bw'){
-    html+=`<div class="ex-ref">Peso corporal / accesorio</div><div class="set-list">`;
+    const last=CUR.accessory[e.n];
+    html+=`<div class="ex-ref">${t('bodyweight')}</div><div class="set-list">`;
     e.s.forEach((st,i)=>{const done=SESS.setDone[SESS.idx][i];
-      html+=`<div class="set ${done?'done':''}" onclick="toggleSet(${i})"><div class="set-chk">${done?'✓':i+1}</div><div class="set-info"><div class="set-w">${st.r}<small> reps${st.tag?' · '+st.tag:''}</small></div></div></div>`});
-    html+=`</div>`+coachHint(e)+`<button class="btn" style="margin-top:14px" onclick="nextExercise()">Siguiente →</button>`;
+      html+=`<div class="set ${done?'done':''}" onclick="toggleSet(${i})"><div class="set-chk">${done?'✓':i+1}</div><div class="set-info"><div class="set-w">${st.r}<small> ${t('reps')}${st.tag?' · '+st.tag:''}</small></div></div></div>`});
+    html+=`</div>`;
+    html+=`<div class="card" style="margin-top:12px;padding:14px"><div class="dc-lbl" style="margin-bottom:8px">${t('logWeightUsed')}</div>
+      <div style="display:flex;align-items:center;gap:10px"><div class="wlog" style="flex:1"><input type="number" inputmode="decimal" placeholder="—" value="${last||''}" onchange="logAccessory(this.value)" onclick="event.stopPropagation()"><span class="u">${U()}</span></div></div>
+      <div class="set-hint">${t('tapToLog')}</div></div>`;
+    html+=coachHint(e)+`<button class="btn" style="margin-top:14px" onclick="nextExercise()">${t('next')}</button>`;
   }else{const base=REF[e.ref](CUR.maxes);
-    html+=`<div class="ex-ref">Referencia: <b style="color:#fff">${REF_LABEL[e.ref]}</b> · ${Math.round(base)} ${U()}${CUR.adjust[e.n]?` · coach ×${CUR.adjust[e.n].toFixed(2)}`:''}</div>`;
+    html+=`<div class="ex-ref">${t('reference')}: <b style="color:#fff">${REF_LABEL[e.ref]}</b> · ${Math.round(base)} ${U()}${CUR.adjust[e.n]?` · coach ×${CUR.adjust[e.n].toFixed(2)}`:''}</div>`;
     if(e.note)html+=`<div class="coach-box" style="margin-top:0"><div class="coach-ava">🎯</div><div><div class="who">Nota</div><p>${esc(e.note)}</p></div></div>`;
     html+=`<div class="set-list">`;
     e.s.forEach((st,i)=>{const[reps,pct]=st;const w=calcWeight(e,pct);const done=SESS.setDone[SESS.idx][i];
       html+=`<div class="set ${done?'done':''}" onclick="toggleSet(${i})"><div class="set-chk">${done?'✓':i+1}</div>
-        <div class="set-info"><div class="set-w">${w!=null?w+'<small> '+U()+'</small>':'<small>peso libre</small>'}</div><div class="set-meta">${reps} reps${pct?' · '+pct+'%':''}</div></div>
+        <div class="set-info"><div class="set-w">${w!=null?w+'<small> '+U()+'</small>':'<small>'+t('freeWeight')+'</small>'}</div><div class="set-meta">${reps} ${t('reps')}${pct?' · '+pct+'%':''}</div></div>
         ${pct?`<div class="set-pct">${pct}%</div>`:''}</div>`});
-    html+=`</div>`+coachHint(e)+`<button class="btn" style="margin-top:14px" onclick="nextExercise()">Siguiente →</button>`;}
+    html+=`</div>`+coachHint(e)+`<button class="btn" style="margin-top:14px" onclick="nextExercise()">${t('next')}</button>`;}
   body.innerHTML=html;body.scrollTop=0}
-function coachHint(e){if(/press|jerk|bench|incline|push/i.test(e.n))
-  return`<div class="coach-box"><div class="coach-ava">🧠</div><div><div class="who">Coach</div><p>Ejercicio con carga en hombro. Si notas pinchazo o dolor >2/10, baja el peso y márcalo como “molestia”. Prioriza volver fuerte, no rápido.</p></div></div>`;return''}
+function coachHint(e){if(/press|jerk|bench|incline|push/i.test(e.n)){
+  const m={es:'Ejercicio con carga en hombro. Si notas pinchazo o dolor >2/10, baja el peso y márcalo como “molestia”. Prioriza volver fuerte, no rápido.',
+    en:'Shoulder-loaded exercise. If you feel a pinch or pain >2/10, drop the weight and mark it as “discomfort”. Come back strong, not fast.',
+    fr:'Exercice qui charge l\'épaule. Si tu sens une gêne ou douleur >2/10, baisse le poids et note “gêne”. Reviens fort, pas vite.'};
+  return`<div class="coach-box"><div class="coach-ava">🧠</div><div><div class="who">Coach</div><p>${(m[LANG]||m.es)}</p></div></div>`}return''}
 function toggleSet(i){const arr=SESS.setDone[SESS.idx];arr[i]=!arr[i];const e=SESS.ex[SESS.idx];renderExercise();
   if(arr[i]&&e.ref!=='routine'){const rest=/clean|squat|bench|jerk|press|pull|deadlift/i.test(e.n)?(e.ref==='bw'?60:120):75;openRest(rest)}}
 function finishRoutine(){SESS.setDone[SESS.idx][0]=true;nextExercise()}
 function nextExercise(){const e=SESS.ex[SESS.idx];if(e.ref!=='bw'&&e.ref!=='routine'){askFeel(e);return}advance()}
 function advance(){if(SESS.idx<SESS.ex.length-1){SESS.idx++;const b=document.getElementById('wkBody');b.style.animation='none';void b.offsetWidth;b.style.animation='fadeUp .4s both';renderExercise()}else finishWorkout()}
-function openRest(sec){const r=document.getElementById('rest');r.classList.add('on');const ring=document.getElementById('restRing');const C=628;
+function openRest(sec){const r=document.getElementById('rest');r.classList.add('on');const rt=document.getElementById('restTitle');if(rt)rt.textContent=t('rest');const sk=document.getElementById('skipRestBtn');if(sk)sk.textContent=t('skipRest');const ring=document.getElementById('restRing');const C=628;
   window._restLeft=sec;window._restTotal=sec;document.getElementById('restT').textContent=sec;ring.style.strokeDashoffset=0;
   clearInterval(restTimer);restTimer=setInterval(()=>{window._restLeft--;document.getElementById('restT').textContent=Math.max(window._restLeft,0);
     ring.style.strokeDashoffset=C*(1-window._restLeft/window._restTotal);if(window._restLeft<=0)skipRest()},1000)}
 function addRest(s){window._restLeft+=s;window._restTotal+=s}
 function skipRest(){clearInterval(restTimer);document.getElementById('rest').classList.remove('on')}
 let feelFor=null;
-function askFeel(e){feelFor=e;document.getElementById('feelEx').textContent=e.n;document.getElementById('feelSheet').classList.add('on')}
+function askFeel(e){feelFor=e;document.getElementById('feelEx').textContent=e.n;
+  const set=(id,k)=>{const el=document.getElementById(id);if(el)el.textContent=t(k)};
+  set('feelQ','feelQ');[1,2,3,4,5].forEach(n=>{set('fl'+n,'f'+n);set('fl'+n+'d','f'+n+'d')});
+  document.getElementById('feelSheet').classList.add('on')}
 function feel(v){document.getElementById('feelSheet').classList.remove('on');SESS.feels.push({ex:feelFor.n,v});applyCoach(feelFor,v);
   const msg=coachMsg(feelFor,v);if(msg)setTimeout(()=>showCoach(msg,()=>advance()),260);else advance()}
 function applyCoach(e,v){if(e.ref==='bw'||e.ref==='routine')return;let f=CUR.adjust[e.n]||1;
   if(v===1)f=Math.min(f*1.03,1.15);else if(v===3)f=Math.max(f*0.98,0.85);else if(v===4)f=Math.max(f*0.95,0.8);else if(v===5)f=Math.max(f*0.90,0.7);
   CUR.adjust[e.n]=Math.round(f*100)/100}
-function coachMsg(e,v){const shoulder=/press|jerk|bench|incline|push/i.test(e.n);
-  if(v===5)return{who:'Coach',t:shoulder?`Molestia en un ejercicio de hombro. Bajo un 10% la próxima vez y te recomiendo parar hoy este patrón. Si el dolor sube de 2/10, descansa y valora fisio. Volver fuerte > volver rápido.`:`Has notado molestia. Reduzco la carga un 10% para la próxima. Revisa técnica y no fuerces si el dolor persiste.`};
-  if(v===4)return{who:'Coach',t:`Llegaste al fallo. Bajo un 5% la próxima sesión para que mantengas técnica explosiva — recuerda: velocidad, no grindeo.`};
-  if(v===1)return{who:'Coach',t:`Muy fácil. Subo la carga ~3% la próxima vez. Sigue con técnica perfecta antes de añadir peso.`};return null}
-async function showCoach(msg,cb){
-  // IA real opcional
-  let text=msg.t;
-  if(CUR.ai&&CUR.ai.on&&CUR.ai.key){const ai=await askAI(msg,feelFor);if(ai)text=ai}
+const COACH_MSG={
+  es:{p5s:'Molestia en un ejercicio de hombro. Bajo un 10% la próxima vez y te recomiendo parar hoy este patrón. Si el dolor sube de 2/10, descansa y valora fisio. Volver fuerte > volver rápido.',
+      p5:'Has notado molestia. Reduzco la carga un 10% para la próxima. Revisa técnica y no fuerces si el dolor persiste.',
+      p4:'Llegaste al fallo. Bajo un 5% la próxima sesión para que mantengas técnica explosiva — recuerda: velocidad, no grindeo.',
+      p1:'Muy fácil. Subo la carga ~3% la próxima vez. Sigue con técnica perfecta antes de añadir peso.'},
+  en:{p5s:'Discomfort on a shoulder exercise. I\'m lowering it 10% next time and suggest stopping this pattern today. If pain goes above 2/10, rest and consider a physio. Come back strong > come back fast.',
+      p5:'You felt discomfort. I\'m dropping the load 10% for next time. Check technique and don\'t push if pain persists.',
+      p4:'You hit failure. I\'m lowering 5% next session so you keep explosive technique — remember: speed, not grinding.',
+      p1:'Very easy. I\'m adding ~3% next time. Keep perfect technique before adding weight.'},
+  fr:{p5s:'Gêne sur un exercice d\'épaule. Je baisse de 10% la prochaine fois et te conseille d\'arrêter ce mouvement aujourd\'hui. Si la douleur dépasse 2/10, repose-toi et pense au kiné. Revenir fort > revenir vite.',
+      p5:'Tu as senti une gêne. Je réduis la charge de 10% pour la prochaine fois. Vérifie la technique et ne force pas si la douleur persiste.',
+      p4:'Tu es allé à l\'échec. Je baisse de 5% la prochaine séance pour garder une technique explosive — rappelle-toi : vitesse, pas forcer.',
+      p1:'Très facile. J\'ajoute ~3% la prochaine fois. Garde une technique parfaite avant d\'ajouter du poids.'}};
+function coachMsg(e,v){const shoulder=/press|jerk|bench|incline|push/i.test(e.n);const m=COACH_MSG[LANG]||COACH_MSG.es;
+  if(v===5)return{who:'Coach',t:shoulder?m.p5s:m.p5};
+  if(v===4)return{who:'Coach',t:m.p4};
+  if(v===1)return{who:'Coach',t:m.p1};return null}
+function showCoach(msg,cb){
   openModal(`<div style="display:flex;gap:12px;align-items:flex-start"><div class="coach-ava" style="width:46px;height:46px;font-size:22px">🧠</div>
-    <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${msg.who}${CUR.ai&&CUR.ai.on?' · IA':''}</div>
-    <p style="font-size:15px;line-height:1.5;margin-top:4px">${esc(text)}</p></div></div>
-    <button class="btn" style="margin-top:18px" onclick="closeModal();(window._coachCb&&window._coachCb())">Entendido</button>`);
+    <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${msg.who}</div>
+    <p style="font-size:15px;line-height:1.5;margin-top:4px">${esc(msg.t)}</p></div></div>
+    <button class="btn" style="margin-top:18px" onclick="closeModal();(window._coachCb&&window._coachCb())">${t('understood')}</button>`);
   window._coachCb=cb}
-async function askAI(msg,ex){try{
-  const body={model:CUR.ai.model||'claude-sonnet-4-5-20250929',max_tokens:200,
-    system:'Eres el coach de fuerza de un pitcher (RODOVELOCITY, método TopVelocity). Responde en español, en 2-3 frases, directo y práctico. Cuida el hombro (lesión previa): si hay dolor, prioriza salud. No inventes cifras médicas.',
-    messages:[{role:'user',content:`Ejercicio: ${ex.n}. Sensación reportada (1 fácil - 5 dolor): ${msg._v||''}. Consejo base: "${msg.t}". Dame el consejo de coach.`}]};
-  const r=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'content-type':'application/json','x-api-key':CUR.ai.key,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(body)});
-  if(!r.ok)return null;const j=await r.json();return j.content&&j.content[0]&&j.content[0].text}catch(e){return null}}
 function finishWorkout(){clearInterval(clockTimer);const dur=Math.round((Date.now()-SESS.start)/1000);const vol=sessionVolume(SESS);
   const avgFeel=SESS.feels.length?Math.round(SESS.feels.reduce((a,f)=>a+f.v,0)/SESS.feels.length):null;
   const rec={plan:SESS.plan,week:SESS.week,day:SESS.day,dayName:SESS.dayName,tag:SESS.tag,date:Date.now(),dur,vol,avgFeel,feels:SESS.feels,maxes:{...CUR.maxes}};
@@ -855,28 +1280,31 @@ function finishWorkout(){clearInterval(clockTimer);const dur=Math.round((Date.no
   advanceProgress();save();
   const plan=PLANS.find(p=>p.id===SESS.plan);const isMax=plan.weeks[SESS.week].tag.includes('MAX');
   document.getElementById('workout').classList.remove('on');
-  const extra=isMax?`<button class="btn ghost" style="margin-top:10px" onclick="closeModal();editMaxes()">📈 Actualizar mis máximos</button>`:'';
+  const extra=isMax?`<button class="btn ghost" style="margin-top:10px" onclick="closeModal();editMaxes()">${t('updateMaxes')}</button>`:'';
   openModal(`<div style="text-align:center"><div style="font-size:54px;animation:pop .5s both">🔥</div>
-    <h2 style="font-weight:900;font-size:24px;margin:6px 0">¡Día completado!</h2><p class="sub">${esc(plan.name)} · S${SESS.week+1} · ${esc(SESS.dayName)}</p>
-    <div class="stat-row" style="margin:18px 0 6px"><div class="stat red"><b>${Math.floor(dur/60)}′</b><small>DURACIÓN</small></div>
-      <div class="stat"><b>${(vol/1000).toFixed(1)}</b><small>TON. HOY</small></div><div class="stat"><b>${avgFeel?['','🪶','💪','🥵','🧨','⚠️'][avgFeel]:'—'}</b><small>SENSACIÓN</small></div></div>
-    <button class="btn" style="margin-top:14px" onclick="closeModal();go('home')">Volver al inicio</button>${extra}</div>`);
+    <h2 style="font-weight:900;font-size:24px;margin:6px 0">${t('dayComplete')}</h2><p class="sub">${esc(plan.name)} · S${SESS.week+1} · ${esc(SESS.dayName)}</p>
+    <div class="stat-row" style="margin:18px 0 6px"><div class="stat red"><b>${Math.floor(dur/60)}′</b><small>${t('duration')}</small></div>
+      <div class="stat"><b>${(vol/1000).toFixed(1)}</b><small>${t('tonsToday')}</small></div><div class="stat"><b>${avgFeel?['','🪶','💪','🥵','🧨','⚠️'][avgFeel]:'—'}</b><small>${t('feeling')}</small></div></div>
+    <button class="btn" style="margin-top:14px" onclick="closeModal();go('home')">${t('backHome')}</button>${extra}</div>`);
   SESS=null}
 function advanceProgress(){const plan=PLANS.find(p=>p.id===SESS.plan);let w=SESS.week,d=SESS.day;d++;
   if(d>=plan.weeks[w].days.length){d=0;w++}if(w>=plan.weeks.length){w=plan.weeks.length-1;d=plan.weeks[w].days.length-1}
   CUR.progress[SESS.plan]={week:w,day:d}}
-const MOTIV=['Los campeones no abandonan a mitad. 🔥','Una serie más te acerca a las 95 mph.','El que trabaja cuando nadie mira, gana cuando todos miran.','Tu yo del futuro te lo va a agradecer.','El dolor de hoy es la velocidad de mañana.','No cuentan las que hiciste, cuentan las que terminas.'];
+const MOTIV={
+  es:['Los campeones no abandonan a mitad. 🔥','Una serie más te acerca a las 95 mph.','El que trabaja cuando nadie mira, gana cuando todos miran.','Tu yo del futuro te lo va a agradecer.','El dolor de hoy es la velocidad de mañana.'],
+  en:['Champions don\'t quit halfway. 🔥','One more set gets you closer to 95 mph.','Who works when no one watches, wins when everyone watches.','Your future self will thank you.','Today\'s pain is tomorrow\'s velocity.'],
+  fr:['Les champions n\'abandonnent pas à mi-chemin. 🔥','Une série de plus te rapproche des 95 mph.','Qui travaille quand personne ne regarde gagne quand tous regardent.','Ton futur toi te remerciera.','La douleur d\'aujourd\'hui est la vitesse de demain.']};
 function quitWorkout(){
   const anyDone=SESS&&SESS.setDone.some(a=>a.some(Boolean));
   document.getElementById('rest').classList.remove('on');clearInterval(restTimer);
   if(!anyDone){doQuitWorkout();return}
-  const phrase=MOTIV[Math.floor(Math.random()*MOTIV.length)];
+  const arr=MOTIV[LANG]||MOTIV.es;const phrase=arr[Math.floor((Date.now()/1000)%arr.length)];
   openModal(`<div style="text-align:center"><div style="font-size:46px;animation:pop .4s both">💪</div>
-    <h2 style="font-weight:900;font-size:21px;margin:8px 0 4px">¿Seguro que quieres salir?</h2>
-    <p class="sub" style="margin-bottom:6px">Perderás el progreso de este día.</p>
-    <div class="coach-box" style="text-align:left;margin:14px 0"><div class="coach-ava">🔥</div><div><div class="who">Tu coach</div><p>${esc(phrase)}</p></div></div>
-    <button class="btn" onclick="closeModal()">Seguir entrenando 🔥</button>
-    <button class="btn ghost" style="margin-top:10px;color:var(--muted)" onclick="closeModal();doQuitWorkout()">Sí, salir</button></div>`);
+    <h2 style="font-weight:900;font-size:21px;margin:8px 0 4px">${t('quitTitle')}</h2>
+    <p class="sub" style="margin-bottom:6px">${t('loseProgress')}</p>
+    <div class="coach-box" style="text-align:left;margin:14px 0"><div class="coach-ava">🔥</div><div><div class="who">${t('yourCoach')}</div><p>${esc(phrase)}</p></div></div>
+    <button class="btn" onclick="closeModal()">${t('keepTraining')}</button>
+    <button class="btn ghost" style="margin-top:10px;color:var(--muted)" onclick="closeModal();doQuitWorkout()">${t('yesQuit')}</button></div>`);
 }
 function doQuitWorkout(){clearInterval(clockTimer);clearInterval(restTimer);
   document.getElementById('workout').classList.remove('on');document.getElementById('rest').classList.remove('on');document.getElementById('feelSheet').classList.remove('on');SESS=null}
@@ -896,8 +1324,8 @@ function feelBadge(v){return`<span class="badge b${v}">${['','FÁCIL','BIEN','DU
    ===================================================================== */
 function askMaxes(cb){editMaxes(cb)}
 function editMaxes(cb){const m=CUR.maxes;const u=U();
-  openModal(`<h2 style="font-weight:900;font-size:22px">Tus máximos (1RM)</h2>
-    <p class="sub" style="margin:6px 0 14px">Sobre estos tres se calculan TODOS los pesos del plan.</p>
+  openModal(`<h2 style="font-weight:900;font-size:22px">${t('yourMaxes')} (1RM)</h2>
+    <p class="sub" style="margin:6px 0 14px">${t('registerMaxesD')}</p>
     <div style="display:flex;gap:8px;margin-bottom:14px" id="mxUnit">
       <button class="chip ${u==='kg'?'on':''}" data-u="kg" onclick="switchMaxUnit('kg')" style="flex:1;justify-content:center">kg</button>
       <button class="chip ${u==='lb'?'on':''}" data-u="lb" onclick="switchMaxUnit('lb')" style="flex:1;justify-content:center">lb</button></div>
@@ -905,7 +1333,7 @@ function editMaxes(cb){const m=CUR.maxes;const u=U();
     <div class="max-in"><div class="mi-ico">🏋️</div><div class="mi-t"><b>Bench Press</b><small>Ref. de press banca e inclinado</small></div><input id="mxBench" type="number" inputmode="decimal" value="${m.bench||''}" placeholder="0"><span class="unit" id="uBench">${u}</span></div>
     <div class="max-in"><div class="mi-ico">⚡</div><div class="mi-t"><b>Power Clean</b><small>Ref. de cleans, jerks, push press</small></div><input id="mxClean" type="number" inputmode="decimal" value="${m.clean||''}" placeholder="0"><span class="unit" id="uClean">${u}</span></div>
     <p class="sub" style="font-size:11px;margin-bottom:12px">La barra pesa 20 kg / 45 lb. Los pesos se redondean a discos reales (2,5 kg · 5 lb).</p>
-    <button class="btn" style="margin-top:2px" onclick="saveMaxes()">Guardar máximos</button>`);
+    <button class="btn" style="margin-top:2px" onclick="saveMaxes()">${t('save')}</button>`);
   document.getElementById('mxUnit').dataset.sel=u;window._maxCb=cb}
 function switchMaxUnit(nu){const box=document.getElementById('mxUnit');const cur=box.dataset.sel;if(cur===nu)return;
   const f=nu==='lb'?2.2046226:0.4535924;
@@ -924,18 +1352,111 @@ function saveMaxes(){const sq=+document.getElementById('mxSquat').value,bn=+docu
 /* =====================================================================
    PROGRESO
    ===================================================================== */
+/* ---- helpers de datos diarios / cuerpo ---- */
+function todayKey(){const d=new Date();return d.getFullYear()+'-'+(d.getMonth()+1)+'-'+d.getDate()}
+function getDaily(){const k=todayKey();if(!CUR.daily[k])CUR.daily[k]={kcal:0,water:0};return CUR.daily[k]}
+function curWeight(){return CUR.weightLog&&CUR.weightLog.length?CUR.weightLog[CUR.weightLog.length-1].kg:null}
+function kcalTarget(){const w=curWeight();const g=CUR.body.goal;let base=w?Math.round(w*32):2600;/* estimación sencilla de mantenimiento */
+  if(g==='cut')base-=450;else if(g==='gain')base+=350;return Math.max(base,1500)}
+function waterTarget(){const w=curWeight();let l=w?w*0.04:3.0;return Math.max(2.5,Math.round(l*10)/10)}
+function addKcal(n){const d=getDaily();d.kcal=Math.max(0,(d.kcal||0)+n);save();renderProgress()}
+function addWater(n){const d=getDaily();d.water=Math.max(0,Math.round(((d.water||0)+n)*10)/10);save();renderProgress()}
+function logBodyWeight(){const u=U();const last=curWeight();
+  openModal(`<h2 style="font-weight:900;font-size:20px">${t('logWeight')}</h2>
+    <p class="sub" style="margin:6px 0 14px">${t('bodyWeight')}</p>
+    <div class="max-in"><div class="mi-ico">⚖️</div><div class="mi-t"><b>${t('bodyWeight')}</b></div><input id="bwIn" type="number" inputmode="decimal" value="${last||''}" placeholder="0"><span class="unit">${u}</span></div>
+    <button class="btn" style="margin-top:6px" onclick="saveBodyWeight()">${t('save')}</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('cancel')}</button>`);
+  setTimeout(()=>document.getElementById('bwIn').focus(),200)}
+function saveBodyWeight(){const v=parseFloat((document.getElementById('bwIn').value+'').replace(',','.'));
+  if(!v||v<=0)return toast('—','warn');CUR.weightLog.push({date:Date.now(),kg:v});save();closeModal();renderProgress();toast('✓','ok')}
+function setBodyData(){const b=CUR.body;
+  openModal(`<h2 style="font-weight:900;font-size:20px">${t('myData')}</h2>
+    <div class="field" style="margin-top:12px"><label>${t('height')} (cm)</label><input class="input" id="bdH" type="number" inputmode="numeric" value="${b.height||''}" placeholder="0"></div>
+    <div class="field"><label>${t('age')}</label><input class="input" id="bdA" type="number" inputmode="numeric" value="${b.age||''}" placeholder="0"></div>
+    <div class="field"><label>${t('goal')}</label>
+      <div class="seg" id="bdGoal">
+        <button class="goal-pill ${b.goal==='cut'?'on':''}" data-g="cut" onclick="pickGoal('cut')">🔥 ${t('goalCut')}</button>
+        <button class="goal-pill ${b.goal==='gain'?'on':''}" data-g="gain" onclick="pickGoal('gain')">💪 ${t('goalGain')}</button>
+        <button class="goal-pill ${b.goal==='maintain'?'on':''}" data-g="maintain" onclick="pickGoal('maintain')">⚖️ ${t('goalMaintain')}</button>
+      </div></div>
+    <button class="btn" style="margin-top:6px" onclick="saveBodyData()">${t('save')}</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('cancel')}</button>`);
+  document.getElementById('bdGoal').dataset.sel=b.goal||''}
+function pickGoal(g){const box=document.getElementById('bdGoal');box.dataset.sel=g;[...box.children].forEach(b=>b.classList.toggle('on',b.dataset.g===g))}
+function saveBodyData(){CUR.body.height=+document.getElementById('bdH').value||null;CUR.body.age=+document.getElementById('bdA').value||null;
+  CUR.body.goal=document.getElementById('bdGoal').dataset.sel||null;save();closeModal();renderProgress();toast('✓','ok')}
+function aiAdvice(){
+  const g=CUR.body.goal,wl=CUR.weightLog,d=getDaily(),u=U(),streak=calcStreak();
+  const L={es:{},en:{},fr:{}}; // se construye abajo con literales
+  const lines=[];
+  // objetivo + tendencia de peso
+  if(wl.length>=2){const diff=Math.round((wl[wl.length-1].kg-wl[wl.length-2].kg)*10)/10;
+    const dir=diff>0.1?'up':diff<-0.1?'down':'flat';
+    if(g==='cut'){lines.push({es:dir==='down'?`Vas bien: bajaste ${Math.abs(diff)} ${u} desde el último registro. Mantén el déficit suave y cuida la proteína.`:dir==='up'?`Subiste ${Math.abs(diff)} ${u} y tu objetivo es definir. Revisa las calorías y sube algo de cardio esta semana.`:`Peso estable. Para definir, ajusta ~200 kcal menos o añade pasos diarios.`,
+      en:dir==='down'?`Nice: you dropped ${Math.abs(diff)} ${u} since last log. Keep the deficit gentle and protein high.`:dir==='up'?`You went up ${Math.abs(diff)} ${u} but your goal is to cut. Check calories and add some cardio this week.`:`Weight stable. To cut, trim ~200 kcal or add daily steps.`,
+      fr:dir==='down'?`Bien : tu as perdu ${Math.abs(diff)} ${u} depuis le dernier relevé. Garde un déficit léger et beaucoup de protéines.`:dir==='up'?`Tu as pris ${Math.abs(diff)} ${u} mais ton objectif est de sécher. Vérifie les calories et ajoute du cardio.`:`Poids stable. Pour sécher, enlève ~200 kcal ou marche plus.`});}
+    else if(g==='gain'){lines.push({es:dir==='up'?`Buen trabajo: +${Math.abs(diff)} ${u}. Sigue en superávit ligero y prioriza fuerza + proteína (1.8 g/kg).`:dir==='down'?`Bajaste ${Math.abs(diff)} ${u} y buscas ganar músculo. Sube un poco las calorías, sobre todo alrededor del entreno.`:`Peso estable. Para ganar músculo añade ~250 kcal al día y sigue progresando cargas.`,
+      en:dir==='up'?`Good work: +${Math.abs(diff)} ${u}. Stay in a slight surplus, prioritize strength + protein (1.8 g/kg).`:dir==='down'?`You dropped ${Math.abs(diff)} ${u} but want to build. Bump calories, especially around training.`:`Weight stable. To build muscle add ~250 kcal/day and keep progressing loads.`,
+      fr:dir==='up'?`Bon travail : +${Math.abs(diff)} ${u}. Reste en léger surplus, priorise force + protéines (1,8 g/kg).`:dir==='down'?`Tu as perdu ${Math.abs(diff)} ${u} mais tu veux prendre du muscle. Augmente les calories, surtout autour de l'entraînement.`:`Poids stable. Pour prendre du muscle, ajoute ~250 kcal/jour et progresse en charges.`});}
+    else{lines.push({es:`Peso ${dir==='flat'?'estable':dir==='up'?'+'+Math.abs(diff)+' '+u:'-'+Math.abs(diff)+' '+u}. Buen control para mantenerte.`,en:`Weight ${dir==='flat'?'stable':dir==='up'?'+'+Math.abs(diff)+' '+u:'-'+Math.abs(diff)+' '+u}. Good control to maintain.`,fr:`Poids ${dir==='flat'?'stable':dir==='up'?'+'+Math.abs(diff)+' '+u:'-'+Math.abs(diff)+' '+u}. Bon contrôle pour maintenir.`});}
+  } else {
+    lines.push({es:'Registra tu peso unos días seguidos y te diré si vas hacia tu objetivo.',en:'Log your weight a few days in a row and I\'ll tell you if you\'re on track.',fr:'Enregistre ton poids quelques jours de suite et je te dirai si tu es sur la bonne voie.'});
+  }
+  // agua
+  const wt=waterTarget();if((d.water||0)<wt*0.6)lines.push({es:`Vas por ${d.water||0} L de agua (objetivo ${wt} L). Hidrátate, ayuda a tu recuperación y a tu hombro.`,en:`You're at ${d.water||0} L water (target ${wt} L). Hydrate — it helps recovery and your shoulder.`,fr:`Tu es à ${d.water||0} L d'eau (objectif ${wt} L). Hydrate-toi, ça aide la récupération et ton épaule.`});
+  // racha
+  if(streak>=3)lines.push({es:`🔥 Racha de ${streak} días. Constancia = velocidad.`,en:`🔥 ${streak}-day streak. Consistency = velocity.`,fr:`🔥 Série de ${streak} jours. Régularité = vitesse.`});
+  const pick=lines.slice(0,2).map(o=>o[LANG]||o.es).join(' ');
+  return pick}
+function weightMiniChart(){const wl=CUR.weightLog.slice(-14);if(wl.length<2)return'';
+  const W=460,H=110,pad=16;const xs=wl.map((_,i)=>pad+i*(W-2*pad)/(wl.length-1));
+  const vals=wl.map(x=>x.kg);const mn=Math.min(...vals)-1,mx=Math.max(...vals)+1;const y=v=>H-pad-((v-mn)/(mx-mn||1))*(H-2*pad);
+  const pts=wl.map((x,i)=>`${xs[i]},${y(x.kg)}`).join(' ');
+  const area=`${pad},${H-pad} `+pts+` ${xs[xs.length-1]},${H-pad}`;
+  return`<svg viewBox="0 0 ${W} ${H}" style="margin-top:10px"><defs><linearGradient id="wg" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(225,6,0,.35)"/><stop offset="1" stop-color="rgba(225,6,0,0)"/></linearGradient></defs>
+    <polygon points="${area}" fill="url(#wg)"/><polyline points="${pts}" fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    ${wl.map((x,i)=>`<circle cx="${xs[i]}" cy="${y(x.kg)}" r="3.5" fill="#fff"/>`).join('')}</svg>`}
 function renderProgress(){const el=document.getElementById('progress');const sessions=CUR.sessions.slice().sort((a,b)=>a.date-b.date);
-  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">Progreso</div><div class="sub">Tus números en el tiempo</div></div>`;
-  if(!sessions.length&&CUR.maxHistory.length<1){el.innerHTML+=`<div class="empty"><div class="em">📊</div>Todavía no hay datos.<br>Entrena o registra tus máximos y verás tus gráficos aquí.</div>`;return}
+  const u=U();const w=curWeight();const wl=CUR.weightLog;const d=getDaily();
+  let html=`<div style="margin:8px 4px 12px"><div class="title-xl">${t('nav_progress')}</div><div class="sub">${t('progressSub')}</div></div>`;
+  // consejo IA
+  html+=`<div class="ai-tip"><div class="ai-ava">🧠</div><div><div class="who">${t('assistant')}</div><p>${esc(aiAdvice())}</p></div></div>`;
+  // hero peso corporal
+  let delta='';if(wl.length>=2){const df=Math.round((wl[wl.length-1].kg-wl[0].kg)*10)/10;const cls=df>0?'up':df<0?'down':'flat';delta=`<span class="dlt ${cls}">${df>0?'+':''}${df} ${u}</span>`}
+  html+=`<div class="pg-hero"><div class="dc-lbl" style="margin-bottom:8px">⚖️ ${t('bodyWeight')}</div>
+    ${w?`<div class="pg-metric"><b>${w}</b><span class="u">${u}</span>${delta}</div>${weightMiniChart()}`:`<p class="sub">${t('noWeight')}</p>`}
+    <button class="btn sm" style="margin-top:12px;width:100%" onclick="logBodyWeight()">＋ ${t('logWeight')}</button></div>`;
+  // diario: kcal + agua
+  const kt=kcalTarget(),wt=waterTarget();const kpct=Math.min(100,Math.round((d.kcal||0)/kt*100)),wpct=Math.min(100,Math.round((d.water||0)/wt*100));
+  html+=`<div class="daily-grid">
+    <div class="daily-c"><div class="dc-top"><span class="dc-ico">🍽️</span><span class="dc-lbl">${t('kcalToday')}</span></div>
+      <div class="dc-val">${d.kcal||0}<small> / ${kt}</small></div>
+      <div class="dc-bar"><i style="width:${kpct}%;background:linear-gradient(90deg,#ff7a00,#E10600)"></i></div>
+      <div class="dc-btns"><button class="mini-b" onclick="addKcal(-100)">−100</button><button class="mini-b" onclick="addKcal(100)">＋100</button><button class="mini-b" onclick="addKcal(500)">＋500</button></div></div>
+    <div class="daily-c"><div class="dc-top"><span class="dc-ico">💧</span><span class="dc-lbl">${t('waterToday')}</span></div>
+      <div class="dc-val">${d.water||0}<small> / ${wt} L</small></div>
+      <div class="dc-bar"><i style="width:${wpct}%;background:linear-gradient(90deg,#3aa0ff,#0066cc)"></i></div>
+      <div class="dc-btns"><button class="mini-b" onclick="addWater(-0.25)">−¼</button><button class="mini-b" onclick="addWater(0.25)">＋¼L</button><button class="mini-b" onclick="addWater(0.5)">＋½L</button></div></div>
+  </div>`;
+  // mis datos
+  const b=CUR.body;const goalTxt=b.goal==='cut'?t('goalCut'):b.goal==='gain'?t('goalGain'):b.goal==='maintain'?t('goalMaintain'):'—';
+  html+=`<div class="h-sec">${t('myData')}</div>
+    <div class="card tap" onclick="setBodyData()"><div style="display:flex;gap:10px;text-align:center">
+      <div style="flex:1"><div class="dc-lbl">${t('height')}</div><div style="font-size:20px;font-weight:900">${b.height?b.height+' <span style="font-size:12px;color:var(--muted)">cm</span>':'—'}</div></div>
+      <div style="flex:1"><div class="dc-lbl">${t('age')}</div><div style="font-size:20px;font-weight:900">${b.age||'—'}</div></div>
+      <div style="flex:1"><div class="dc-lbl">${t('goal')}</div><div style="font-size:15px;font-weight:900;margin-top:3px">${goalTxt}</div></div>
+    </div><div class="sub" style="text-align:center;margin-top:10px;font-size:12px">✎ ${t('setData')}</div></div>`;
+  // entrenamiento
   const vol=CUR.sessions.reduce((a,s)=>a+(s.vol||0),0);
-  el.innerHTML+=`<div class="stat-row" style="margin-bottom:14px"><div class="stat red"><b>${CUR.sessions.length}</b><small>SESIONES</small></div><div class="stat"><b>${(vol/1000).toFixed(1)}</b><small>TON. TOTAL</small></div><div class="stat"><b>${calcStreak()}</b><small>RACHA</small></div></div>`;
+  html+=`<div class="h-sec">🏋️ ${t('nav_plans')}</div>`;
+  html+=`<div class="stat-row"><div class="stat red"><b>${CUR.sessions.length}</b><small>${t('sessions')}</small></div><div class="stat"><b>${(vol/1000).toFixed(1)}</b><small>${t('totalTons')}</small></div><div class="stat"><b>${calcStreak()}</b><small>${t('streak')}</small></div></div>`;
   const mh=CUR.maxHistory.slice();
-  if(mh.length)el.innerHTML+=`<div class="card chart-card"><b>Evolución de máximos (kg)</b>${lineChart(mh)}<div class="legend"><i><b style="background:var(--red)"></b>Squat</i><i><b style="background:#3aa0ff"></b>Bench</i><i><b style="background:#2ecc71"></b>Clean</i></div></div>`;
-  else el.innerHTML+=`<div class="card"><b>Evolución de máximos</b><p class="sub" style="margin-top:6px">Registra tus máximos al menos una vez (idealmente tras la semana MAX) para ver la línea de progreso.</p><button class="btn ghost sm" style="margin-top:10px" onclick="editMaxes()">Registrar máximos</button></div>`;
-  if(sessions.length){el.innerHTML+=`<div class="card chart-card"><b>Volumen por sesión (t)</b>${volChart(sessions)}</div>`;
-    const wf=sessions.filter(s=>s.avgFeel);if(wf.length)el.innerHTML+=`<div class="card chart-card"><b>Sensación / esfuerzo</b><p class="sub" style="margin:4px 0 8px;font-size:12px">1 fácil · 5 molestia</p>${feelChart(wf)}</div>`}
-  const plan=PLANS[0];const tot=plan.weeks.reduce((a,w)=>a+w.days.length,0);const done=CUR.sessions.filter(s=>s.plan===plan.id).length;
-  el.innerHTML+=`<div class="card"><b>${esc(plan.name)}</b><div class="sub" style="margin:4px 0 8px">${done}/${tot} días</div><div class="bar-track"><i style="width:${Math.round(done/tot*100)}%;background:linear-gradient(90deg,var(--red),#ff5a45)"></i></div></div>`}
+  if(mh.length)html+=`<div class="card chart-card"><b>${t('evolutionMaxes')} (${u})</b>${lineChart(mh)}<div class="legend"><i><b style="background:var(--red)"></b>Squat</i><i><b style="background:#3aa0ff"></b>Bench</i><i><b style="background:#2ecc71"></b>Clean</i></div></div>`;
+  else html+=`<div class="card"><b>${t('evolutionMaxes')}</b><button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="editMaxes()">${t('introMaxes')}</button></div>`;
+  if(sessions.length){html+=`<div class="card chart-card"><b>${t('volPerSession')}</b>${volChart(sessions)}</div>`;
+    const wf=sessions.filter(s=>s.avgFeel);if(wf.length)html+=`<div class="card chart-card"><b>${t('feelEffort')}</b><p class="sub" style="margin:4px 0 8px;font-size:12px">${t('easyToPain')}</p>${feelChart(wf)}</div>`}
+  el.innerHTML=html}
 function lineChart(mh){const W=460,H=180,pad=30;const xs=mh.map((_,i)=>mh.length===1?W/2:pad+i*(W-2*pad)/(mh.length-1));
   const all=mh.flatMap(m=>[m.squat,m.bench,m.clean]);const mn=Math.min(...all)*0.9,mx=Math.max(...all)*1.05;const y=v=>H-pad-((v-mn)/(mx-mn))*(H-2*pad);
   const line=(k,c)=>{const pts=mh.map((m,i)=>`${xs[i]},${y(m[k])}`);const dots=mh.map((m,i)=>`<circle cx="${xs[i]}" cy="${y(m[k])}" r="4" fill="${c}"/>`).join('');
@@ -952,52 +1473,45 @@ function feelChart(sessions){const s=sessions.slice(-12);const W=460,H=130,pad=2
 /* =====================================================================
    PERFIL
    ===================================================================== */
+const LANGS=[{c:'es',fl:'🇪🇸',n:'Español'},{c:'en',fl:'🇬🇧',n:'English'},{c:'fr',fl:'🇫🇷',n:'Français'}];
 function renderProfile(){const el=document.getElementById('profile');const m=CUR.maxes;
-  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">Perfil</div></div>
+  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">${t('nav_profile')}</div></div>
     <div class="card" style="text-align:center"><div class="accent"></div>
       <div style="position:relative;width:104px;margin:6px auto 10px" onclick="pickPhoto()">
         <div class="p-ava" style="width:104px;height:104px;margin:0 auto;${CUR.photo?`background-image:url(${CUR.photo});background-size:cover`:`background:linear-gradient(135deg,${CUR.color},#000)`}">${CUR.photo?'':initials(CUR.name)}</div>
         <div style="position:absolute;right:2px;bottom:2px;width:34px;height:34px;border-radius:50%;background:var(--red);display:grid;place-items:center;border:3px solid var(--bg2)">📷</div></div>
       <input class="input txt" id="pfName" value="${esc(CUR.name)}" onchange="renameProfile(this.value)" style="text-align:center;font-size:19px;font-weight:900;border:none;background:transparent">
-      <div class="sub">${CUR.sessions.length} sesiones · racha ${calcStreak()}</div></div>
-    <div class="h-sec">Máximos (1RM)</div>
-    ${hasMaxes(m)?`<div class="stat-row"><div class="stat"><b>${m.squat}</b><small>SQUAT</small></div><div class="stat"><b>${m.bench}</b><small>BENCH</small></div><div class="stat"><b>${m.clean}</b><small>CLEAN</small></div></div><button class="btn ghost" style="margin-top:10px" onclick="editMaxes()">Editar máximos</button>`:`<button class="btn" onclick="editMaxes()">Introducir máximos</button>`}
-    <div class="h-sec">Coach IA</div>
+      <div class="sub">${CUR.sessions.length} ${t('sessions').toLowerCase()} · ${t('streak').toLowerCase()} ${calcStreak()}</div></div>
+
+    <div class="h-sec">🌐 ${t('language')}</div>
+    <div class="lang-row">${LANGS.map(l=>`<button class="lang-b ${LANG===l.c?'on':''}" onclick="setLang('${l.c}')"><span class="fl">${l.fl}</span><b>${l.n}</b></button>`).join('')}</div>
+
+    <div class="h-sec">${t('yourMaxes')} (1RM)</div>
+    ${hasMaxes(m)?`<div class="stat-row"><div class="stat"><b>${m.squat}</b><small>SQUAT</small></div><div class="stat"><b>${m.bench}</b><small>BENCH</small></div><div class="stat"><b>${m.clean}</b><small>CLEAN</small></div></div><button class="btn ghost" style="margin-top:10px" onclick="editMaxes()">${t('editMaxes')}</button>`:`<button class="btn" onclick="editMaxes()">${t('introMaxes')}</button>`}
+
+    <div class="h-sec">🧠 ${t('coachIA')}</div>
     <div class="card"><div style="display:flex;align-items:center;gap:12px"><div class="coach-ava">🧠</div>
-      <div style="flex:1"><b>Coach inteligente</b><div class="sub">Ajusta tus pesos según cómo te sientes. Siempre activo, offline.</div></div></div>
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-top:14px;padding-top:14px;border-top:1px solid var(--line)">
-        <div><b>IA real conectada</b><div class="sub">Consejos con un modelo de IA (necesita tu API key)</div></div>
-        <button class="chip ${CUR.ai.on?'on':''}" onclick="toggleAI()">${CUR.ai.on?'ON':'OFF'}</button></div>
-      ${CUR.ai.on?`<button class="btn ghost sm" style="margin-top:12px;width:100%" onclick="aiSettings()">Configurar API key / modelo</button>`:''}</div>
-    <div class="h-sec">Ajustes del coach por ejercicio</div>
-    ${Object.keys(CUR.adjust).length?`<div class="card"><div class="rt-list">${Object.entries(CUR.adjust).map(([k,v])=>`<div><span>${esc(k)}</span><small style="color:${v>1?'var(--ok)':v<1?'var(--warn)':'var(--muted)'}">×${v.toFixed(2)}</small></div>`).join('')}</div><button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="resetAdjust()">Reiniciar ajustes</button></div>`:`<div class="card"><p class="sub">Aún no hay ajustes. El coach los creará según tus sensaciones al entrenar.</p></div>`}
-    <div class="h-sec">Nube y cuenta</div>
-    ${CLOUD?`<div class="card"><div style="display:flex;align-items:center;gap:12px"><div class="coach-ava" style="background:linear-gradient(135deg,#2ecc71,#0a7)">☁️</div><div style="flex:1"><b>Sincronizado</b><div class="sub">Código ${esc(cloudCode)} · datos en todos tus móviles</div></div></div><button class="btn ghost sm" style="margin-top:12px;width:100%" onclick="cloudModal()">Gestionar nube</button></div>`
-      :`<div class="card"><b>Solo en este dispositivo</b><p class="sub" style="margin:6px 0 10px">Conéctate con un código de 4 dígitos para sincronizar entre móviles y no perder datos.</p><button class="btn sm" onclick="goCloud()">☁️ Conectar a la nube</button></div>`}
-    <button class="btn" onclick="shareApp()">📲 Compartir la app</button>
-    <button class="btn dark" style="margin-top:10px" onclick="switchProfile()">Cambiar de perfil</button>
-    <button class="btn ghost" style="margin-top:10px" onclick="coachInfo()">🧠 ¿Cómo funciona el coach?</button>
-    <button class="btn ghost" style="margin-top:10px;color:var(--danger)" onclick="deleteProfile()">Eliminar este perfil</button>
-    <div style="text-align:center;color:var(--muted);font-size:11px;margin:20px 0 4px">RODOVELOCITY · basado en TopVelocity Fusion System · uso personal</div>`}
+      <div style="flex:1"><b>${t('smartCoach')}</b><div class="sub">${t('coachDesc')}</div></div></div></div>
+    <div class="h-sec">${t('coachAdjustTitle')}</div>
+    ${Object.keys(CUR.adjust).length?`<div class="card"><div class="rt-list">${Object.entries(CUR.adjust).map(([k,v])=>`<div><span>${esc(k)}</span><small style="color:${v>1?'var(--ok)':v<1?'var(--warn)':'var(--muted)'}">×${v.toFixed(2)}</small></div>`).join('')}</div><button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="resetAdjust()">${t('resetAdjust')}</button></div>`:`<div class="card"><p class="sub">${t('noAdjust')}</p></div>`}
+
+    <div class="h-sec">${t('dataSec')}</div>
+    <div class="card"><b>${t('savedLocalT')}</b><p class="sub" style="margin:6px 0 10px">${t('savedLocalD')}</p></div>
+    <button class="btn" onclick="shareApp()">${t('shareApp')}</button>
+    <button class="btn dark" style="margin-top:10px" onclick="switchProfile()">${t('switchProfile')}</button>
+    <button class="btn ghost" style="margin-top:10px" onclick="coachInfo()">${t('howCoach')}</button>
+    <button class="btn ghost" style="margin-top:10px;color:var(--danger)" onclick="deleteProfile()">${t('deleteProfile')}</button>
+    <div style="text-align:center;color:var(--muted);font-size:11px;margin:20px 0 4px">RODOVELOCITY · TopVelocity Fusion System</div>`}
 function pickPhoto(){const f=document.getElementById('filePick');f.onchange=()=>{const file=f.files[0];if(!file)return;
   const rd=new FileReader();rd.onload=()=>{const img=new Image();img.onload=()=>{const c=document.createElement('canvas');const s=Math.min(img.width,img.height);
     c.width=c.height=256;const ctx=c.getContext('2d');ctx.drawImage(img,(img.width-s)/2,(img.height-s)/2,s,s,0,0,256,256);
     CUR.photo=c.toDataURL('image/jpeg',0.82);save();refreshTopAva();renderProfile();toast('Foto actualizada','ok')};img.src=rd.result};rd.readAsDataURL(file)};f.click()}
-function renameProfile(v){v=v.trim();if(!v)return;CUR.name=v;save();refreshTopAva();toast('Nombre actualizado','ok')}
-function toggleAI(){if(!CUR.ai.on){aiSettings(true)}else{CUR.ai.on=false;save();renderProfile()}}
-function aiSettings(turningOn){openModal(`<h2 style="font-weight:900;font-size:20px">IA real conectada</h2>
-    <p class="sub" style="margin:6px 0 14px">Introduce tu API key de Anthropic. Se guarda solo en tu dispositivo y se usa para darte consejos de coach durante el entrenamiento.</p>
-    <div class="field"><label>API key</label><input class="input txt" id="aiKey" placeholder="sk-ant-..." value="${esc(CUR.ai.key||'')}"></div>
-    <div class="field"><label>Modelo</label><input class="input txt" id="aiModel" value="${esc(CUR.ai.model)}"></div>
-    <p class="sub" style="font-size:11px;margin-bottom:12px">Si la conexión falla, el coach offline sigue funcionando igual.</p>
-    <button class="btn" onclick="saveAI()">Guardar</button><button class="btn ghost" style="margin-top:8px" onclick="closeModal();renderProfile()">Cancelar</button>`)}
-function saveAI(){CUR.ai.key=document.getElementById('aiKey').value.trim();CUR.ai.model=document.getElementById('aiModel').value.trim()||CUR.ai.model;
-  CUR.ai.on=!!CUR.ai.key;save();closeModal();renderProfile();toast(CUR.ai.on?'IA conectada':'Falta la API key','ok')}
-function resetAdjust(){confirm2('Reiniciar ajustes','El coach volverá a los pesos base (sin ×). Se borran todos los ajustes por ejercicio.','Reiniciar',()=>{CUR.adjust={};save();renderProfile();toast('Ajustes reiniciados','ok')})}
+function renameProfile(v){v=v.trim();if(!v)return;CUR.name=v;save();refreshTopAva();toast('✓','ok')}
+function resetAdjust(){confirm2(t('resetAdjust'),'—',t('reset'),()=>{CUR.adjust={};save();renderProfile();toast('✓','ok')})}
 function exportData(){const blob=new Blob([JSON.stringify(CUR,null,2)],{type:'application/json'});const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='rodovelocity_'+CUR.name+'.json';a.click()}
-function deleteProfile(){confirm2('Eliminar perfil','Se borra este perfil y todos sus datos. No se puede deshacer.','Eliminar',()=>{DB.profiles=DB.profiles.filter(p=>p.id!==CUR.id);save();switchProfile()},true)}
-function shareApp(){const url=location.href;if(navigator.share){navigator.share({title:'RODOVELOCITY',text:'Entrena con RODOVELOCITY 🔥',url}).catch(()=>{})}
-  else if(navigator.clipboard){navigator.clipboard.writeText(url);toast('Enlace copiado','ok')}else toast(url,'ok')}
+function deleteProfile(){confirm2(t('deleteProfile'),'—',t('deleteProfile'),()=>{DB.profiles=DB.profiles.filter(p=>p.id!==CUR.id);save();switchProfile()},true)}
+function shareApp(){const url=location.href;if(navigator.share){navigator.share({title:'RODOVELOCITY',text:'RODOVELOCITY 🔥',url}).catch(()=>{})}
+  else if(navigator.clipboard){navigator.clipboard.writeText(url);toast('✓','ok')}else toast(url,'ok')}
 
 /* =====================================================================
    MODAL / TOAST
@@ -1009,19 +1523,25 @@ function confirm2(title,msg,okLabel,cb,danger){
   openModal(`<h2 style="font-weight:900;font-size:20px">${esc(title)}</h2>
     <p class="sub" style="margin:8px 0 18px">${esc(msg)}</p>
     <button class="btn" style="${danger?'background:linear-gradient(135deg,#ff3b30,#a30400)':''}" onclick="closeModal();(window._cf&&window._cf())">${esc(okLabel)}</button>
-    <button class="btn ghost" style="margin-top:10px" onclick="closeModal()">Cancelar</button>`)}
+    <button class="btn ghost" style="margin-top:10px" onclick="closeModal()">${t('cancel')}</button>`)}
 function coachInfo(){
-  openModal(`<h2 style="font-weight:900;font-size:20px">🧠 Cómo funciona el coach</h2>
-    <p class="sub" style="margin:10px 0 8px;line-height:1.5">Al terminar cada ejercicio principal te pregunta cómo te sentiste. Según tu respuesta, el coach ajusta el peso de <b style="color:#fff">ese mismo ejercicio</b> para <b style="color:#fff">la próxima vez</b> que te toque (no baja el del siguiente ejercicio del día):</p>
+  const intro={es:'Al terminar cada ejercicio principal te pregunta cómo te sentiste. Según tu respuesta, el coach ajusta el peso de ese mismo ejercicio para la próxima vez que te toque.',
+    en:'After each main exercise it asks how you felt. Based on your answer, the coach adjusts the weight of that same exercise for next time.',
+    fr:'Après chaque exercice principal, il te demande ton ressenti. Selon ta réponse, le coach ajuste le poids de ce même exercice pour la prochaine fois.'};
+  const foot={es:'Verás cada ajuste como “×1.03”, “×0.95”, etc., en Perfil. Puedes reiniciarlos cuando quieras.',
+    en:'You\'ll see each adjustment as “×1.03”, “×0.95”, etc. in Profile. You can reset them anytime.',
+    fr:'Tu verras chaque ajustement comme “×1.03”, “×0.95”, etc. dans Profil. Tu peux les réinitialiser à tout moment.'};
+  openModal(`<h2 style="font-weight:900;font-size:20px">🧠 ${t('smartCoach')}</h2>
+    <p class="sub" style="margin:10px 0 8px;line-height:1.5">${intro[LANG]||intro.es}</p>
     <div class="rt-list" style="margin:6px 0 8px">
-      <div><span>🪶 Muy fácil</span><small style="color:var(--ok)">+3% la próxima vez</small></div>
-      <div><span>💪 Bien</span><small>se mantiene</small></div>
-      <div><span>🥵 Duro</span><small style="color:var(--warn)">−2%</small></div>
-      <div><span>🧨 Al fallo</span><small style="color:#ff7a00">−5%</small></div>
-      <div><span>⚠️ Molestia / dolor</span><small style="color:var(--danger)">−10% + aviso hombro</small></div>
+      <div><span>🪶 ${t('f1')}</span><small style="color:var(--ok)">+3%</small></div>
+      <div><span>💪 ${t('f2')}</span><small>=</small></div>
+      <div><span>🥵 ${t('f3')}</span><small style="color:var(--warn)">−2%</small></div>
+      <div><span>🧨 ${t('f4')}</span><small style="color:#ff7a00">−5%</small></div>
+      <div><span>⚠️ ${t('f5')}</span><small style="color:var(--danger)">−10%</small></div>
     </div>
-    <p class="sub" style="font-size:13px;line-height:1.5">Verás cada ajuste como “×1.03”, “×0.95”, etc., en Perfil → Ajustes del coach. Puedes reiniciarlos cuando quieras. Si activas la IA real, además te da un consejo escrito personalizado.</p>
-    <button class="btn" style="margin-top:16px" onclick="closeModal()">Entendido</button>`)}
+    <p class="sub" style="font-size:13px;line-height:1.5">${foot[LANG]||foot.es}</p>
+    <button class="btn" style="margin-top:16px" onclick="closeModal()">${t('understood')}</button>`)}
 document.getElementById('modal').addEventListener('click',e=>{if(e.target.id==='modal')closeModal()});
 let toastT=null;
 function toast(msg,type){const t=document.getElementById('toast');t.textContent=msg;t.className='toast on '+(type||'');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('on'),2400)}
@@ -1032,14 +1552,18 @@ function toast(msg,type){const t=document.getElementById('toast');t.textContent=
 document.getElementById('gateLogo').innerHTML=LOGO;
 document.getElementById('authLogo').innerHTML=LOGO;
 document.getElementById('brandLogo').innerHTML=LOGO;
+document.documentElement.lang=LANG;
+applyStaticI18n();
 (function boot(){
-  showGate();     // siempre local-first: la app abre sin depender de la nube
-  try{initCloud()}catch(e){console.warn(e)}   // reconexión silenciosa si hay código guardado
-  // Register service worker for offline + PWA
+  // Splash screen 3 s → gate de perfiles
+  setTimeout(()=>{
+    document.getElementById('splash').style.display='none';
+    showGate();     // abre con tus perfiles guardados localmente
+  },3000);
+  // Register service worker for offline + PWA (ruta relativa: funciona en Netlify raíz o subcarpeta)
   if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('/service-worker.js').then(reg=>{
-      console.log('SW registered');
-      // Check for updates
+    navigator.serviceWorker.register('service-worker.js').then(reg=>{
+      console.log('✅ Service Worker registrado');
       reg.addEventListener('updatefound',()=>{
         const newSW=reg.installing;
         newSW.addEventListener('statechange',()=>{
