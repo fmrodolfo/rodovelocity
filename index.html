@@ -213,7 +213,7 @@ input,select,textarea{font-family:inherit}
   align-items:center;
   justify-content:center;
   overflow:hidden;
-  background:linear-gradient(180deg,#ffffff,#ececec);
+  background:#000;
   border-radius:28px;
   border:2px solid rgba(225,6,0,0.35);
   animation:logoEnter 1.2s cubic-bezier(0.34,1.56,0.64,1) both,
@@ -224,8 +224,7 @@ input,select,textarea{font-family:inherit}
 .logo-splash svg,.logo-splash img{
   width:100%;
   height:100%;
-  object-fit:contain;
-  padding:6%
+  object-fit:cover
 }
 
 .splash-title{
@@ -258,9 +257,9 @@ input,select,textarea{font-family:inherit}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 18px 10px;position:sticky;top:0;z-index:30;
   background:linear-gradient(180deg,rgba(10,10,10,.92),rgba(10,10,10,.55) 70%,transparent);backdrop-filter:blur(6px)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1px;font-size:19px}
-.brand .lg{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#eaeaea);border:1px solid #2a2a2e;display:grid;place-items:center;overflow:hidden;
+.brand .lg{width:34px;height:34px;border-radius:10px;background:#000;border:1px solid #2a2a2e;display:grid;place-items:center;overflow:hidden;
   box-shadow:0 6px 18px var(--red-glow);animation:glow 3.5s infinite}
-.brand .lg svg,.brand .lg img{width:100%;height:100%}
+.brand .lg svg,.brand .lg img{width:100%;height:100%;object-fit:cover}
 .brand b{color:var(--white)} .brand span{color:var(--red)}
 .avatar-mini{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--red);background:var(--card2)}
 .avatar-mini.ph{display:grid;place-items:center;font-weight:800;color:var(--white)}
@@ -284,9 +283,9 @@ input,select,textarea{font-family:inherit}
 /* gate + auth */
 #gate,#auth{position:fixed;inset:0;z-index:100;background:radial-gradient(700px 500px at 50% 0%,rgba(225,6,0,.18),transparent),#070707;
   display:none;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center}
-.gate-logo{width:104px;height:104px;border-radius:28px;background:linear-gradient(180deg,#ffffff,#ececec);border:1px solid #26262a;display:grid;place-items:center;margin-bottom:18px;overflow:hidden;
+.gate-logo{width:104px;height:104px;border-radius:28px;background:#000;border:1px solid #26262a;display:grid;place-items:center;margin-bottom:18px;overflow:hidden;
   box-shadow:0 18px 50px var(--red-glow);animation:pop .6s both,glow 3.5s 1s infinite}
-.gate-logo svg,.gate-logo img{width:100%;height:100%}
+.gate-logo svg,.gate-logo img{width:100%;height:100%;object-fit:cover}
 .gate-title{font-size:34px;font-weight:900;letter-spacing:2px}
 .gate-title span{color:var(--red)}
 .gate-sub{color:var(--muted);margin:6px 0 30px;letter-spacing:3px;font-size:12px;text-transform:uppercase}
@@ -321,8 +320,8 @@ input,select,textarea{font-family:inherit}
 
 .plan-card{display:flex;align-items:center;gap:14px;cursor:pointer}
 .plan-ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;overflow:hidden;
-  background:linear-gradient(180deg,#ffffff,#ececec);border:1px solid #26262a;box-shadow:0 8px 20px var(--red-glow)}
-.plan-ico svg,.plan-ico img{width:100%;height:100%}
+  background:#000;border:1px solid #26262a;box-shadow:0 8px 20px var(--red-glow)}
+.plan-ico svg,.plan-ico img{width:100%;height:100%;object-fit:cover}
 .plan-ico.lock{background:var(--card2);color:var(--muted);box-shadow:none;font-size:22px;font-weight:900}
 .week{border:1px solid var(--line);border-radius:15px;margin-bottom:11px;overflow:hidden;background:var(--card);transition:border-color .2s}
 .week.open{border-color:var(--red)}
@@ -398,7 +397,8 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 .max-in input{width:96px;background:transparent;border:none;color:var(--red);font-size:26px;font-weight:900;text-align:right}
 .max-in input:focus{outline:none}
 .max-in .unit{color:var(--muted);font-weight:800}
-.chart-card svg{width:100%;height:auto;overflow:visible}
+.chart-card svg{width:100%;height:auto;display:block;overflow:hidden}
+.chart-card{margin-bottom:14px}
 .legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
 .legend i{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
 .legend i b{width:10px;height:10px;border-radius:3px;display:inline-block}
@@ -489,7 +489,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 .pg-metric .dlt.up{background:rgba(46,204,113,.15);color:var(--ok)}
 .pg-metric .dlt.down{background:rgba(58,160,255,.15);color:#3aa0ff}
 .pg-metric .dlt.flat{background:var(--card2);color:var(--muted)}
-.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px}
+.daily-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:2px;margin-bottom:14px}
 .daily-c{background:var(--card2);border:1px solid var(--line);border-radius:15px;padding:14px}
 .daily-c .dc-top{display:flex;align-items:center;gap:8px;margin-bottom:8px}
 .daily-c .dc-ico{font-size:20px}
@@ -629,7 +629,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 
 /* ✅ Datos guardados en localStorage (cada dispositivo guarda los suyos) */
 
-const LOGO=`<img src="logo.png" alt="RODOVELOCITY" style="width:100%;height:100%;object-fit:contain;padding:8%">`;
+const LOGO=`<img src="logo.png" alt="RODOVELOCITY" style="width:100%;height:100%;object-fit:cover">`;
 
 /* =====================================================================
    FIREBASE — login por correo/contraseña + sincronización
@@ -1546,11 +1546,13 @@ function renderProgress(){const el=document.getElementById('progress');const ses
       <div class="dc-bar"><i style="width:${wpct}%;background:linear-gradient(90deg,#3aa0ff,#0066cc)"></i></div>
       <div class="dc-btns"><button class="mini-b" onclick="addWater(-0.25)">−¼</button><button class="mini-b" onclick="addWater(0.25)">＋¼L</button><button class="mini-b" onclick="addWater(0.5)">＋½L</button></div></div>
   </div>`;
-  // gráficos de calorías y agua (historial)
+  // gráficos de calorías y agua (solo si hay al menos 2 días con datos)
   const kGrad='<stop offset="0" stop-color="#ff9d2f"/><stop offset="1" stop-color="#E10600"/>';
   const wGrad='<stop offset="0" stop-color="#5ab8ff"/><stop offset="1" stop-color="#0066cc"/>';
-  html+=`<div class="card chart-card"><b>🍽️ ${t('kcalToday')} · ${t('last10')}</b>${dailyBarChart('kcal',kGrad,kt)}</div>`;
-  html+=`<div class="card chart-card"><b>💧 ${t('waterToday')} · ${t('last10')}</b>${dailyBarChart('water',wGrad,wt)}</div>`;
+  const kDays=dailyHistory('kcal',30).filter(x=>x.v>0).length;
+  const wDays=dailyHistory('water',30).filter(x=>x.v>0).length;
+  if(kDays>=2)html+=`<div class="card chart-card"><b>🍽️ ${t('kcalToday')} · ${t('last10')}</b>${dailyBarChart('kcal',kGrad,kt)}</div>`;
+  if(wDays>=2)html+=`<div class="card chart-card"><b>💧 ${t('waterToday')} · ${t('last10')}</b>${dailyBarChart('water',wGrad,wt)}</div>`;
   // mis datos
   const b=CUR.body;const goalTxt=b.goal==='cut'?t('goalCut'):b.goal==='gain'?t('goalGain'):b.goal==='maintain'?t('goalMaintain'):'—';
   html+=`<div class="h-sec">${t('myData')}</div>
