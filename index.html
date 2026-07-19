@@ -207,24 +207,25 @@ input,select,textarea{font-family:inherit}
 }
 
 .logo-splash{
-  width:120px;
-  height:120px;
+  width:132px;
+  height:132px;
   display:flex;
   align-items:center;
   justify-content:center;
-  background:radial-gradient(circle at 30% 30%,rgba(225,6,0,0.2),transparent 70%);
-  border-radius:24px;
-  border:2px solid rgba(225,6,0,0.3);
-  backdrop-filter:blur(10px);
+  overflow:hidden;
+  background:linear-gradient(180deg,#ffffff,#ececec);
+  border-radius:28px;
+  border:2px solid rgba(225,6,0,0.35);
   animation:logoEnter 1.2s cubic-bezier(0.34,1.56,0.64,1) both,
             logoPulse 2.5s ease-in-out 1.2s infinite;
-  box-shadow:0 0 40px rgba(225,6,0,0.3),inset 0 0 20px rgba(225,6,0,0.1)
+  box-shadow:0 0 40px rgba(225,6,0,0.35),0 10px 30px rgba(0,0,0,0.4)
 }
 
-.logo-splash svg{
-  width:90px;
-  height:90px;
-  filter:drop-shadow(0 2px 4px rgba(0,0,0,0.4))
+.logo-splash svg,.logo-splash img{
+  width:100%;
+  height:100%;
+  object-fit:contain;
+  padding:6%
 }
 
 .splash-title{
@@ -257,9 +258,9 @@ input,select,textarea{font-family:inherit}
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:22px 18px 10px;position:sticky;top:0;z-index:30;
   background:linear-gradient(180deg,rgba(10,10,10,.92),rgba(10,10,10,.55) 70%,transparent);backdrop-filter:blur(6px)}
 .brand{display:flex;align-items:center;gap:10px;font-weight:900;letter-spacing:1px;font-size:19px}
-.brand .lg{width:34px;height:34px;border-radius:10px;background:#141416;border:1px solid #2a2a2e;display:grid;place-items:center;
+.brand .lg{width:34px;height:34px;border-radius:10px;background:linear-gradient(180deg,#ffffff,#eaeaea);border:1px solid #2a2a2e;display:grid;place-items:center;overflow:hidden;
   box-shadow:0 6px 18px var(--red-glow);animation:glow 3.5s infinite}
-.brand .lg svg{width:26px;height:26px}
+.brand .lg svg,.brand .lg img{width:100%;height:100%}
 .brand b{color:var(--white)} .brand span{color:var(--red)}
 .avatar-mini{width:40px;height:40px;border-radius:50%;object-fit:cover;border:2px solid var(--red);background:var(--card2)}
 .avatar-mini.ph{display:grid;place-items:center;font-weight:800;color:var(--white)}
@@ -283,9 +284,9 @@ input,select,textarea{font-family:inherit}
 /* gate + auth */
 #gate,#auth{position:fixed;inset:0;z-index:100;background:radial-gradient(700px 500px at 50% 0%,rgba(225,6,0,.18),transparent),#070707;
   display:none;flex-direction:column;align-items:center;justify-content:center;padding:26px;text-align:center}
-.gate-logo{width:104px;height:104px;border-radius:28px;background:#141416;border:1px solid #26262a;display:grid;place-items:center;margin-bottom:18px;
+.gate-logo{width:104px;height:104px;border-radius:28px;background:linear-gradient(180deg,#ffffff,#ececec);border:1px solid #26262a;display:grid;place-items:center;margin-bottom:18px;overflow:hidden;
   box-shadow:0 18px 50px var(--red-glow);animation:pop .6s both,glow 3.5s 1s infinite}
-.gate-logo svg{width:74px;height:74px}
+.gate-logo svg,.gate-logo img{width:100%;height:100%}
 .gate-title{font-size:34px;font-weight:900;letter-spacing:2px}
 .gate-title span{color:var(--red)}
 .gate-sub{color:var(--muted);margin:6px 0 30px;letter-spacing:3px;font-size:12px;text-transform:uppercase}
@@ -319,9 +320,9 @@ input,select,textarea{font-family:inherit}
 .ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:20px}
 
 .plan-card{display:flex;align-items:center;gap:14px;cursor:pointer}
-.plan-ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;
-  background:#141416;border:1px solid #26262a;box-shadow:0 8px 20px var(--red-glow)}
-.plan-ico svg{width:38px;height:38px}
+.plan-ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;overflow:hidden;
+  background:linear-gradient(180deg,#ffffff,#ececec);border:1px solid #26262a;box-shadow:0 8px 20px var(--red-glow)}
+.plan-ico svg,.plan-ico img{width:100%;height:100%}
 .plan-ico.lock{background:var(--card2);color:var(--muted);box-shadow:none;font-size:22px;font-weight:900}
 .week{border:1px solid var(--line);border-radius:15px;margin-bottom:11px;overflow:hidden;background:var(--card);transition:border-color .2s}
 .week.open{border-color:var(--red)}
@@ -517,25 +518,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
   <div class="splash-lines"></div>
   <div class="splash-content">
     <div class="logo-splash">
-      <svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-        <g>
-          <!-- Pitcher in throwing mechanics - professional minimalist -->
-          <!-- Head -->
-          <circle cx="32" cy="10" r="5" fill="#E10600"/>
-          <!-- Body/Torso (rotated back in throwing position) -->
-          <g transform="translate(32, 22) rotate(-25)">
-            <rect x="-3" y="-8" width="6" height="16" rx="3" fill="#E10600"/>
-          </g>
-          <!-- Throwing arm (extended back and DOWN) -->
-          <path d="M29 20 Q16 25 6 32" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <!-- Glove arm (forward and UP for balance) -->
-          <path d="M35 20 Q48 16 54 10" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <!-- Back leg (grounded) -->
-          <path d="M30 38 L27 58" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-          <!-- Front leg (lifted higher - more visible difference) -->
-          <path d="M34 38 L40 48" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-        </g>
-      </svg>
+      <img src="logo.png" alt="RODOVELOCITY">
     </div>
     <h1 class="splash-title">RODO<span>VELOCITY</span></h1>
     <div class="splash-subtitle">Baseball Training System</div>
@@ -646,25 +629,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 
 /* ✅ Datos guardados en localStorage (cada dispositivo guarda los suyos) */
 
-const LOGO=`<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg">
-<g>
-<!-- Pitcher in throwing mechanics - professional minimalist -->
-<!-- Head -->
-<circle cx="32" cy="10" r="5" fill="#E10600"/>
-<!-- Body/Torso (rotated back in throwing position) -->
-<g transform="translate(32, 22) rotate(-25)">
-  <rect x="-3" y="-8" width="6" height="16" rx="3" fill="#E10600"/>
-</g>
-<!-- Throwing arm (extended back and DOWN) -->
-<path d="M29 20 Q16 25 6 32" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-<!-- Glove arm (forward and UP for balance) -->
-<path d="M35 20 Q48 16 54 10" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-<!-- Back leg (grounded) -->
-<path d="M30 38 L27 58" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-<!-- Front leg (lifted higher - more visible difference) -->
-<path d="M34 38 L40 48" stroke="#E10600" stroke-width="5" stroke-linecap="round" fill="none"/>
-</g>
-</svg>`;
+const LOGO=`<img src="logo.png" alt="RODOVELOCITY" style="width:100%;height:100%;object-fit:contain;padding:8%">`;
 
 /* =====================================================================
    FIREBASE — login por correo/contraseña + sincronización
@@ -700,6 +665,7 @@ const I18N={
   save:'Guardar',cancel:'Cancelar',close:'Cerrar',understood:'Entendido',reset:'Reiniciar',
   language:'Idioma',coachIA:'Coach IA',smartCoach:'Coach inteligente',coachDesc:'Ajusta tus pesos según cómo te sientes. Siempre activo, sin internet.',coachAdjustTitle:'Ajustes del coach por ejercicio',noAdjust:'Aún no hay ajustes. El coach los creará según tus sensaciones al entrenar.',resetAdjust:'Reiniciar ajustes',dataSec:'Datos',savedLocalT:'Guardados localmente',savedLocalD:'Tus datos se guardan en este dispositivo. Cada teléfono/PC guarda los suyos.',shareApp:'📲 Compartir la app',switchProfile:'Cambiar de perfil',howCoach:'🧠 ¿Cómo funciona el coach?',deleteProfile:'Eliminar este perfil',
   logLast:'última vez',logWeightUsed:'Peso que usaste',tapToLog:'Toca para anotar el peso',
+  hist:'Historial',writeVal:'Escribir valor',weightEvo:'Evolución del peso',last10:'últimos 10 días',
   au_login:'Entra en tu cuenta',au_register:'Crea tu cuenta',au_email:'Correo',au_pass:'Contraseña',au_enter:'Entrar',au_create:'Crear cuenta',au_noAcc:'¿No tienes cuenta?',au_hasAcc:'¿Ya tienes cuenta?',au_toReg:'Crear cuenta',au_toLog:'Entrar',au_local:'Usar solo en este dispositivo',au_wait:'Un momento…',logout:'Cerrar sesión',cloud_on:'☁️ Sincronizado en la nube',account:'Cuenta',
   e_badpass:'Contraseña incorrecta',e_nouser:'No existe esa cuenta',e_inuse:'Ese correo ya está registrado',e_weak:'La contraseña debe tener 6+ caracteres',e_email:'Correo no válido',e_generic:'No se pudo, revisa correo y contraseña',
  },
@@ -720,6 +686,7 @@ const I18N={
   save:'Save',cancel:'Cancel',close:'Close',understood:'Got it',reset:'Reset',
   language:'Language',coachIA:'AI Coach',smartCoach:'Smart coach',coachDesc:'Adjusts your weights based on how you feel. Always on, offline.',coachAdjustTitle:'Coach adjustments per exercise',noAdjust:'No adjustments yet. The coach creates them from how you feel while training.',resetAdjust:'Reset adjustments',dataSec:'Data',savedLocalT:'Saved locally',savedLocalD:'Your data is stored on this device. Each phone/PC keeps its own.',shareApp:'📲 Share the app',switchProfile:'Switch profile',howCoach:'🧠 How does the coach work?',deleteProfile:'Delete this profile',
   logLast:'last time',logWeightUsed:'Weight you used',tapToLog:'Tap to log the weight',
+  hist:'History',writeVal:'Enter value',weightEvo:'Weight evolution',last10:'last 10 days',
   au_login:'Sign in to your account',au_register:'Create your account',au_email:'Email',au_pass:'Password',au_enter:'Sign in',au_create:'Create account',au_noAcc:"No account yet?",au_hasAcc:'Already have an account?',au_toReg:'Create account',au_toLog:'Sign in',au_local:'Use on this device only',au_wait:'One moment…',logout:'Log out',cloud_on:'☁️ Synced to the cloud',account:'Account',
   e_badpass:'Wrong password',e_nouser:'No such account',e_inuse:'That email is already registered',e_weak:'Password must be 6+ characters',e_email:'Invalid email',e_generic:'Failed, check email and password',
  },
@@ -740,6 +707,7 @@ const I18N={
   save:'Enregistrer',cancel:'Annuler',close:'Fermer',understood:'Compris',reset:'Réinitialiser',
   language:'Langue',coachIA:'Coach IA',smartCoach:'Coach intelligent',coachDesc:'Ajuste tes poids selon ton ressenti. Toujours actif, hors ligne.',coachAdjustTitle:'Ajustements du coach par exercice',noAdjust:'Aucun ajustement pour le moment. Le coach les crée selon ton ressenti.',resetAdjust:'Réinitialiser les ajustements',dataSec:'Données',savedLocalT:'Enregistré localement',savedLocalD:'Tes données sont sur cet appareil. Chaque téléphone/PC garde les siennes.',shareApp:"📲 Partager l'app",switchProfile:'Changer de profil',howCoach:'🧠 Comment marche le coach ?',deleteProfile:'Supprimer ce profil',
   logLast:'dernière fois',logWeightUsed:'Poids utilisé',tapToLog:'Touche pour noter le poids',
+  hist:'Historique',writeVal:'Saisir la valeur',weightEvo:'Évolution du poids',last10:'10 derniers jours',
   au_login:'Connecte-toi à ton compte',au_register:'Crée ton compte',au_email:'E-mail',au_pass:'Mot de passe',au_enter:'Se connecter',au_create:'Créer le compte',au_noAcc:'Pas de compte ?',au_hasAcc:'Déjà un compte ?',au_toReg:'Créer un compte',au_toLog:'Se connecter',au_local:'Utiliser seulement sur cet appareil',au_wait:'Un instant…',logout:'Se déconnecter',cloud_on:'☁️ Synchronisé dans le cloud',account:'Compte',
   e_badpass:'Mot de passe incorrect',e_nouser:'Ce compte n\'existe pas',e_inuse:'Cet e-mail est déjà enregistré',e_weak:'Le mot de passe doit avoir 6+ caractères',e_email:'E-mail invalide',e_generic:'Échec, vérifie e-mail et mot de passe',
  }
@@ -1464,6 +1432,40 @@ function kcalTarget(){const w=curWeight();const g=CUR.body.goal;let base=w?Math.
 function waterTarget(){const w=curWeight();let l=w?w*0.04:3.0;return Math.max(2.5,Math.round(l*10)/10)}
 function addKcal(n){const d=getDaily();d.kcal=Math.max(0,(d.kcal||0)+n);save();renderProgress()}
 function addWater(n){const d=getDaily();d.water=Math.max(0,Math.round(((d.water||0)+n)*10)/10);save();renderProgress()}
+function setDailyVal(kind){const d=getDaily();const cur=kind==='kcal'?(d.kcal||0):(d.water||0);const unit=kind==='kcal'?'kcal':'L';
+  openModal(`<h2 style="font-weight:900;font-size:20px">${kind==='kcal'?t('kcalToday'):t('waterToday')}</h2>
+    <p class="sub" style="margin:6px 0 14px">${t('writeVal')}</p>
+    <div class="max-in"><div class="mi-ico">${kind==='kcal'?'🍽️':'💧'}</div><div class="mi-t"><b>${t('writeVal')}</b></div><input id="dvIn" type="number" inputmode="decimal" value="${cur}" placeholder="0"><span class="unit">${unit}</span></div>
+    <button class="btn" onclick="saveDailyVal('${kind}')">${t('save')}</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('cancel')}</button>`);
+  setTimeout(()=>{const el=document.getElementById('dvIn');el.focus();el.select()},200)}
+function saveDailyVal(kind){const v=parseFloat((document.getElementById('dvIn').value+'').replace(',','.'));const d=getDaily();
+  if(kind==='kcal')d.kcal=Math.max(0,Math.round(v||0));else d.water=Math.max(0,Math.round((v||0)*10)/10);
+  save();closeModal();renderProgress()}
+/* historial diario ordenado por fecha (últimos N días) */
+function dailyHistory(kind,n){const keys=Object.keys(CUR.daily||{});
+  const parsed=keys.map(k=>{const p=k.split('-');return{k,t:new Date(+p[0],+p[1]-1,+p[2]).getTime(),v:(CUR.daily[k]&&CUR.daily[k][kind])||0}}).sort((a,b)=>a.t-b.t);
+  return parsed.slice(-(n||10))}
+/* gráfico de barras llamativo con línea de objetivo */
+function dailyBarChart(kind,grad,target){const data=dailyHistory(kind,10);
+  if(!data.length||data.every(d=>d.v===0))return`<p class="sub" style="margin-top:8px;font-size:12px">—</p>`;
+  const W=460,H=150,pad=26;const n=data.length;const mx=Math.max(target||0,...data.map(d=>d.v),1)*1.12;
+  const bw=(W-2*pad)/n*0.62;const gid='bg_'+kind;
+  const bars=data.map((d,i)=>{const h=(d.v/mx)*(H-2*pad);const cx=pad+i*(W-2*pad)/n+((W-2*pad)/n-bw)/2;const day=new Date(d.t).getDate();
+    return`<rect x="${cx}" y="${H-pad-h}" width="${bw}" height="${h}" rx="5" fill="url(#${gid})"><animate attributeName="height" from="0" to="${h}" dur="0.6s" fill="freeze"/><animate attributeName="y" from="${H-pad}" to="${H-pad-h}" dur="0.6s" fill="freeze"/></rect>
+      <text x="${cx+bw/2}" y="${H-8}" font-size="11" fill="#8a8a92" text-anchor="middle">${day}</text>`}).join('');
+  const ty=target?H-pad-(target/mx)*(H-2*pad):null;
+  const tline=target?`<line x1="${pad}" x2="${W-pad}" y1="${ty}" y2="${ty}" stroke="#fff" stroke-width="1" stroke-dasharray="4 4" opacity="0.35"/><text x="${W-pad}" y="${ty-5}" font-size="10" fill="#9a9aa2" text-anchor="end">${t('target')} ${target}</text>`:'';
+  return`<svg viewBox="0 0 ${W} ${H}" style="margin-top:10px"><defs><linearGradient id="${gid}" x1="0" x2="0" y1="0" y2="1">${grad}</linearGradient></defs>${bars}${tline}</svg>`}
+function weightChart(){const wl=(CUR.weightLog||[]).slice(-14);if(wl.length<2)return'';
+  const W=460,H=170,pad=30;const xs=wl.map((_,i)=>pad+i*(W-2*pad)/(wl.length-1));
+  const vals=wl.map(x=>x.kg);const mn=Math.min(...vals)-1,mx=Math.max(...vals)+1;const y=v=>H-pad-((v-mn)/(mx-mn||1))*(H-2*pad);
+  const pts=wl.map((x,i)=>`${xs[i]},${y(x.kg)}`).join(' ');
+  const area=`${pad},${H-pad} `+pts+` ${xs[xs.length-1]},${H-pad}`;
+  const grid=[0,.5,1].map(f=>`<line x1="${pad}" x2="${W-pad}" y1="${pad+f*(H-2*pad)}" y2="${pad+f*(H-2*pad)}" stroke="#26262a" stroke-width="1"/>`).join('');
+  const dots=wl.map((x,i)=>`<circle cx="${xs[i]}" cy="${y(x.kg)}" r="4" fill="#fff"/><text x="${xs[i]}" y="${y(x.kg)-10}" font-size="10" fill="#9a9aa2" text-anchor="middle">${x.kg}</text>`).join('');
+  return`<svg viewBox="0 0 ${W} ${H}" style="margin-top:10px"><defs><linearGradient id="wgc" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="rgba(225,6,0,.35)"/><stop offset="1" stop-color="rgba(225,6,0,0)"/></linearGradient></defs>
+    ${grid}<polygon points="${area}" fill="url(#wgc)"/><polyline points="${pts}" fill="none" stroke="var(--red)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>${dots}</svg>`}
 function logBodyWeight(){const u=U();const last=curWeight();
   openModal(`<h2 style="font-weight:900;font-size:20px">${t('logWeight')}</h2>
     <p class="sub" style="margin:6px 0 14px">${t('bodyWeight')}</p>
@@ -1528,20 +1530,27 @@ function renderProgress(){const el=document.getElementById('progress');const ses
   // hero peso corporal
   let delta='';if(wl.length>=2){const df=Math.round((wl[wl.length-1].kg-wl[0].kg)*10)/10;const cls=df>0?'up':df<0?'down':'flat';delta=`<span class="dlt ${cls}">${df>0?'+':''}${df} ${u}</span>`}
   html+=`<div class="pg-hero"><div class="dc-lbl" style="margin-bottom:8px">⚖️ ${t('bodyWeight')}</div>
-    ${w?`<div class="pg-metric"><b>${w}</b><span class="u">${u}</span>${delta}</div>${weightMiniChart()}`:`<p class="sub">${t('noWeight')}</p>`}
+    ${w?`<div class="pg-metric"><b>${w}</b><span class="u">${u}</span>${delta}</div>`:`<p class="sub">${t('noWeight')}</p>`}
     <button class="btn sm" style="margin-top:12px;width:100%" onclick="logBodyWeight()">＋ ${t('logWeight')}</button></div>`;
-  // diario: kcal + agua
+  // gráfico de peso corporal (debajo del peso)
+  if(wl.length>=2)html+=`<div class="card chart-card"><b>${t('weightEvo')}</b>${weightChart()}</div>`;
+  // diario: kcal + agua (con botón para escribir el valor a mano)
   const kt=kcalTarget(),wt=waterTarget();const kpct=Math.min(100,Math.round((d.kcal||0)/kt*100)),wpct=Math.min(100,Math.round((d.water||0)/wt*100));
   html+=`<div class="daily-grid">
-    <div class="daily-c"><div class="dc-top"><span class="dc-ico">🍽️</span><span class="dc-lbl">${t('kcalToday')}</span></div>
+    <div class="daily-c"><div class="dc-top"><span class="dc-ico">🍽️</span><span class="dc-lbl">${t('kcalToday')}</span><button class="mini-b" style="flex:0 0 auto;padding:4px 8px;margin-left:auto" onclick="setDailyVal('kcal')">✎</button></div>
       <div class="dc-val">${d.kcal||0}<small> / ${kt}</small></div>
       <div class="dc-bar"><i style="width:${kpct}%;background:linear-gradient(90deg,#ff7a00,#E10600)"></i></div>
       <div class="dc-btns"><button class="mini-b" onclick="addKcal(-100)">−100</button><button class="mini-b" onclick="addKcal(100)">＋100</button><button class="mini-b" onclick="addKcal(500)">＋500</button></div></div>
-    <div class="daily-c"><div class="dc-top"><span class="dc-ico">💧</span><span class="dc-lbl">${t('waterToday')}</span></div>
+    <div class="daily-c"><div class="dc-top"><span class="dc-ico">💧</span><span class="dc-lbl">${t('waterToday')}</span><button class="mini-b" style="flex:0 0 auto;padding:4px 8px;margin-left:auto" onclick="setDailyVal('water')">✎</button></div>
       <div class="dc-val">${d.water||0}<small> / ${wt} L</small></div>
       <div class="dc-bar"><i style="width:${wpct}%;background:linear-gradient(90deg,#3aa0ff,#0066cc)"></i></div>
       <div class="dc-btns"><button class="mini-b" onclick="addWater(-0.25)">−¼</button><button class="mini-b" onclick="addWater(0.25)">＋¼L</button><button class="mini-b" onclick="addWater(0.5)">＋½L</button></div></div>
   </div>`;
+  // gráficos de calorías y agua (historial)
+  const kGrad='<stop offset="0" stop-color="#ff9d2f"/><stop offset="1" stop-color="#E10600"/>';
+  const wGrad='<stop offset="0" stop-color="#5ab8ff"/><stop offset="1" stop-color="#0066cc"/>';
+  html+=`<div class="card chart-card"><b>🍽️ ${t('kcalToday')} · ${t('last10')}</b>${dailyBarChart('kcal',kGrad,kt)}</div>`;
+  html+=`<div class="card chart-card"><b>💧 ${t('waterToday')} · ${t('last10')}</b>${dailyBarChart('water',wGrad,wt)}</div>`;
   // mis datos
   const b=CUR.body;const goalTxt=b.goal==='cut'?t('goalCut'):b.goal==='gain'?t('goalGain'):b.goal==='maintain'?t('goalMaintain'):'—';
   html+=`<div class="h-sec">${t('myData')}</div>
@@ -1599,7 +1608,6 @@ function renderProfile(){const el=document.getElementById('profile');const m=CUR
     ${Object.keys(CUR.adjust).length?`<div class="card"><div class="rt-list">${Object.entries(CUR.adjust).map(([k,v])=>`<div><span>${esc(k)}</span><small style="color:${v>1?'var(--ok)':v<1?'var(--warn)':'var(--muted)'}">×${v.toFixed(2)}</small></div>`).join('')}</div><button class="btn ghost sm" style="margin-top:10px;width:100%" onclick="resetAdjust()">${t('resetAdjust')}</button></div>`:`<div class="card"><p class="sub">${t('noAdjust')}</p></div>`}
 
     <div class="h-sec">${t('dataSec')}</div>
-    <div class="card"><b>${t('savedLocalT')}</b><p class="sub" style="margin:6px 0 10px">${t('savedLocalD')}</p></div>
     <button class="btn" onclick="shareApp()">${t('shareApp')}</button>
     <button class="btn dark" style="margin-top:10px" onclick="switchProfile()">${t('switchProfile')}</button>
     ${(CLOUD&&AUTH)?`<div class="card" style="margin-top:14px;padding:14px"><div class="sub" style="font-size:12px">${t('cloud_on')}</div><b style="font-size:13px">${esc(AUTH.email||'')}</b></div><button class="btn ghost" style="margin-top:6px" onclick="logout()">${t('logout')}</button>`:''}

@@ -1,9 +1,10 @@
-const CACHE_VERSION = 'rodovelocity-v4';
+const CACHE_VERSION = 'rodovelocity-v5';
 const CACHE_NAME = CACHE_VERSION;
 const urlsToCache = [
   './',
   './index.html',
   './manifest.json',
+  './logo.png',
   './icon-192.png',
   './icon-512.png',
   './icon-maskable-512.png'
