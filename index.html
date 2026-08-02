@@ -532,6 +532,10 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
 .set.ro{opacity:.85}
 .per-side{font-size:11px;color:#ffb03a;font-weight:700;margin-top:2px}
 .wk-actions{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.ex-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
+.info-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:12px;background:var(--card2);border:1px solid var(--red);color:var(--red);font-weight:800;font-size:12px;transition:.15s;box-shadow:0 4px 14px var(--red-glow)}
+.info-btn:active{transform:scale(.94)}
+.info-btn svg{width:15px;height:15px}
 
 /* ============ CARTAS GIRATORIAS (previsualización del día) ============ */
 .flip-grid{display:flex;flex-direction:column;gap:10px;margin:6px 0 14px}
@@ -709,7 +713,7 @@ const I18N={
   e_badpass:'Contraseña incorrecta',e_nouser:'No existe esa cuenta',e_inuse:'Ese correo ya está registrado',e_weak:'La contraseña debe tener 6+ caracteres',e_email:'Correo no válido',e_generic:'No se pudo, revisa correo y contraseña',
   allEx:'Ejercicios del día',previewOn:'Vista previa',previewNote:'Sigues con este ejercicio. Tu progreso está guardado.',startThisEx:'▶ Empezar este ejercicio',backToActive:'← Volver al que hacía',finishEx:'✓ Terminar ejercicio',perSide:'lado',resumeTitle:'Entreno sin terminar',resumeMsg:'Tienes un entrenamiento a medias. ¿Quieres continuar donde lo dejaste?',resume:'Continuar entreno',discard:'Empezar de cero',weightDb:'Peso por mancuerna',doneEx:'Hecho',
   sugWeight:'Peso sugerido',perHand:'por mancuerna',hand:'mano',added:'añadido',adjustLevel:'ajústalo a cómo te sientas',
-  phBase:'Base',phVolume:'Volumen',phRecovery:'Recuperación',phPerformance:'Rendimiento',phMax:'Máx',phMaint:'Mantenimiento',adaptsPhase:'sube y baja según la fase',throwing:'Tiro',flipHint:'Toca para ver la explicación',watchVideo:'▶ Ver vídeo',videoSoon:'Vídeo próximamente',
+  phBase:'Base',phVolume:'Volumen',phRecovery:'Recuperación',phPerformance:'Rendimiento',phMax:'Máx',phMaint:'Mantenimiento',adaptsPhase:'sube y baja según la fase',throwing:'Tiro',flipHint:'Toca para ver la explicación',watchVideo:'▶ Ver vídeo',videoSoon:'Vídeo próximamente',howTo:'Cómo',
  },
  en:{
   nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',
@@ -733,7 +737,7 @@ const I18N={
   e_badpass:'Wrong password',e_nouser:'No such account',e_inuse:'That email is already registered',e_weak:'Password must be 6+ characters',e_email:'Invalid email',e_generic:'Failed, check email and password',
   allEx:'Today\'s exercises',previewOn:'Preview',previewNote:'You\'re still on this exercise. Your progress is saved.',startThisEx:'▶ Start this exercise',backToActive:'← Back to current',finishEx:'✓ Finish exercise',perSide:'side',resumeTitle:'Unfinished workout',resumeMsg:'You have a workout in progress. Continue where you left off?',resume:'Continue workout',discard:'Start over',weightDb:'Weight per dumbbell',doneEx:'Done',
   sugWeight:'Suggested weight',perHand:'per dumbbell',hand:'hand',added:'added',adjustLevel:'adjust to how you feel',
-  phBase:'Base',phVolume:'Volume',phRecovery:'Recovery',phPerformance:'Performance',phMax:'Max',phMaint:'Maintenance',adaptsPhase:'rises and drops with the phase',throwing:'Throwing',flipHint:'Tap to see the explanation',watchVideo:'▶ Watch video',videoSoon:'Video coming soon',
+  phBase:'Base',phVolume:'Volume',phRecovery:'Recovery',phPerformance:'Performance',phMax:'Max',phMaint:'Maintenance',adaptsPhase:'rises and drops with the phase',throwing:'Throwing',flipHint:'Tap to see the explanation',watchVideo:'▶ Watch video',videoSoon:'Video coming soon',howTo:'How',
  },
  fr:{
   nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',
@@ -757,7 +761,7 @@ const I18N={
   e_badpass:'Mot de passe incorrect',e_nouser:'Ce compte n\'existe pas',e_inuse:'Cet e-mail est déjà enregistré',e_weak:'Le mot de passe doit avoir 6+ caractères',e_email:'E-mail invalide',e_generic:'Échec, vérifie e-mail et mot de passe',
   allEx:'Exercices du jour',previewOn:'Aperçu',previewNote:'Tu es toujours sur cet exercice. Ta progression est sauvegardée.',startThisEx:'▶ Commencer cet exercice',backToActive:'← Revenir à l\'actuel',finishEx:'✓ Terminer l\'exercice',perSide:'côté',resumeTitle:'Entraînement non terminé',resumeMsg:'Tu as un entraînement en cours. Continuer où tu t\'étais arrêté ?',resume:'Continuer',discard:'Recommencer',weightDb:'Poids par haltère',doneEx:'Fait',
   sugWeight:'Poids suggéré',perHand:'par haltère',hand:'main',added:'ajouté',adjustLevel:'ajuste selon ton ressenti',
-  phBase:'Base',phVolume:'Volume',phRecovery:'Récupération',phPerformance:'Performance',phMax:'Max',phMaint:'Maintien',adaptsPhase:'monte et descend selon la phase',throwing:'Lancer',flipHint:'Touche pour voir l\'explication',watchVideo:'▶ Voir la vidéo',videoSoon:'Vidéo bientôt disponible',
+  phBase:'Base',phVolume:'Volume',phRecovery:'Récupération',phPerformance:'Performance',phMax:'Max',phMaint:'Maintien',adaptsPhase:'monte et descend selon la phase',throwing:'Lancer',flipHint:'Touche pour voir l\'explication',watchVideo:'▶ Voir la vidéo',videoSoon:'Vidéo bientôt disponible',howTo:'Comment',
  }
 };
 function t(k){const d=I18N[LANG]||I18N.es;return d[k]!==undefined?d[k]:(I18N.es[k]!==undefined?I18N.es[k]:k)}
@@ -1346,6 +1350,16 @@ function exDesc(e){
   return P('Realiza el movimiento con técnica controlada y rango completo. El vídeo mostrará la ejecución correcta.','Perform the movement with controlled technique and full range. The video will show the correct execution.','Réalise le mouvement avec une technique contrôlée. La vidéo montrera l\'exécution.');
 }
 function videoSoon(){toast(t('videoSoon'),'ok')}
+/* explicación + vídeo del ejercicio (disponible durante el entrenamiento) */
+function exInfo(idx){const e=(SESS&&SESS.ex[idx])||null;if(!e)return;
+  const ic=e.ref==='throw'?'⚾':e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
+  openModal(`<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:6px"><div class="coach-ava" style="width:46px;height:46px;font-size:22px">${ic}</div>
+    <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${e.ref==='throw'?t('throwing'):t('exercise')}</div>
+    <div style="font-weight:900;font-size:19px;line-height:1.15;margin-top:2px">${esc(exName(e))}</div></div></div>
+    <p style="font-size:14px;line-height:1.55">${esc(exDesc(e))}</p>
+    <button class="btn" style="margin-top:16px" onclick="videoSoon()">${t('watchVideo')}</button>
+    <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('close')}</button>`);
+}
 function previewDay(planId,wi,di){
   const plan=PLANS.find(p=>p.id===planId);
   const day=plan.weeks[wi].days[di];
@@ -1448,7 +1462,9 @@ function renderExercise(){const e=SESS.ex[SESS.idx];const body=document.getEleme
   const RO=SESS.idx!==SESS.active;   // previsualizando otro ejercicio → solo lectura
   let html=exCarousel();
   if(RO)html+=`<div class="preview-banner"><div class="pb-t">👁️ ${t('previewOn')}</div><p><b style="color:#fff">${esc(exName(SESS.ex[SESS.active]))}</b> — ${t('previewNote')}</p></div>`;
-  html+=`<div class="ex-count">${t('exercise')} ${SESS.idx+1} ${t('of')} ${totalEx}${SESS.done[SESS.idx]?' · '+t('doneEx'):''}</div><div class="ex-name">${esc(exName(e))}</div>`;
+  html+=`<div class="ex-count">${t('exercise')} ${SESS.idx+1} ${t('of')} ${totalEx}${SESS.done[SESS.idx]?' · '+t('doneEx'):''}</div>
+    <div class="ex-head"><div class="ex-name">${esc(exName(e))}</div>
+      <button class="info-btn" onclick="exInfo(${SESS.idx})"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="10"/><path d="M12 16v-5M12 8h.01" stroke-linecap="round"/></svg>${t('howTo')}</button></div>`;
   if(e.ref==='routine'){const list=e.list||(ROUTINES[e.rk]&&ROUTINES[e.rk].x)||[];
     html+=`<div class="ex-ref">${t('routineHint')}</div>
       <div class="card pad0" style="margin-bottom:14px"><div class="rt-list" style="padding:6px 16px">${list.map(r=>`<div><span>${esc(r[0])}</span><small>${esc(r[1])}</small></div>`).join('')}</div></div>`;
