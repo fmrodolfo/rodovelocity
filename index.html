@@ -1592,10 +1592,21 @@ function sessionVolume(s){let v=0;s.ex.forEach((e,ei)=>{if(e.ref==='bw'||e.ref==
   e.s.forEach((st,i)=>{if(!s.setDone[ei][i])return;const[reps,pct]=st;const w=calcWeightFor(e,pct,s.maxes||CUR.maxes);if(w&&typeof reps==='number')v+=w*reps})});return Math.round(v)}
 function calcWeightFor(e,pct,maxes){if(pct==null)return null;let w=REF[e.ref](maxes)*pct/100;const f=CUR.adjust[e.n];if(f)w*=f;return roundW(w)}
 function totalVolumeK(){return(CUR.sessions.reduce((a,s)=>a+(s.vol||0),0)/1000).toFixed(1)}
+/* Racha: cuenta los días entrenados seguidos, tolerando los descansos normales
+   del programa (hasta 2 días seguidos sin entrenar = hueco de 3 días de calendario).
+   Solo se rompe si dejas de entrenar más de 3 días. Descansar NO pierde la racha. */
+const STREAK_GAP=3;
 function calcStreak(){if(!CUR.sessions.length)return 0;
-  const days=[...new Set(CUR.sessions.map(s=>new Date(s.date).toDateString()))].map(d=>new Date(d).getTime()).sort((a,b)=>b-a);
-  let streak=0,cur=new Date();cur.setHours(0,0,0,0);
-  for(const d of days){const diff=Math.round((cur-d)/86400000);if(diff<=1){streak++;cur=new Date(d)}else break}return streak}
+  const DAY=86400000;
+  const days=[...new Set(CUR.sessions.map(s=>new Date(s.date).toDateString()))]
+    .map(d=>{const x=new Date(d);x.setHours(0,0,0,0);return x.getTime()}).sort((a,b)=>b-a);
+  const today=new Date();today.setHours(0,0,0,0);const t0=today.getTime();
+  if((t0-days[0])/DAY>STREAK_GAP)return 0;              // llevas demasiado sin entrenar
+  let streak=1;
+  for(let i=1;i<days.length;i++){
+    if((days[i-1]-days[i])/DAY<=STREAK_GAP)streak++;else break;   // hueco de descanso permitido
+  }
+  return streak}
 function fmtDate(t){return new Date(t).toLocaleDateString('es-ES',{day:'numeric',month:'short'})}
 function feelBadge(v){return`<span class="badge b${v}">${['','FÁCIL','BIEN','DURO','FALLO','MOLESTIA'][v]}</span>`}
 
