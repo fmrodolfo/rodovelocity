@@ -319,6 +319,19 @@ input,select,textarea{font-family:inherit}
 .ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:20px}
 
 .plan-card{display:flex;align-items:center;gap:14px;cursor:pointer}
+.cat-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:8px}
+.cat-card{display:flex;flex-direction:column;align-items:flex-start;justify-content:space-between;gap:8px;min-height:116px;padding:16px 15px;border-radius:18px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);color:var(--txt);text-align:left;transition:transform .15s,border-color .15s}
+.cat-card:active{transform:scale(.96);border-color:var(--red)}
+.cat-card .cat-ic{font-size:30px;line-height:1}
+.cat-card .cat-n{font-weight:800;font-size:15.5px;line-height:1.18}
+.cat-card .cat-c{font-size:12px;color:var(--muted);font-weight:600}
+.rt-subs{margin:14px 0 4px;display:flex;flex-direction:column;gap:7px}
+.rt-sub{display:flex;align-items:center;gap:10px;padding:9px 11px;border-radius:11px;background:var(--card2);border:1px solid var(--line)}
+.rt-sub-n{flex:1;font-size:13.5px;font-weight:700;line-height:1.2}
+.rt-sub-r{flex:0 0 auto;font-size:11.5px;color:var(--muted);font-weight:600}
+.rt-play{flex:0 0 auto;width:30px;height:30px;border-radius:50%;display:grid;place-items:center;background:var(--red);color:#fff;font-size:11px;box-shadow:0 3px 10px var(--red-glow)}
+.rt-play:active{transform:scale(.9)}
+.rt-play.off{background:transparent;border:1px dashed var(--line);box-shadow:none}
 .ex-lib-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
 .ex-lib-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border-radius:14px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);color:var(--txt);font-weight:700;font-size:14.5px;transition:transform .15s,border-color .15s}
 .ex-lib-card:active{transform:scale(.985);border-color:var(--red)}
@@ -1268,7 +1281,7 @@ function go(s){document.querySelectorAll('.screen').forEach(x=>x.classList.remov
   document.getElementById(s).classList.add('active');
   document.querySelectorAll('.nav-b').forEach(b=>b.classList.toggle('on',b.dataset.s===s||(s==='plan'&&b.dataset.s==='plans')));
   window.scrollTo(0,0);
-  if(s==='home')renderHome();if(s==='plans')renderPlans();if(s==='plan')renderPlan();if(s==='exercises')renderExercises();if(s==='progress')renderProgress();if(s==='profile')renderProfile();}
+  if(s==='home')renderHome();if(s==='plans')renderPlans();if(s==='plan')renderPlan();if(s==='exercises'){EXCAT=null;renderExercises();}if(s==='progress')renderProgress();if(s==='profile')renderProfile();}
 
 /* =====================================================================
    CÁLCULO
@@ -1352,15 +1365,28 @@ function openPlan(id){VIEW.plan=id;go('plan')}
 /* =====================================================================
    BIBLIOTECA DE EJERCICIOS
    ===================================================================== */
+let EXCAT=null; // carpeta abierta (índice) o null = rejilla de carpetas
 function renderExercises(){const el=document.getElementById('exercises');
   const cn=c=>c.name[LANG]||c.name.es;
-  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">${t('nav_exercises')}</div><div class="sub">${t('exLibSub')}</div></div>`+
-   CATALOG.map((c,ci)=>`<div class="h-sec">${c.icon} ${esc(cn(c))}</div>
-     <div class="ex-lib-grid">${c.items.map((e,ei)=>{
+  if(EXCAT==null||!CATALOG[EXCAT]){
+    el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">${t('nav_exercises')}</div><div class="sub">${t('exLibSub')}</div></div>
+      <div class="cat-grid">${CATALOG.map((c,ci)=>`<button class="cat-card tap" onclick="openCat(${ci})">
+        <span class="cat-ic">${c.icon}</span>
+        <span class="cat-n">${esc(cn(c))}</span>
+        <span class="cat-c">${c.items.length} ${t('exercise').toLowerCase()}</span></button>`).join('')}</div>`;
+  }else{
+    const c=CATALOG[EXCAT];
+    el.innerHTML=`<div style="display:flex;align-items:center;gap:12px;margin:6px 0 12px">
+        <button class="wk-close" style="width:38px;height:38px" onclick="closeCat()">‹</button>
+        <div><div class="title-xl" style="font-size:22px">${c.icon} ${esc(cn(c))}</div><div class="sub">${c.items.length} ${t('exercise').toLowerCase()}</div></div></div>
+      <div class="ex-lib-grid">${c.items.map((e,ei)=>{
         const ic=e.ref==='throw'?'⚾':e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
-        return`<button class="ex-lib-card tap" onclick="openCatItem(${ci},${ei})"><span class="elc-ic">${ic}</span><span class="elc-n">${esc(exName(e))}</span><span class="elc-go">›</span></button>`;
-     }).join('')}</div>`).join('');
+        return`<button class="ex-lib-card tap" onclick="openCatItem(${EXCAT},${ei})"><span class="elc-ic">${ic}</span><span class="elc-n">${esc(exName(e))}</span><span class="elc-go">›</span></button>`;
+      }).join('')}</div>`;
+  }
 }
+function openCat(ci){EXCAT=ci;window.scrollTo(0,0);renderExercises()}
+function closeCat(){EXCAT=null;window.scrollTo(0,0);renderExercises()}
 function startPlan(id){if(!hasMaxes(CUR.maxes)){askMaxes(()=>startPlan(id));return}
   CUR.activePlan=id;VIEW.plan=id;const prog=CUR.progress[id];if(prog){VIEW.week=prog.week;VIEW.day=prog.day}else{VIEW.week=0;VIEW.day=0}
   openWorkout(id,VIEW.week,VIEW.day)}
@@ -1430,16 +1456,92 @@ function exDesc(e){
   return P('Realiza el movimiento con técnica controlada y rango completo. El vídeo mostrará la ejecución correcta.','Perform the movement with controlled technique and full range. The video will show the correct execution.','Réalise le mouvement avec une technique contrôlée. La vidéo montrera l\'exécution.');
 }
 function videoSoon(){toast(t('videoSoon'),'ok')}
+/* ---- VÍDEOS de YouTube por ejercicio (por palabras clave del nombre) ---- */
+function videoFor(e){if(!e)return null;const n=(e.n||'').toLowerCase();
+  /* tiro — balón medicinal */
+  if(/med ball open.*(on knee|knee)/.test(n))return'soERA_Bi2_8';
+  if(/med ball open.*full stride/.test(n))return'6M_KDaJsS5I';
+  if(/med ball open.*momentum/.test(n))return'DerLdoM-1XQ';
+  if(/med ball separation.*(on knee|knee)/.test(n))return'Bcr3SuPHmzY';
+  if(/med ball separation.*full stride/.test(n))return'wyV7olkCW1c';
+  if(/med ball separation.*momentum/.test(n))return'tZSA8ZKXI3c';
+  /* tiro — target (béisbol) */
+  if(/target throw open.*(on knee|knee)/.test(n))return'qMyxMWudgZ8';
+  if(/target throw open.*full stride/.test(n))return'yGISjRVgfWE';
+  if(/target throw open.*momentum/.test(n))return'e0XZaA7i440';
+  if(/target throw separation.*(on knee|knee)/.test(n))return'wp5tEEBfbDU';
+  if(/target throw separation.*full stride/.test(n))return'sA68-QTx_kI';
+  if(/target throw separation.*momentum/.test(n))return'yp3nt512Q_o';
+  /* rutinas */
+  if(/mb circuit.*nivel 1|med ball routine.*1/.test(n))return'F5MFLHVL9gg';
+  if(/mb circuit.*nivel 2|med ball routine.*2/.test(n))return'prq4RPjcOSY';
+  if(/movilidad|mobility/.test(n))return'b2LOGTEqbC8';
+  if(/core routine #?\s*1/.test(n))return'ZNPOm8jMWV4';
+  if(/core routine #?\s*2/.test(n))return'3hWq4Pnwadk';
+  if(/forearm.*#?\s*2/.test(n))return'1BieyGIvWz4';
+  if(/forearm/.test(n))return'IUipali2c9c';
+  if(/bar warm/.test(n))return'bmJSTbcc3QA';
+  /* correr / velocidad */
+  if(/speed improvement/.test(n))return'qX4HUi8QoN8';
+  if(/hurdle drills/.test(n))return'mgKZBMyB228';
+  if(/plyometrics/.test(n))return'q3Wxbm4nzl4';
+  if(/rapid response/.test(n))return'fb7BnLQ--B0';
+  if(/side winders/.test(n))return'N-gksKdH4-A';
+  if(/ladder drills/.test(n))return'-liEZu8FklI';
+  if(/suicide/.test(n))return'HsSTs3U1PSc';
+  if(/resistance sprints/.test(n))return'kW3mLx54b5M';
+  /* levantamientos / peso corporal */
+  if(/incline bench/.test(n))return'lJ2o89kcnxY';
+  if(/board bench|close grip bench/.test(n))return'MRmfQd1duDA';
+  if(/towel clock push/.test(n))return'o0DB8tBzBuI';
+  if(/towel push/.test(n))return'zuwovao0lsQ';
+  if(/towel pull/.test(n))return'ViLyHUYP0zs';
+  if(/fat man pull/.test(n))return'I78lgjIgEfI';
+  if(/stability push/.test(n))return'yIlcHgMVvfU';
+  if(/pull-?up|lat pull/.test(n))return'sV7qd69cN-E';
+  if(/ds sb|db ds/.test(n))return'8k5YPKgwU3Q';
+  if(/low row/.test(n))return'Jk8-19zb5ow';
+  if(/power clean/.test(n))return'e8TpDdMYq4Y';
+  if(/hang clean/.test(n))return'kGUx6-pXU-k';
+  if(/clean pull/.test(n))return'psI4A7bc7Fo';
+  if(/power jerk/.test(n))return'zxocRqkvoaI';
+  if(/box squat/.test(n))return'7iw2gLZKZ0w';
+  if(/front squat/.test(n))return'uYumuL_G_V0';
+  if(/step up/.test(n))return'ZkRXmaks7_Q';
+  if(/goodmorning|good ?morning/.test(n))return'nWyx81AfTos';
+  if(/pavel/.test(n))return'y3HQ8igj8Fw';
+  if(/glute-?ham/.test(n))return'SBGYSfoqyfU';
+  if(/\brdl\b|romanian/.test(n))return'LRBBOUoeLvU';
+  return null;}
+function openVideo(id){if(!id){videoSoon();return}window.open('https://www.youtube.com/watch?v='+id,'_blank','noopener')}
+/* botón de vídeo: real si hay link, si no aviso "próximamente" */
+function videoBtn(e,cls,style){const id=videoFor(e);
+  const on=id?`onclick="event.stopPropagation();openVideo('${id}')"`:`onclick="event.stopPropagation();videoSoon()"`;
+  return`<button class="btn${cls?' '+cls:''}"${style?` style="${style}"`:''} ${on}>${t('watchVideo')}</button>`;}
+/* índice de rutinas por título para resolver sus ejercicios internos */
+const ROUTINE_BY_TITLE={};Object.keys(ROUTINES).forEach(k=>{ROUTINE_BY_TITLE[ROUTINES[k].t]=ROUTINES[k]});
 /* explicación + vídeo de un ejercicio (durante el entreno o en la biblioteca) */
 function openExInfo(e){if(!e)return;
   const ic=e.ref==='throw'?'⚾':e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
   const kind=e.ref==='throw'?t('throwing'):e.ref==='routine'?t('nav_exercises'):t('exercise');
+  const own=videoFor(e);
+  let subsHtml='';
+  if(e.ref==='routine'){
+    const r=(e.rk&&ROUTINES[e.rk])||ROUTINE_BY_TITLE[e.n]||(e.list?{x:e.list}:null);
+    if(r&&r.x&&r.x.length){
+      subsHtml=`<div class="rt-subs">`+r.x.map(it=>{const nm=it[0],rp=it[1]||'';const vid=videoFor({n:nm});
+        return`<div class="rt-sub">${vid?`<button class="rt-play" onclick="openVideo('${vid}')">▶</button>`:`<span class="rt-play off"></span>`}<span class="rt-sub-n">${esc(tName(nm))}</span>${rp?`<span class="rt-sub-r">${esc(rp)}</span>`:''}</div>`;
+      }).join('')+`</div>`;
+    }
+  }
+  const topBtn=(e.ref!=='routine'||own)?videoBtn(e,'','margin-top:16px'):'';
   openModal(`<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:6px"><div class="coach-ava" style="width:46px;height:46px;font-size:22px">${ic}</div>
     <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${kind}</div>
     <div style="font-weight:900;font-size:19px;line-height:1.15;margin-top:2px">${esc(exName(e))}</div></div></div>
     ${e.note?`<div class="sub" style="margin:0 0 8px">${esc(e.note)}</div>`:''}
     <p style="font-size:14px;line-height:1.55">${esc(exDesc(e))}</p>
-    <button class="btn" style="margin-top:16px" onclick="videoSoon()">${t('watchVideo')}</button>
+    ${subsHtml}
+    ${topBtn}
     <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('close')}</button>`);
 }
 function exInfo(idx){const e=(SESS&&SESS.ex[idx])||null;openExInfo(e)}
@@ -1452,7 +1554,7 @@ function previewDay(planId,wi,di){
     const meta=e.ref==='routine'?`${cnt}`:e.ref==='throw'?t('throwing'):e.ref==='bw'?`${cnt} · ${t('bodyweight')}`:`${cnt} · ${REF_LABEL[e.ref]||''}`;
     return`<div class="flip" onclick="this.classList.toggle('flipped')"><div class="flip-in">
       <div class="flip-face flip-front"><div class="ff-top"><div class="ff-n">${i+1}</div><div><b>${esc(exName(e))}</b><div class="sub" style="font-size:12px;margin-top:3px">${type} ${meta}</div></div></div><div class="flip-hint">🔄 ${t('flipHint')}</div></div>
-      <div class="flip-face flip-back"><p>${esc(exDesc(e))}</p><button class="btn sm" onclick="event.stopPropagation();videoSoon()">${t('watchVideo')}</button></div>
+      <div class="flip-face flip-back"><p>${esc(exDesc(e))}</p>${videoBtn(e,'sm','')}</div>
     </div></div>`;
   }).join('');
   openModal(`
