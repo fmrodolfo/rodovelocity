@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'rodovelocity-v7';
+const CACHE_VERSION = 'rodovelocity-v9';
 const CACHE_NAME = CACHE_VERSION;
 const urlsToCache = [
   './',

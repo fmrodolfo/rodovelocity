@@ -304,7 +304,7 @@ input,select,textarea{font-family:inherit}
 #nav{position:fixed;left:0;right:0;bottom:0;z-index:40;max-width:520px;margin:0 auto;
   display:flex;justify-content:space-around;padding:10px 8px calc(10px + var(--safe));
   background:linear-gradient(180deg,rgba(16,16,18,.4),rgba(10,10,12,.96));backdrop-filter:blur(16px);border-top:1px solid var(--line)}
-.nav-b{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 14px;border-radius:14px;color:var(--muted);font-size:10.5px;font-weight:700;transition:color .2s;position:relative}
+.nav-b{display:flex;flex-direction:column;align-items:center;gap:4px;padding:6px 8px;border-radius:14px;color:var(--muted);font-size:10px;font-weight:700;transition:color .2s;position:relative}
 .nav-b svg{width:23px;height:23px}
 .nav-b.on{color:var(--red)}
 .nav-b.on::before{content:'';position:absolute;top:-1px;width:26px;height:3px;border-radius:3px;background:var(--red);box-shadow:0 0 12px var(--red-glow)}
@@ -319,6 +319,12 @@ input,select,textarea{font-family:inherit}
 .ring .pct{position:absolute;inset:0;display:grid;place-items:center;font-weight:900;font-size:20px}
 
 .plan-card{display:flex;align-items:center;gap:14px;cursor:pointer}
+.ex-lib-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:2px}
+.ex-lib-card{display:flex;align-items:center;gap:12px;width:100%;text-align:left;padding:13px 14px;border-radius:14px;background:linear-gradient(180deg,var(--card),var(--bg2));border:1px solid var(--line);color:var(--txt);font-weight:700;font-size:14.5px;transition:transform .15s,border-color .15s}
+.ex-lib-card:active{transform:scale(.985);border-color:var(--red)}
+.ex-lib-card .elc-ic{flex:0 0 auto;font-size:20px;width:26px;text-align:center}
+.ex-lib-card .elc-n{flex:1;line-height:1.25}
+.ex-lib-card .elc-go{flex:0 0 auto;color:var(--muted);font-size:20px;font-weight:900}
 .plan-ico{width:52px;height:52px;border-radius:14px;display:grid;place-items:center;flex:0 0 auto;overflow:hidden;
   background:#000;border:1px solid #26262a;box-shadow:0 8px 20px var(--red-glow)}
 .plan-ico svg,.plan-ico img{width:100%;height:100%;object-fit:cover}
@@ -605,6 +611,7 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
   <section class="screen active" id="home"></section>
   <section class="screen" id="plans"></section>
   <section class="screen" id="plan"></section>
+  <section class="screen" id="exercises"></section>
   <section class="screen" id="progress"></section>
   <section class="screen" id="profile"></section>
 </div>
@@ -615,6 +622,8 @@ textarea.input{text-align:left;font-weight:500;font-size:13px;font-family:monosp
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-8 9 8v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg><span id="navHomeL">Inicio</span></button>
   <button class="nav-b" data-s="plans" onclick="go('plans')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg><span id="navPlansL">Planes</span></button>
+  <button class="nav-b" data-s="exercises" onclick="go('exercises')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12h2M20 12h2M5 8v8M8 6v12M16 6v12M19 8v8M8 12h8"/></svg><span id="navExL">Ejercicios</span></button>
   <button class="nav-b" data-s="progress" onclick="go('progress')">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg><span id="navProgL">Progreso</span></button>
   <button class="nav-b" data-s="profile" onclick="go('profile')">
@@ -692,7 +701,8 @@ const FIREBASE_CONFIG={
 let LANG=(function(){try{return localStorage.getItem('rodo_lang')||'es'}catch(e){return 'es'}})();
 const I18N={
  es:{
-  nav_home:'Inicio',nav_plans:'Planes',nav_progress:'Progreso',nav_profile:'Perfil',
+  nav_home:'Inicio',nav_plans:'Planes',nav_progress:'Progreso',nav_profile:'Perfil',nav_exercises:'Ejercicios',
+  exLibSub:'Ejercicios individuales por parte del cuerpo · explicación y vídeo',
   chooseProfile:'Elige tu perfil',newProfile:'Nuevo perfil',createProfile:'Crear perfil',np_desc:'Cada perfil guarda sus propios máximos y progreso.',name:'Nombre',color:'Color',
   activePlan:'Plan activo',changePlan:'🔄 Cambiar plan',notStarted:'Aún no empezado',week:'Semana',daysCompleted:'días completados',continueTr:'▶ Continuar entrenamiento',startPlan:'⚡ Empezar plan',
   streak:'DÍAS RACHA',sessions:'SESIONES',totalTons:'TON. TOTAL',yourMaxes:'Tus máximos',editMaxes:'Editar máximos',registerMaxesT:'Registra tus máximos 📏',registerMaxesD:'La app calcula todos los pesos a partir de tu Back Squat, Bench Press y Power Clean.',introMaxes:'Introducir máximos',lastSessions:'Últimas sesiones',noTrained:'Aún no has entrenado.',startFirst:'Empieza tu primer día para ver tu progreso aquí.',
@@ -716,7 +726,8 @@ const I18N={
   phBase:'Base',phVolume:'Volumen',phRecovery:'Recuperación',phPerformance:'Rendimiento',phMax:'Máx',phMaint:'Mantenimiento',adaptsPhase:'sube y baja según la fase',throwing:'Tiro',flipHint:'Toca para ver la explicación',watchVideo:'▶ Ver vídeo',videoSoon:'Vídeo próximamente',howTo:'Cómo',
  },
  en:{
-  nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',
+  nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',nav_exercises:'Exercises',
+  exLibSub:'Individual exercises by body part · explanation and video',
   chooseProfile:'Choose your profile',newProfile:'New profile',createProfile:'Create profile',np_desc:'Each profile keeps its own maxes and progress.',name:'Name',color:'Color',
   activePlan:'Active plan',changePlan:'🔄 Change plan',notStarted:'Not started yet',week:'Week',daysCompleted:'days completed',continueTr:'▶ Continue training',startPlan:'⚡ Start plan',
   streak:'DAY STREAK',sessions:'SESSIONS',totalTons:'TOTAL TONS',yourMaxes:'Your maxes',editMaxes:'Edit maxes',registerMaxesT:'Log your maxes 📏',registerMaxesD:'The app calculates every weight from your Back Squat, Bench Press and Power Clean.',introMaxes:'Enter maxes',lastSessions:'Recent sessions',noTrained:"You haven't trained yet.",startFirst:'Start your first day to see your progress here.',
@@ -740,7 +751,8 @@ const I18N={
   phBase:'Base',phVolume:'Volume',phRecovery:'Recovery',phPerformance:'Performance',phMax:'Max',phMaint:'Maintenance',adaptsPhase:'rises and drops with the phase',throwing:'Throwing',flipHint:'Tap to see the explanation',watchVideo:'▶ Watch video',videoSoon:'Video coming soon',howTo:'How',
  },
  fr:{
-  nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',
+  nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',nav_exercises:'Exercices',
+  exLibSub:'Exercices individuels par partie du corps · explication et vidéo',
   chooseProfile:'Choisis ton profil',newProfile:'Nouveau profil',createProfile:'Créer le profil',np_desc:'Chaque profil garde ses propres maxes et progrès.',name:'Nom',color:'Couleur',
   activePlan:'Plan actif',changePlan:'🔄 Changer de plan',notStarted:'Pas encore commencé',week:'Semaine',daysCompleted:'jours complétés',continueTr:'▶ Continuer',startPlan:'⚡ Démarrer le plan',
   streak:'JOURS SÉRIE',sessions:'SÉANCES',totalTons:'TONNES TOTAL',yourMaxes:'Tes maxes',editMaxes:'Modifier les maxes',registerMaxesT:'Enregistre tes maxes 📏',registerMaxesD:'L\'app calcule tous les poids à partir de ton Back Squat, Bench Press et Power Clean.',introMaxes:'Saisir les maxes',lastSessions:'Séances récentes',noTrained:"Tu n'as pas encore entraîné.",startFirst:'Commence ton premier jour pour voir tes progrès ici.',
@@ -769,7 +781,7 @@ function setLang(l){LANG=l;try{localStorage.setItem('rodo_lang',l)}catch(e){}doc
   if(document.getElementById('profile').classList.contains('active'))renderProfile()}
 function applyStaticI18n(){
   const set=(id,txt)=>{const e=document.getElementById(id);if(e)e.textContent=txt};
-  set('navHomeL',t('nav_home'));set('navPlansL',t('nav_plans'));set('navProgL',t('nav_progress'));set('navProfL',t('nav_profile'));
+  set('navHomeL',t('nav_home'));set('navPlansL',t('nav_plans'));set('navExL',t('nav_exercises'));set('navProgL',t('nav_progress'));set('navProfL',t('nav_profile'));
   set('gateSubL',t('chooseProfile'));
 }
 /* ---- traducción de datos (días, fases, planes, rutinas) ---- */
@@ -788,6 +800,9 @@ const NAME_MAP={
  'MB Circuit — Nivel 2 (3 series)':{en:'MB Circuit — Level 2 (3 sets)',fr:'Circuit MB — Niveau 2 (3 séries)'},
  'Velocidad — Anaeróbico (lineal)':{en:'Speed — Anaerobic (linear)',fr:'Vitesse — Anaérobie (linéaire)'},
  'Velocidad — Anaeróbico (lateral)':{en:'Speed — Anaerobic (lateral)',fr:'Vitesse — Anaérobie (latéral)'},
+ 'Correr — Anaeróbico (Día 2)':{en:'Running — Anaerobic (Day 2)',fr:'Course — Anaérobie (Jour 2)'},
+ 'Correr — Anaeróbico (Día 3)':{en:'Running — Anaerobic (Day 3)',fr:'Course — Anaérobie (Jour 3)'},
+ 'Correr — Anaeróbico (Día 5)':{en:'Running — Anaerobic (Day 5)',fr:'Course — Anaérobie (Jour 5)'},
  'Accesorios + Core':{en:'Accessories + Core',fr:'Accessoires + Gainage'},
  'Accesorios · Anillas · Cadera':{en:'Accessories · Rings · Hips',fr:'Accessoires · Anneaux · Hanches'}
 };
@@ -820,7 +835,11 @@ const ROUTINES={
   throwIn:{t:'Tiro — 3X Mechanics Series',x:[['Serie #1 — Leg Extension Throws','baja→alta int.'],['Serie #2 — Full Stride Ext. Rotation','baja→alta int.'],['Serie #3 — Full Stride Separation','baja→alta int.'],['Serie #4 — Lateral Stride Separation','baja→alta int.'],['Serie #5 — Slide Step','baja→alta int.'],['Serie #6 — One Step Drive Over Mound','baja→alta int.'],['Serie #7 — Hip Thrust','baja→alta int.'],['3X Mirror Drills','diario'],['Bull Pen según rotación','—']]},
   /* ---- VELOCIDAD / ANAERÓBICO (correr) ---- */
   spdA:{t:'Velocidad — Anaeróbico (lineal)',x:[['Dynamic Warm-Up','20 yds'],['Speed Improvement Drills','2 × 10 yds'],['Hurdle Drills (6\" velocidad / 12\" altura)','5 vallas × 4'],['Sand Pit Plyos (Pogo/Bunny/Frog/Mogul)','30–45 s descanso'],['Sand Pit Sprints','3 (1:10)'],['Push-Up Start Sprints','3 × 10 yds (1:10)']]},
-  spdB:{t:'Velocidad — Anaeróbico (lateral)',x:[['Lateral Warm-Up','20 yds'],['Rapid Response','10 yds'],['Side Winders (defensa/45°/in-outs)','15 yds × 1'],['Ladder Drills','6 × 2'],['6-Cone Lateral Suicide','4 (1:10)'],['240 yd Shuttle','2 × (60 s, descanso 3 min)']]}
+  spdB:{t:'Velocidad — Anaeróbico (lateral)',x:[['Lateral Warm-Up','20 yds'],['Rapid Response','10 yds'],['Side Winders (defensa/45°/in-outs)','15 yds × 1'],['Ladder Drills','6 × 2'],['6-Cone Lateral Suicide','4 (1:10)'],['240 yd Shuttle','2 × (60 s, descanso 3 min)']]},
+  /* ---- CORRER — Anaeróbico: 3 rutinas oficiales, una por día de correr (día 2 / 3 / 5) ---- */
+  run1:{t:'Correr — Anaeróbico (Día 2)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Speed Improvement Drills','1 × 2 · 10 yds'],['Hurdle Drills','4 × 1 · 20 yds'],['Plyometrics','2 × 1 · 20 yds'],['Sprints','3 × 1 · 20 yds'],['Push-Up Start Sprints','3 × 1 · 20 yds']]},
+  run2:{t:'Correr — Anaeróbico (Día 3)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Rapid Response','1 × 1 · 10 yds'],['Side Winders','3 × 1 · 20 yds'],['Ladder Drills','1 × 1 · 20 yds'],['Suicide Sprints','2 × 1 · 20 yds'],['Shuttle Run','1 × 1 · 240 yds']]},
+  run3:{t:'Correr — Anaeróbico (Día 5)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Speed Improvement Drills','1 × 2 · 10 yds'],['Sprints','3 × 1 · 20 yds'],['Resistance Sprints','3 × 1 · 20 yds'],['Push-Up Start Sprints','3 × 1 · 20 yds'],['Hurdle Drills','1 × 1 · 20 yds']]}
 };
 const R=(name,ref,sets,note)=>({n:name,ref,s:sets,note});
 const B=(name,reps,note)=>({n:name,ref:'bw',s:reps,note});
@@ -1020,17 +1039,19 @@ const INSEA={id:'inseason',name:'In-Season (Mantenimiento)',weeks:[
 ]};
 /* ---- ensamblado: movilidad → tiro → gimnasio, en días de calendario ---- */
 const WD=['Lunes','Martes','Miércoles','Jueves','Viernes','Sábado'];
+/* correr = día 2 (Martes) → run1 · día 3 (Miércoles) → run2 · día 5 (Viernes) → run3 */
+const RUNMAP={'Martes':'run1','Miércoles':'run2','Viernes':'run3'};
 function assemble(cfg){
   const weeks=cfg.src.weeks.map(w=>{
     const gym={};w.days.forEach(d=>gym[d.d]=d.ex);
-    const set=new Set([...Object.keys(gym),...(cfg.throwDays||[])]);
+    const set=new Set([...Object.keys(gym),...(cfg.throwDays||[]),...(cfg.speedDays||[])]);
     const days=WD.filter(d=>set.has(d)).map(dn=>{
       let ex=[];
       if(cfg.mob)ex.push(RT(cfg.mob));
       if((cfg.throwDays||[]).includes(dn)&&cfg.throw)ex=ex.concat(throwingExercises(cfg.throw,w.tag));
       if(gym[dn])ex=ex.concat(gym[dn]);
-      /* velocidad / anaeróbico en días de acondicionamiento (alterna lineal/lateral) */
-      if((cfg.speedDays||[]).includes(dn)){const i=(cfg.speedDays||[]).indexOf(dn);ex.push(RT(i%2===0?'spdA':'spdB'))}
+      /* correr / anaeróbico: rutina propia según el día (2·3·5) */
+      if((cfg.speedDays||[]).includes(dn)&&RUNMAP[dn]){ex.push(RT(RUNMAP[dn]))}
       return {d:dn,ex};
     });
     return {tag:w.tag,days};
@@ -1038,12 +1059,58 @@ function assemble(cfg){
   return {id:cfg.src.id,name:cfg.name||cfg.src.name,weeks,note:cfg.note};
 }
 const PLANS=[
-  assemble({src:LVL1,name:'Level 1 — Off-Season',mob:'movDyn',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL1',speedDays:['Martes','Viernes'],note:'Sistema de 16 semanas (2 ciclos). Cada día: movilidad → tiro (L/X/V) → gimnasio → velocidad (M/V).'}),
-  assemble({src:LVL2,mob:'movDyn',throwDays:['Martes','Jueves','Sábado'],throw:'throwL2',speedDays:['Lunes','Viernes'],note:'8 semanas. Gimnasio L/X/V · tiro 3X Advanced M/J/S · velocidad.'}),
-  assemble({src:LVL3,mob:'movL3',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL3',speedDays:['Martes'],note:'8 semanas. Requiere ratio potencia/peso 1.3. Movilidad de cadera + 3X Torsion + velocidad.'}),
-  assemble({src:PRE,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwPre',note:'4 semanas cerca de temporada. Tiro L/X/V · fuerza M/J.'}),
-  assemble({src:INSEA,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwIn',note:'4 semanas de mantenimiento alrededor de la rotación del abridor. Gym L/J (mantenimiento del Fusion System) · tiro + 3X Mechanics Series L/X/V.'})
+  assemble({src:LVL1,name:'Level 1 — Off-Season',mob:'movDyn',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL1',speedDays:['Martes','Miércoles','Viernes'],note:'Sistema de 16 semanas (2 ciclos). Cada día: movilidad → tiro (L/X/V) → gimnasio → correr (M/X/V, rutina propia cada día).'}),
+  assemble({src:LVL2,mob:'movDyn',throwDays:['Martes','Jueves','Sábado'],throw:'throwL2',speedDays:['Martes','Miércoles','Viernes'],note:'8 semanas. Gimnasio L/X/V · tiro 3X Advanced M/J/S · correr M/X/V.'}),
+  assemble({src:LVL3,mob:'movL3',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL3',speedDays:['Martes','Miércoles','Viernes'],note:'8 semanas. Requiere ratio potencia/peso 1.3. Movilidad de cadera + 3X Torsion + correr M/X/V.'}),
+  assemble({src:PRE,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwPre',speedDays:['Martes','Miércoles','Viernes'],note:'4 semanas cerca de temporada. Tiro L/X/V · fuerza M/J · correr M/X/V.'}),
+  assemble({src:INSEA,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwIn',speedDays:['Martes','Miércoles','Viernes'],note:'4 semanas de mantenimiento alrededor de la rotación del abridor. Gym L/J · tiro + 3X Mechanics Series L/X/V · correr M/X/V.'})
 ];
+
+/* =====================================================================
+   BIBLIOTECA DE EJERCICIOS (por parte del cuerpo) — sin seguir rutina
+   ===================================================================== */
+const CI=(n,ref,note)=>({n,ref:ref||'lift',note:note||''});
+const CATALOG=[
+ {icon:'🦵',name:{es:'Piernas',en:'Legs',fr:'Jambes'},items:[
+   CI('Back Squat','lift'),CI('Front Squat','lift'),CI('Box Squat','lift'),CI('Overhead Squat','lift'),
+   CI('Power Lunge','lift'),CI('Step Up','lift'),CI('3X Lateral Lunge','lift'),CI('RDL','lift'),
+   CI('Goodmorning','lift'),CI('Sumo Deadlift','lift'),
+   CI('Glute-Ham Raise','bw'),CI('Pavel Squat / Towel Ham Slide','bw')]},
+ {icon:'🏋️',name:{es:'Pecho',en:'Chest',fr:'Poitrine'},items:[
+   CI('Bench Press','lift'),CI('3 Board Bench','lift'),CI('Incline Bench','lift'),CI('3 Board Close Grip Bench','lift'),
+   CI('DB DS SB Bench','bw'),CI('Towel Push Ups','bw'),CI('Stability Push Ups','bw'),CI('Towel Clock Push Up','bw')]},
+ {icon:'🔙',name:{es:'Espalda',en:'Back',fr:'Dos'},items:[
+   CI('Pull-up (fat grip)','bw'),CI('Weighted Pull-up','bw'),CI('Fat Man Pull up','bw'),CI('Low Row','bw'),
+   CI('BB Bent over row','bw'),CI('Lat Pull Down','bw'),CI('Clean Pull','lift'),CI('Snatch Pull','lift'),
+   CI('Power Shrugs','lift'),CI('Hanging Scap Pulls','lift')]},
+ {icon:'💪',name:{es:'Hombros',en:'Shoulders',fr:'Épaules'},items:[
+   CI('Shoulder Routine (3–8 lb)','routine'),CI('Push Press','lift'),CI('Power Jerk','lift'),
+   CI('Split Jerk','lift'),CI('Behind the neck press','lift')]},
+ {icon:'⚡',name:{es:'Olímpicos / Potencia',en:'Olympic / Power',fr:'Olympiques / Puissance'},items:[
+   CI('Power Clean','lift'),CI('Hang Clean','lift'),CI('3-Position Clean','lift'),
+   CI('Below the Knee Clean','lift'),CI('Snatch','lift'),CI('Power Clean Front Squat (Chains)','lift')]},
+ {icon:'🌀',name:{es:'Core / Abdominales',en:'Core / Abs',fr:'Gainage / Abdos'},items:[
+   CI('Core Routine #1','routine'),CI('Core Routine #2','routine'),CI('MB Russian Twist','bw'),
+   CI('Hanging Leg Raise','bw'),CI('Plate Wood Choppers','bw'),CI('Swiss Ball V-ups','bw'),
+   CI('BB Standing Trunk Rotation','lift')]},
+ {icon:'✊',name:{es:'Antebrazo',en:'Forearm',fr:'Avant-bras'},items:[
+   CI('Forearm Routine #1','routine'),CI('Forearm Routine #2','routine')]},
+ {icon:'⚾',name:{es:'Tiro con pelota',en:'Throwing',fr:'Lancer'},items:[
+   CI('3X Med Ball Open Full Stride','throw','Balón medicinal 2 lb · 45 ft'),
+   CI('3X Med Ball Separation Full Stride','throw','Balón medicinal 2 lb · 45 ft'),
+   CI('Target Throw Open Full Stride','throw','Pelota de béisbol · 45 ft'),
+   CI('Target Throw Separation Full Stride','throw','Pelota de béisbol · 45 ft'),
+   CI('3X Drive Drill — Chest Up','throw','60–90 ft'),
+   CI('2 Phase Delivery','throw','60 ft')]},
+ {icon:'🔴',name:{es:'Balón medicinal',en:'Medicine ball',fr:'Ballon médicinal'},items:[
+   CI('MB Circuit — Nivel 1 (3 series)','routine'),CI('MB Circuit — Nivel 2 (3 series)','routine')]},
+ {icon:'🧘',name:{es:'Movilidad',en:'Mobility',fr:'Mobilité'},items:[
+   CI('Movilidad — Calentamiento dinámico','routine'),CI('Movilidad — Dinámica + Cadera','routine'),
+   CI('Movilidad — Pre/In-Season','routine')]},
+ {icon:'🏃',name:{es:'Correr / Velocidad',en:'Running / Speed',fr:'Course / Vitesse'},items:[
+   CI('Correr — Anaeróbico (Día 2)','routine'),CI('Correr — Anaeróbico (Día 3)','routine'),CI('Correr — Anaeróbico (Día 5)','routine')]}
+];
+function openCatItem(ci,ei){const c=CATALOG[ci];if(!c)return;openExInfo(c.items[ei])}
 
 /* =====================================================================
    ESTADO / STORAGE LOCAL
@@ -1201,7 +1268,7 @@ function go(s){document.querySelectorAll('.screen').forEach(x=>x.classList.remov
   document.getElementById(s).classList.add('active');
   document.querySelectorAll('.nav-b').forEach(b=>b.classList.toggle('on',b.dataset.s===s||(s==='plan'&&b.dataset.s==='plans')));
   window.scrollTo(0,0);
-  if(s==='home')renderHome();if(s==='plans')renderPlans();if(s==='plan')renderPlan();if(s==='progress')renderProgress();if(s==='profile')renderProfile();}
+  if(s==='home')renderHome();if(s==='plans')renderPlans();if(s==='plan')renderPlan();if(s==='exercises')renderExercises();if(s==='progress')renderProgress();if(s==='profile')renderProfile();}
 
 /* =====================================================================
    CÁLCULO
@@ -1281,6 +1348,19 @@ function renderPlans(){const el=document.getElementById('plans');
       <div style="flex:1"><b style="font-size:17px">${esc(tName(p.name))}</b><div class="sub">${p.weeks.length} ${t('weeks')} · ${tot} ${t('days')} · ${done} ${t('done')}</div>
       <div class="bar-track"><i style="width:${tot?Math.round(done/tot*100):0}%;background:linear-gradient(90deg,var(--red),#ff5a45)"></i></div></div><div class="caret">›</div></div>`}).join('')}`}
 function openPlan(id){VIEW.plan=id;go('plan')}
+
+/* =====================================================================
+   BIBLIOTECA DE EJERCICIOS
+   ===================================================================== */
+function renderExercises(){const el=document.getElementById('exercises');
+  const cn=c=>c.name[LANG]||c.name.es;
+  el.innerHTML=`<div style="margin:8px 4px 4px"><div class="title-xl">${t('nav_exercises')}</div><div class="sub">${t('exLibSub')}</div></div>`+
+   CATALOG.map((c,ci)=>`<div class="h-sec">${c.icon} ${esc(cn(c))}</div>
+     <div class="ex-lib-grid">${c.items.map((e,ei)=>{
+        const ic=e.ref==='throw'?'⚾':e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
+        return`<button class="ex-lib-card tap" onclick="openCatItem(${ci},${ei})"><span class="elc-ic">${ic}</span><span class="elc-n">${esc(exName(e))}</span><span class="elc-go">›</span></button>`;
+     }).join('')}</div>`).join('');
+}
 function startPlan(id){if(!hasMaxes(CUR.maxes)){askMaxes(()=>startPlan(id));return}
   CUR.activePlan=id;VIEW.plan=id;const prog=CUR.progress[id];if(prog){VIEW.week=prog.week;VIEW.day=prog.day}else{VIEW.week=0;VIEW.day=0}
   openWorkout(id,VIEW.week,VIEW.day)}
@@ -1340,7 +1420,7 @@ function exDesc(e){
   if(/push up|push-?ups|towel|stability push/.test(n))return P('Flexiones (variantes): cuerpo recto en tabla, baja el pecho al suelo y empuja. Core apretado.','Push-ups (variants): body straight in a plank, lower the chest and press. Tight core.','Pompes : corps gainé, descends la poitrine et pousse.');
   if(/glute-?ham|pavel|hamstring slide/.test(n))return P('Trabajo de isquios/glúteo: baja controlando con los isquios y vuelve. Sin arquear la lumbar.','Hamstring/glute work: lower under control with the hamstrings and return. Don\'t arch the lower back.','Travail ischios/fessiers : descends contrôlé, sans cambrer.');
   if(e.ref==='routine'&&/movilidad|mobility/.test(n))return P('Rutina de movilidad: prepara caderas, tronco y hombro con movimientos dinámicos antes de entrenar.','Mobility routine: prep hips, trunk and shoulder with dynamic moves before training.','Routine de mobilité : prépare hanches, tronc et épaule.');
-  if(e.ref==='routine'&&/velocidad|speed/.test(n))return P('Rutina de velocidad/anaeróbico: sprints, plios y agilidad para entrenar la fibra rápida. Máxima intensidad, descansos completos.','Speed/anaerobic routine: sprints, plyos and agility to train fast-twitch fibers. Max intensity, full rest.','Routine de vitesse : sprints, plyo et agilité. Intensité max, repos complet.');
+  if(e.ref==='routine'&&/velocidad|speed|correr|anaer|run/.test(n))return P('Rutina de correr (anaeróbico): calentamiento dinámico, drills de velocidad, vallas, pliometría y sprints. Máxima intensidad con descansos completos entre repeticiones.','Running routine (anaerobic): dynamic warm-up, speed drills, hurdles, plyometrics and sprints. Max intensity with full rest between reps.','Routine de course (anaérobie) : échauffement dynamique, drills de vitesse, haies, pliométrie et sprints. Intensité max, repos complet.');
   if(e.ref==='routine'&&/mb circuit|med ball/.test(n))return P('Circuito de balón medicinal: lanzamientos explosivos para core y potencia de lanzamiento.','Medicine-ball circuit: explosive throws for core and throwing power.','Circuit ballon médicinal : lancers explosifs pour le gainage.');
   if(e.ref==='routine'&&/shoulder/.test(n))return P('Rutina de hombro (3–8 lb): fortalece el manguito rotador. Peso ligero, técnica perfecta.','Shoulder routine (3–8 lb): strengthen the rotator cuff. Light weight, perfect form.','Routine épaule (3–8 lb) : renforce la coiffe des rotateurs.');
   if(e.ref==='routine'&&/forearm/.test(n))return P('Rutina de antebrazo: agarre y muñeca, clave para proteger el codo al lanzar.','Forearm routine: grip and wrist, key to protect the elbow when throwing.','Routine avant-bras : prise et poignet.');
@@ -1350,16 +1430,19 @@ function exDesc(e){
   return P('Realiza el movimiento con técnica controlada y rango completo. El vídeo mostrará la ejecución correcta.','Perform the movement with controlled technique and full range. The video will show the correct execution.','Réalise le mouvement avec une technique contrôlée. La vidéo montrera l\'exécution.');
 }
 function videoSoon(){toast(t('videoSoon'),'ok')}
-/* explicación + vídeo del ejercicio (disponible durante el entrenamiento) */
-function exInfo(idx){const e=(SESS&&SESS.ex[idx])||null;if(!e)return;
+/* explicación + vídeo de un ejercicio (durante el entreno o en la biblioteca) */
+function openExInfo(e){if(!e)return;
   const ic=e.ref==='throw'?'⚾':e.ref==='routine'?'📋':e.ref==='bw'?'💪':'🏋️';
+  const kind=e.ref==='throw'?t('throwing'):e.ref==='routine'?t('nav_exercises'):t('exercise');
   openModal(`<div style="display:flex;gap:12px;align-items:flex-start;margin-bottom:6px"><div class="coach-ava" style="width:46px;height:46px;font-size:22px">${ic}</div>
-    <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${e.ref==='throw'?t('throwing'):t('exercise')}</div>
+    <div><div class="who" style="color:var(--red);font-size:11px;letter-spacing:1px;font-weight:800;text-transform:uppercase">${kind}</div>
     <div style="font-weight:900;font-size:19px;line-height:1.15;margin-top:2px">${esc(exName(e))}</div></div></div>
+    ${e.note?`<div class="sub" style="margin:0 0 8px">${esc(e.note)}</div>`:''}
     <p style="font-size:14px;line-height:1.55">${esc(exDesc(e))}</p>
     <button class="btn" style="margin-top:16px" onclick="videoSoon()">${t('watchVideo')}</button>
     <button class="btn ghost" style="margin-top:8px" onclick="closeModal()">${t('close')}</button>`);
 }
+function exInfo(idx){const e=(SESS&&SESS.ex[idx])||null;openExInfo(e)}
 function previewDay(planId,wi,di){
   const plan=PLANS.find(p=>p.id===planId);
   const day=plan.weeks[wi].days[di];
