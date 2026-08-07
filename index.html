@@ -813,6 +813,10 @@ const NAME_MAP={
  'MB Circuit — Nivel 2 (3 series)':{en:'MB Circuit — Level 2 (3 sets)',fr:'Circuit MB — Niveau 2 (3 séries)'},
  'Velocidad — Anaeróbico (lineal)':{en:'Speed — Anaerobic (linear)',fr:'Vitesse — Anaérobie (linéaire)'},
  'Velocidad — Anaeróbico (lateral)':{en:'Speed — Anaerobic (lateral)',fr:'Vitesse — Anaérobie (latéral)'},
+ 'Movilidad 3X':{en:'3X Mobility',fr:'Mobilité 3X'},
+ 'Anaeróbico — Comba y Shuttle':{en:'Anaerobic — Jump Rope & Shuttle',fr:'Anaérobie — Corde & Shuttle'},
+ 'Anaeróbico — Sprints':{en:'Anaerobic — Sprints',fr:'Anaérobie — Sprints'},
+ '3X Pre-Season (Abridor)':{en:'3X Pre-Season (Starter)',fr:'3X Pré-saison (Ouvreur)'},
  'Correr — Anaeróbico (Día 2)':{en:'Running — Anaerobic (Day 2)',fr:'Course — Anaérobie (Jour 2)'},
  'Correr — Anaeróbico (Día 3)':{en:'Running — Anaerobic (Day 3)',fr:'Course — Anaérobie (Jour 3)'},
  'Correr — Anaeróbico (Día 5)':{en:'Running — Anaerobic (Day 5)',fr:'Course — Anaérobie (Jour 5)'},
@@ -852,7 +856,11 @@ const ROUTINES={
   /* ---- CORRER — Anaeróbico: 3 rutinas oficiales, una por día de correr (día 2 / 3 / 5) ---- */
   run1:{t:'Correr — Anaeróbico (Día 2)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Speed Improvement Drills','1 × 2 · 10 yds'],['Hurdle Drills','4 × 1 · 20 yds'],['Plyometrics','2 × 1 · 20 yds'],['Sprints','3 × 1 · 20 yds'],['Push-Up Start Sprints','3 × 1 · 20 yds']]},
   run2:{t:'Correr — Anaeróbico (Día 3)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Rapid Response','1 × 1 · 10 yds'],['Side Winders','3 × 1 · 20 yds'],['Ladder Drills','1 × 1 · 20 yds'],['Suicide Sprints','2 × 1 · 20 yds'],['Shuttle Run','1 × 1 · 240 yds']]},
-  run3:{t:'Correr — Anaeróbico (Día 5)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Speed Improvement Drills','1 × 2 · 10 yds'],['Sprints','3 × 1 · 20 yds'],['Resistance Sprints','3 × 1 · 20 yds'],['Push-Up Start Sprints','3 × 1 · 20 yds'],['Hurdle Drills','1 × 1 · 20 yds']]}
+  run3:{t:'Correr — Anaeróbico (Día 5)',x:[['Dynamic Warmup #1','1 × 1 · 20 yds'],['Speed Improvement Drills','1 × 2 · 10 yds'],['Sprints','3 × 1 · 20 yds'],['Resistance Sprints','3 × 1 · 20 yds'],['Push-Up Start Sprints','3 × 1 · 20 yds'],['Hurdle Drills','1 × 1 · 20 yds']]},
+  /* ---- PRE-SEASON oficial (app TopVelocity): movilidad 3X + anaeróbicos propios ---- */
+  mob3x:{t:'Movilidad 3X',x:[['Ankle Mobility','3 × 2 min'],['Hip Extension Internal Rotation Mobility','3 × 2 min'],['Hip Flexion External Rotation Mobility','3 × 2 min'],['Hip Abduction Mobility','3 × 2 min'],['Trunk Rotation Mobility','3 × 2 min'],['Shoulder Mobility','3 × 2 min']]},
+  anaJump:{t:'Anaeróbico — Comba y Shuttle',x:[['Jump Rope Routine','1 × 30 min'],['Plyometrics','6 × 20 yds'],['Shuttle Run','1 × 100 yds']]},
+  anaSpr:{t:'Anaeróbico — Sprints',x:[['Hurdle Step Overs','6'],['Rapid Response','1 × 10 yds'],['Sprints','3 × 20 yds']]}
 };
 const R=(name,ref,sets,note)=>({n:name,ref,s:sets,note});
 const B=(name,reps,note)=>({n:name,ref:'bw',s:reps,note});
@@ -910,13 +918,13 @@ const LVL1={id:'lvl1',name:'Level 1 — Fusion System',weeks:[
   {tag:'Recuperación',days:[
     {d:'Lunes',ex:[RT('bar'),R('Hang Clean','clean',P('5x50 5x55 5x60 5x75')),R('Clean Pull','clean',P('5x70 5x70 5x70')),R('Front Squat','squat85',P('8x60 8x60 6x65 6x65')),B('Pavel Squat / Towel Ham Slide',BW('8 8 8 8')),B('Glute-Ham Raise',BW('8 8 8')),R('RDL','squat',P('5x25 5x25 5x25')),RT('c1')]},
     {d:'Martes',ex:[RT('sh'),RT('mb1'),R('3 Board Bench','bench',P('8x50 8x55 8x60 6x65')),B('Pull-up (fat grip)',BW('10 10 10 10')),B('DB DS SB Bench',BW('8 8 8 8')),B('Low Row (fat grip)',BW('10 10 10 10')),B('Towel Push Ups',BW('6 6 6 6')),RT('fa1')]},
-    {d:'Jueves',ex:[RT('bar'),RT('mb1'),R('Power Clean','clean',P('5x60 5x60 5x65 5x65')),R('Power Jerk','clean85',P('5x60 5x60 5x65')),R('Box Squat','squat85',P('10x60 8x60 6x65 6x65')),R('Step Up','squat',P('5x25 5x25 5x25')),B('Glute-Ham Raise negative',BW('8 8 8')),B('Goodmorning (ligero)',BW('8 8 8')),RT('c2')]},
+    {d:'Jueves',ex:[RT('bar'),RT('mb1'),R('Power Clean','clean',P('5x60 5x60 5x65 5x65')),R('Power Jerk','clean85',P('5x60 5x60 5x65')),R('Box Squat','squat85',P('10x60 8x60 6x65 6x65')),R('Step Up','squat',P('5x25 5x25 5x25')),B('Glute-Ham Raise negative',BW('8 8 8')),R('Goodmorning (ligero)','squat85',P('5x25 5x25 5x25')),RT('c2')]},
     {d:'Viernes',ex:[RT('sh'),R('Incline Bench','bench85',P('10x60 10x65 8x70 8x70')),B('Towel Pull up',BW('6 6 6 6')),B('Towel Clock Push Up',BW('3 3 3 3')),B('Fat Man Pull up',BW('10 10 10 10')),B('Stability Push Ups',BW('6 6 6 6')),RT('fa2')]}
   ]},
   {tag:'Rendimiento',days:[
     {d:'Lunes',ex:[RT('bar'),R('Power Clean','clean',P('3x80 3x80 2x85 1x95')),R('Power Jerk','clean85',P('3x75 3x80')),R('Back Squat','squat',P('4x75 4x80 3x85 2x90 2x90')),B('Weighted Glute-Ham Raise',BW('6 6 6 6')),R('RDL','squat',P('5x35 5x35 5x35')),RT('c1')]},
     {d:'Martes',ex:[RT('sh'),RT('mb1'),R('Flat Bench','bench',P('5x75 4x80 4x80 2x90 2x90')),B('Weighted Pull-up',BW('6 6 6 6')),B('DB DS SB Bench (pesado)',BW('6 6 4 2')),B('Low Row',BW('6 6 6 6')),B('Towel Push Ups',BW('6 6 6 6')),RT('fa1')]},
-    {d:'Jueves',ex:[RT('bar'),RT('mb1'),R('Hang Clean','clean',P('5x65 3x80 3x80 3x85')),R('Push Press','clean85',P('3x75 3x80 3x80')),R('Clean Pull','clean',P('3x85 3x90 3x95')),R('Front Squat','squat85',P('4x75 4x80 3x85 2x90 2x90')),R('Step Up','squat',P('5x30 5x30 5x30')),B('Glute/Ham Raise negative',BW('8 8 8')),B('Goodmorning',BW('8 8 8')),RT('c2')]},
+    {d:'Jueves',ex:[RT('bar'),RT('mb1'),R('Hang Clean','clean',P('5x65 3x80 3x80 3x85')),R('Push Press','clean85',P('3x75 3x80 3x80')),R('Clean Pull','clean',P('3x85 3x90 3x95')),R('Front Squat','squat85',P('4x75 4x80 3x85 2x90 2x90')),R('Step Up','squat',P('5x30 5x30 5x30')),B('Glute/Ham Raise negative',BW('8 8 8')),R('Goodmorning','squat85',P('5x35 5x35 5x35')),RT('c2')]},
     {d:'Viernes',ex:[RT('sh'),R('Incline Bench','bench85',P('10x60 10x65 8x70 8x70')),B('Towel Pull up',BW('6 6 6 6')),R('3 Board Bench (close grip)','bench85',P('4x80 4x80 2x85 2x85')),B('Towel Clock Push Up',BW('3 3 3 3')),B('Fat Man Pull up (fat grip)',BW('10 10 10 10')),B('Stability Push Ups',BW('6 6 6 6')),RT('fa2')]}
   ]},
   {tag:'Base',days:[
@@ -1022,19 +1030,66 @@ const LVL3={id:'lvl3',name:'Level 3 — Élite',weeks:[
    D('Miércoles',[EXP('Back Squat','5x60 3x70 3x80 1x90 1x100 1x105 1x110 1x115 1x120')])]}
 ]};
 const ACP=RTL('Accesorios + Core',[['MB Circuit · Hughsten Series','2–3 series'],['DB Press · Pull Ups · Low Row · Hip Thrusters','10 reps'],['Shoulder / Forearm / Core Routine','ver PDF']]);
-const PRE={id:'pre',name:'Pre-Season (Abridor)',weeks:[
- {tag:'Base',days:[
-   D('Martes',[EXP('Back Squat','8x40 8x45 6x50'),EXP('Clean Pull','5x55 5x60 3x65 3x65'),EXP('Wide Stance Goodmornings','5x30 5x30 5x30'),ACP]),
-   D('Jueves',[EXP('Power Clean','5x40 5x45 3x50 3x50'),EXP('Front Squat','8x40 8x45 6x50'),EXP('Power Lunge','5x25 5x25 5x25'),EXP('RDL','5x25 5x25 5x25'),ACP])]},
- {tag:'Volumen',days:[
-   D('Martes',[EXP('Back Squat','8x45 8x50 6x55'),EXP('Clean Pull','5x60 5x65 3x70 3x70'),EXP('Wide Stance Goodmornings','5x35 5x35 5x35'),ACP]),
-   D('Jueves',[EXP('Power Clean','5x45 5x50 3x55 3x55'),EXP('Front Squat','8x45 8x50 6x55'),EXP('Power Lunge','5x30 5x30 5x30'),EXP('RDL','5x30 5x30 5x30'),ACP])]},
- {tag:'Recuperación',days:[
-   D('Martes',[EXP('Back Squat','8x35 8x40 8x45'),EXP('Clean Pull','5x50 5x55 3x60 3x60'),EXP('Wide Stance Goodmornings','5x25 5x25 5x25'),ACP]),
-   D('Jueves',[EXP('Power Clean','5x35 5x40 3x45 3x45'),EXP('Front Squat','8x35 8x40 8x45'),EXP('Power Lunge','5x20 5x20 5x20'),EXP('RDL','5x20 5x20 5x20'),ACP])]},
- {tag:'Mantenimiento',days:[
-   D('Martes',[EXP('Back Squat','8x50 6x55 4x60'),EXP('Clean Pull','5x65 3x70 2x75 2x75'),EXP('Wide Stance Goodmornings','5x40 5x40 5x40'),ACP]),
-   D('Jueves',[EXP('Power Clean','5x50 3x55 2x60 2x60'),EXP('Front Squat','8x50 6x55 4x60'),EXP('Power Lunge','5x35 5x35 5x35'),EXP('RDL','5x35 5x35 5x35'),ACP])]}
+/* =====================================================================
+   3X PRE-SEASON (Starter) — 28 días · 5 días/semana
+   Estructura EXACTA de la app oficial TopVelocity (Semana 1 · Base).
+   Día 1/3/5 = movilidad + drills de tiro · Día 2/4 = movilidad + gimnasio + anaeróbico
+   ===================================================================== */
+const MB='Balón medicinal 2 lb · 45 ft', PB='Pelota de béisbol · 45 ft';
+const PRE_D1=[RT('mob3x'),
+  TH('3X Med Ball Open Full Stride',5,MB),TH('3X Med Ball Open On Knee',5,MB),TH('3X Med Ball Open Momentum',5,MB),
+  TH('3X Med Ball Separation Full Stride',5,MB),TH('3X Med Ball Separation On Knee',5,MB),TH('3X Med Ball Separation Momentum',5,MB),
+  TH('Target Throw Open On Knee',10,PB),TH('Target Throw Open Full Stride',10,PB),TH('Target Throw Open Momentum',10,PB),
+  TH('Target Throw Separation On Knee',10,PB),TH('Target Throw Separation Full Stride',10,'Pelota de béisbol · 25 ft'),TH('Target Throw Separation Momentum',10,PB),
+  TH('3X Power Throws',6,'4 series · 45 → 60 → 75 → 90 ft')];
+const PRE_D2=[RT('mob3x'),RT('bar'),RT('mb1'),
+  R('Back Squat','squat',P('8x40 8x45 6x50')),
+  R('Clean Pull','clean',P('5x55 5x60 5x65 5x65')),
+  R('Good Morning','squat',P('5x30 5x30 5x30')),
+  B('Hughsten Series',BW('8 8')),
+  R('DB Stability Ball Double/Single Press','bench',P('10x15 10x15 10x15'),'Peso por mancuerna'),
+  B('Pull-Ups',BW('10 10 10')),
+  B('Shoulder Crossover Routine #1',BW('10'),'20 lb'),
+  RT('fa1'),RT('c1'),RT('anaJump')];
+const PRE_D3=[RT('mob3x'),
+  TH('3X Med Ball Open Full Stride',5,MB),TH('3X Med Ball Open On Knee',5,MB),
+  TH('3X Med Ball Separation Full Stride',5,MB),TH('3X Med Ball Separation Full Stride Lateral',5,MB),
+  TH('3X Med Ball Separation On Knee',5,MB),TH('3X Med Ball Separation On Knee Lateral',5,MB),
+  TH('3X Med Ball Separation Momentum Lateral',5,MB),
+  TH('Target Throw Open On Knee',5,PB),TH('Target Throw Open Full Stride',5,PB),
+  TH('Target Throw Separation On Knee',5,PB),TH('Target Throw Separation On Knee Lateral',5,PB),
+  TH('Target Throw Separation Full Stride',5,PB),TH('Target Throw Separation Full Stride Lateral',5,PB),
+  TH('Target Throw Separation Step Lateral',5,PB),TH('Target Throw Separation Momentum Lateral',5,PB),
+  TH('3X Power Step Throw',5,'60 ft'),TH('3X 2 Drive Throws',5,'60 ft'),
+  TH('Bull Pen',10,'4 series: 10 · 6 · 6 · 6 — 60 ft')];
+const PRE_D4=[RT('mob3x'),RT('bar'),RT('mb2'),
+  R('Power Clean','clean',P('5x40 5x45 5x50 5x55')),
+  R('Front Squat','squat',P('8x40 8x45 8x50')),
+  R('Power Lunge','squat',P('5x25 5x25 5x25')),
+  R('Romanian Deadlift','squat',P('5x25 5x25 5x25')),
+  R('Hip Thrusters','squat',P('8x65 8x65 8x65')),
+  B('3 Position Push-Ups',BW('10 10 10')),
+  R('BB Low Row','bench',P('10x25 10x25 10x25')),
+  B('Shoulder Crossover Routine #2',BW('8'),'25 lb'),
+  RT('fa2'),RT('c2'),RT('anaSpr')];
+const PRE_D5=[RT('mob3x'),
+  TH('3X Med Ball Open Full Stride',5,MB),TH('3X Med Ball Open On Knee',5,MB),TH('3X Med Ball Open Momentum',5,MB),
+  TH('3X Med Ball Separation Full Stride',5,MB),TH('3X Med Ball Separation On Knee',5,MB),
+  TH('3X Med Ball Separation On Knee Lateral',5,MB),TH('3X Med Ball Separation Momentum Lateral',5,MB),
+  TH('3X Overhead Loads',10,'Barra 45 lb'),TH('3X Overhead Drives',10,'Barra 45 lb'),
+  TH('Target Throw Open On Knee',5,PB),TH('Target Throw Open Full Stride',5,PB),TH('Target Throw Open Momentum',5,PB),
+  TH('Target Throw Separation On Knee',5,PB),TH('Target Throw Separation On Knee Lateral',5,PB),
+  TH('Target Throw Separation Momentum Lateral',5,PB),TH('Target Throw Separation Step Lateral',5,PB),
+  TH('Bull Pen',20,'60 ft')];
+/* semanas 2–4: misma estructura, los % suben/bajan según la fase */
+function shiftPct(ex,d){if(!d)return ex;return ex.map(e=>{
+  if(!e.s||!Array.isArray(e.s[0]))return e;
+  return Object.assign({},e,{s:e.s.map(p=>[p[0],typeof p[1]==='number'?Math.max(10,p[1]+d):p[1]])});});}
+const PRE_WEEK=(tag,d)=>({tag,days:[
+  D('Lunes',PRE_D1),D('Martes',shiftPct(PRE_D2,d)),D('Miércoles',PRE_D3),
+  D('Jueves',shiftPct(PRE_D4,d)),D('Viernes',PRE_D5)]});
+const PRE={id:'pre',name:'3X Pre-Season (Abridor)',weeks:[
+ PRE_WEEK('Base',0),PRE_WEEK('Volumen',5),PRE_WEEK('Recuperación',-10),PRE_WEEK('Mantenimiento',10)
 ]};
 const INSEA={id:'inseason',name:'In-Season (Mantenimiento)',weeks:[
  {tag:'Base',days:[
@@ -1075,7 +1130,8 @@ const PLANS=[
   assemble({src:LVL1,name:'Level 1 — Off-Season',mob:'movDyn',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL1',speedDays:['Martes','Miércoles','Viernes'],note:'Sistema de 16 semanas (2 ciclos). Cada día: movilidad → tiro (L/X/V) → gimnasio → correr (M/X/V, rutina propia cada día).'}),
   assemble({src:LVL2,mob:'movDyn',throwDays:['Martes','Jueves','Sábado'],throw:'throwL2',speedDays:['Martes','Miércoles','Viernes'],note:'8 semanas. Gimnasio L/X/V · tiro 3X Advanced M/J/S · correr M/X/V.'}),
   assemble({src:LVL3,mob:'movL3',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwL3',speedDays:['Martes','Miércoles','Viernes'],note:'8 semanas. Requiere ratio potencia/peso 1.3. Movilidad de cadera + 3X Torsion + correr M/X/V.'}),
-  assemble({src:PRE,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwPre',speedDays:['Martes','Miércoles','Viernes'],note:'4 semanas cerca de temporada. Tiro L/X/V · fuerza M/J · correr M/X/V.'}),
+  /* Pre-Season ya viene armado día a día (estructura oficial), no pasa por assemble() */
+  Object.assign({},PRE,{note:'28 días · 5 días/semana. Día 1·3·5 = movilidad + drills de tiro / bull pen · Día 2·4 = movilidad + gimnasio + anaeróbico.'}),
   assemble({src:INSEA,mob:'movPre',throwDays:['Lunes','Miércoles','Viernes'],throw:'throwIn',speedDays:['Martes','Miércoles','Viernes'],note:'4 semanas de mantenimiento alrededor de la rotación del abridor. Gym L/J · tiro + 3X Mechanics Series L/X/V · correr M/X/V.'})
 ];
 
@@ -1108,20 +1164,39 @@ const CATALOG=[
    CI('BB Standing Trunk Rotation','lift')]},
  {icon:'✊',name:{es:'Antebrazo',en:'Forearm',fr:'Avant-bras'},items:[
    CI('Forearm Routine #1','routine'),CI('Forearm Routine #2','routine')]},
- {icon:'⚾',name:{es:'Tiro con pelota',en:'Throwing',fr:'Lancer'},items:[
-   CI('3X Med Ball Open Full Stride','throw','Balón medicinal 2 lb · 45 ft'),
-   CI('3X Med Ball Separation Full Stride','throw','Balón medicinal 2 lb · 45 ft'),
-   CI('Target Throw Open Full Stride','throw','Pelota de béisbol · 45 ft'),
-   CI('Target Throw Separation Full Stride','throw','Pelota de béisbol · 45 ft'),
-   CI('3X Drive Drill — Chest Up','throw','60–90 ft'),
-   CI('2 Phase Delivery','throw','60 ft')]},
+ {icon:'⚾',name:{es:'Tiro — Balón medicinal',en:'Throwing — Med Ball',fr:'Lancer — Ballon médicinal'},items:[
+   CI('3X Med Ball Open Full Stride','throw',MB),CI('3X Med Ball Open On Knee','throw',MB),CI('3X Med Ball Open Momentum','throw',MB),
+   CI('3X Med Ball Separation Full Stride','throw',MB),CI('3X Med Ball Separation On Knee','throw',MB),CI('3X Med Ball Separation Momentum','throw',MB),
+   CI('3X Med Ball Separation Full Stride Lateral','throw',MB),CI('3X Med Ball Separation On Knee Lateral','throw',MB),CI('3X Med Ball Separation Momentum Lateral','throw',MB)]},
+ {icon:'🎯',name:{es:'Tiro — Target Throws',en:'Throwing — Target Throws',fr:'Lancer — Target Throws'},items:[
+   CI('Target Throw Open On Knee','throw',PB),CI('Target Throw Open Full Stride','throw',PB),CI('Target Throw Open Momentum','throw',PB),
+   CI('Target Throw Separation On Knee','throw',PB),CI('Target Throw Separation Full Stride','throw',PB),CI('Target Throw Separation Momentum','throw',PB),
+   CI('Target Throw Separation On Knee Lateral','throw',PB),CI('Target Throw Separation Full Stride Lateral','throw',PB),
+   CI('Target Throw Separation Momentum Lateral','throw',PB),CI('Target Throw Separation Step Lateral','throw',PB)]},
+ {icon:'💥',name:{es:'Tiro — Potencia y montículo',en:'Throwing — Power & Mound',fr:'Lancer — Puissance & Monticule'},items:[
+   CI('3X Power Throws','throw','45 → 120 ft'),CI('3X Power Step Throw','throw','60 ft'),CI('3X 2 Drive Throws','throw','60 ft'),
+   CI('3X Overhead Loads','throw','Barra 45 lb'),CI('3X Overhead Drives','throw','Barra 45 lb'),
+   CI('3X Drive Drill — Chest Up','throw','60–90 ft'),CI('3X Drive Drill — Separation','throw','60–90 ft'),
+   CI('2 Phase Delivery','throw','60 ft'),CI('3X Load Series (montículo)','throw'),CI('3X Lateral Drives Over Mound','throw'),
+   CI('Pitching Stretch (montículo)','throw'),CI('Bull Pen','throw','60 ft')]},
+ {icon:'🧬',name:{es:'Tiro — Drills avanzados',en:'Throwing — Advanced drills',fr:'Lancer — Drills avancés'},items:[
+   CI('Momentum Drills — 3 Step Walk','throw'),CI('Momentum Drills — 3 Step Sprint','throw'),CI('Momentum Drills — Drive','throw'),
+   CI('3X Ball Separation — Full Stride','throw'),CI('3X Ball Separation — Momentum','throw'),
+   CI('Assistance Throws Sep — On Knee','throw'),CI('Assistance Throws Sep — Full Stride','throw'),CI('Assistance Throws Sep — Momentum','throw'),
+   CI('Sled Torsion Loads','throw','2–4 × 20 ft'),CI('Sled Torsion Drives','throw','2–4 × 20 ft'),
+   CI('FVTT — Hold','throw'),CI('FVTT — Seated','throw'),CI('FVTT — Assistance','throw'),CI('FVTT — Release','throw'),
+   CI('Serie #1 — Leg Extension Throws','throw'),CI('Serie #2 — Full Stride Ext. Rotation','throw'),
+   CI('Serie #3 — Full Stride Separation','throw'),CI('Serie #4 — Lateral Stride Separation','throw'),
+   CI('Serie #5 — Slide Step','throw'),CI('Serie #6 — One Step Drive Over Mound','throw'),CI('Serie #7 — Hip Thrust','throw'),
+   CI('3X Mirror Drills','throw')]},
  {icon:'🔴',name:{es:'Balón medicinal',en:'Medicine ball',fr:'Ballon médicinal'},items:[
    CI('MB Circuit — Nivel 1 (3 series)','routine'),CI('MB Circuit — Nivel 2 (3 series)','routine')]},
  {icon:'🧘',name:{es:'Movilidad',en:'Mobility',fr:'Mobilité'},items:[
-   CI('Movilidad — Calentamiento dinámico','routine'),CI('Movilidad — Dinámica + Cadera','routine'),
-   CI('Movilidad — Pre/In-Season','routine')]},
+   CI('Movilidad 3X','routine'),CI('Movilidad — Calentamiento dinámico','routine'),
+   CI('Movilidad — Dinámica + Cadera','routine'),CI('Movilidad — Pre/In-Season','routine')]},
  {icon:'🏃',name:{es:'Correr / Velocidad',en:'Running / Speed',fr:'Course / Vitesse'},items:[
-   CI('Correr — Anaeróbico (Día 2)','routine'),CI('Correr — Anaeróbico (Día 3)','routine'),CI('Correr — Anaeróbico (Día 5)','routine')]}
+   CI('Correr — Anaeróbico (Día 2)','routine'),CI('Correr — Anaeróbico (Día 3)','routine'),CI('Correr — Anaeróbico (Día 5)','routine'),
+   CI('Anaeróbico — Comba y Shuttle','routine'),CI('Anaeróbico — Sprints','routine')]}
 ];
 function openCatItem(ci,ei){const c=CATALOG[ci];if(!c)return;openExInfo(c.items[ei])}
 
@@ -1458,6 +1533,8 @@ function exDesc(e){
 function videoSoon(){toast(t('videoSoon'),'ok')}
 /* ---- VÍDEOS de YouTube por ejercicio (por palabras clave del nombre) ---- */
 function videoFor(e){if(!e)return null;const n=(e.n||'').toLowerCase();
+  /* variantes laterales: aún sin vídeo propio (no usar el de la versión frontal) */
+  if(/lateral|step lateral/.test(n)&&/med ball|target throw/.test(n))return null;
   /* tiro — balón medicinal */
   if(/med ball open.*(on knee|knee)/.test(n))return'soERA_Bi2_8';
   if(/med ball open.*full stride/.test(n))return'6M_KDaJsS5I';
