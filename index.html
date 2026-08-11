@@ -736,7 +736,7 @@ const I18N={
   e_badpass:'Contraseña incorrecta',e_nouser:'No existe esa cuenta',e_inuse:'Ese correo ya está registrado',e_weak:'La contraseña debe tener 6+ caracteres',e_email:'Correo no válido',e_generic:'No se pudo, revisa correo y contraseña',
   allEx:'Ejercicios del día',previewOn:'Vista previa',previewNote:'Sigues con este ejercicio. Tu progreso está guardado.',startThisEx:'▶ Empezar este ejercicio',backToActive:'← Volver al que hacía',finishEx:'✓ Terminar ejercicio',perSide:'lado',resumeTitle:'Entreno sin terminar',resumeMsg:'Tienes un entrenamiento a medias. ¿Quieres continuar donde lo dejaste?',resume:'Continuar entreno',discard:'Empezar de cero',weightDb:'Peso por mancuerna',doneEx:'Hecho',
   sugWeight:'Peso sugerido',perHand:'por mancuerna',hand:'mano',added:'añadido',adjustLevel:'ajústalo a cómo te sientas',
-  phBase:'Base',phVolume:'Volumen',phRecovery:'Recuperación',phPerformance:'Rendimiento',phMax:'Máx',phMaint:'Mantenimiento',adaptsPhase:'sube y baja según la fase',throwing:'Tiro',flipHint:'Toca para ver la explicación',watchVideo:'▶ Ver vídeo',videoSoon:'Vídeo próximamente',howTo:'Cómo',
+  fixedLight:'Peso ligero fijo · ajústalo a cómo te sientas',phBase:'Base',phVolume:'Volumen',phRecovery:'Recuperación',phPerformance:'Rendimiento',phMax:'Máx',phMaint:'Mantenimiento',adaptsPhase:'sube y baja según la fase',throwing:'Tiro',flipHint:'Toca para ver la explicación',watchVideo:'▶ Ver vídeo',videoSoon:'Vídeo próximamente',howTo:'Cómo',
  },
  en:{
   nav_home:'Home',nav_plans:'Plans',nav_progress:'Progress',nav_profile:'Profile',nav_exercises:'Exercises',
@@ -761,7 +761,7 @@ const I18N={
   e_badpass:'Wrong password',e_nouser:'No such account',e_inuse:'That email is already registered',e_weak:'Password must be 6+ characters',e_email:'Invalid email',e_generic:'Failed, check email and password',
   allEx:'Today\'s exercises',previewOn:'Preview',previewNote:'You\'re still on this exercise. Your progress is saved.',startThisEx:'▶ Start this exercise',backToActive:'← Back to current',finishEx:'✓ Finish exercise',perSide:'side',resumeTitle:'Unfinished workout',resumeMsg:'You have a workout in progress. Continue where you left off?',resume:'Continue workout',discard:'Start over',weightDb:'Weight per dumbbell',doneEx:'Done',
   sugWeight:'Suggested weight',perHand:'per dumbbell',hand:'hand',added:'added',adjustLevel:'adjust to how you feel',
-  phBase:'Base',phVolume:'Volume',phRecovery:'Recovery',phPerformance:'Performance',phMax:'Max',phMaint:'Maintenance',adaptsPhase:'rises and drops with the phase',throwing:'Throwing',flipHint:'Tap to see the explanation',watchVideo:'▶ Watch video',videoSoon:'Video coming soon',howTo:'How',
+  fixedLight:'Fixed light weight · adjust it to how you feel',phBase:'Base',phVolume:'Volume',phRecovery:'Recovery',phPerformance:'Performance',phMax:'Max',phMaint:'Maintenance',adaptsPhase:'rises and drops with the phase',throwing:'Throwing',flipHint:'Tap to see the explanation',watchVideo:'▶ Watch video',videoSoon:'Video coming soon',howTo:'How',
  },
  fr:{
   nav_home:'Accueil',nav_plans:'Plans',nav_progress:'Progrès',nav_profile:'Profil',nav_exercises:'Exercices',
@@ -786,7 +786,7 @@ const I18N={
   e_badpass:'Mot de passe incorrect',e_nouser:'Ce compte n\'existe pas',e_inuse:'Cet e-mail est déjà enregistré',e_weak:'Le mot de passe doit avoir 6+ caractères',e_email:'E-mail invalide',e_generic:'Échec, vérifie e-mail et mot de passe',
   allEx:'Exercices du jour',previewOn:'Aperçu',previewNote:'Tu es toujours sur cet exercice. Ta progression est sauvegardée.',startThisEx:'▶ Commencer cet exercice',backToActive:'← Revenir à l\'actuel',finishEx:'✓ Terminer l\'exercice',perSide:'côté',resumeTitle:'Entraînement non terminé',resumeMsg:'Tu as un entraînement en cours. Continuer où tu t\'étais arrêté ?',resume:'Continuer',discard:'Recommencer',weightDb:'Poids par haltère',doneEx:'Fait',
   sugWeight:'Poids suggéré',perHand:'par haltère',hand:'main',added:'ajouté',adjustLevel:'ajuste selon ton ressenti',
-  phBase:'Base',phVolume:'Volume',phRecovery:'Récupération',phPerformance:'Performance',phMax:'Max',phMaint:'Maintien',adaptsPhase:'monte et descend selon la phase',throwing:'Lancer',flipHint:'Touche pour voir l\'explication',watchVideo:'▶ Voir la vidéo',videoSoon:'Vidéo bientôt disponible',howTo:'Comment',
+  fixedLight:'Poids léger fixe · ajuste-le à ton ressenti',phBase:'Base',phVolume:'Volume',phRecovery:'Récupération',phPerformance:'Performance',phMax:'Max',phMaint:'Maintien',adaptsPhase:'monte et descend selon la phase',throwing:'Lancer',flipHint:'Touche pour voir l\'explication',watchVideo:'▶ Voir la vidéo',videoSoon:'Vidéo bientôt disponible',howTo:'Comment',
  }
 };
 function t(k){const d=I18N[LANG]||I18N.es;return d[k]!==undefined?d[k]:(I18N.es[k]!==undefined?I18N.es[k]:k)}
@@ -1523,6 +1523,8 @@ function exDesc(e){
   if(e.ref==='routine'&&/movilidad|mobility/.test(n))return P('Rutina de movilidad: prepara caderas, tronco y hombro con movimientos dinámicos antes de entrenar.','Mobility routine: prep hips, trunk and shoulder with dynamic moves before training.','Routine de mobilité : prépare hanches, tronc et épaule.');
   if(e.ref==='routine'&&/velocidad|speed|correr|anaer|run/.test(n))return P('Rutina de correr (anaeróbico): calentamiento dinámico, drills de velocidad, vallas, pliometría y sprints. Máxima intensidad con descansos completos entre repeticiones.','Running routine (anaerobic): dynamic warm-up, speed drills, hurdles, plyometrics and sprints. Max intensity with full rest between reps.','Routine de course (anaérobie) : échauffement dynamique, drills de vitesse, haies, pliométrie et sprints. Intensité max, repos complet.');
   if(e.ref==='routine'&&/mb circuit|med ball/.test(n))return P('Circuito de balón medicinal: lanzamientos explosivos para core y potencia de lanzamiento.','Medicine-ball circuit: explosive throws for core and throwing power.','Circuit ballon médicinal : lancers explosifs pour le gainage.');
+  if(/hughsten/.test(n))return P('Serie de hombro con mancuernas ligeras: brazo extendido, elevaciones laterales y frontales controladas. Es trabajo de salud del manguito rotador, no de fuerza — peso ligero, sin balanceo y bajando despacio.','Shoulder series with light dumbbells: arm extended, controlled lateral and front raises. This is rotator-cuff health work, not strength — light weight, no swinging, slow on the way down.','Série d\'épaule avec haltères légers : bras tendu, élévations latérales et frontales contrôlées. Travail de santé de la coiffe, pas de force — poids léger, sans balancer.');
+  if(/shoulder crossover/.test(n))return P('Rutina de simetría de hombro: movimientos cruzados con mancuerna para equilibrar los dos hombros y estabilizar la escápula. Control total, sin impulso.','Shoulder symmetry routine: crossover dumbbell movements to balance both shoulders and stabilize the scapula. Full control, no momentum.','Routine de symétrie d\'épaule : mouvements croisés pour équilibrer les deux épaules et stabiliser l\'omoplate.');
   if(e.ref==='routine'&&/shoulder/.test(n))return P('Rutina de hombro (3–8 lb): fortalece el manguito rotador. Peso ligero, técnica perfecta.','Shoulder routine (3–8 lb): strengthen the rotator cuff. Light weight, perfect form.','Routine épaule (3–8 lb) : renforce la coiffe des rotateurs.');
   if(e.ref==='routine'&&/forearm/.test(n))return P('Rutina de antebrazo: agarre y muñeca, clave para proteger el codo al lanzar.','Forearm routine: grip and wrist, key to protect the elbow when throwing.','Routine avant-bras : prise et poignet.');
   if(e.ref==='routine'&&/core/.test(n))return P('Rutina de core: el motor de la rotación y la estabilidad al lanzar.','Core routine: the engine of rotation and stability when throwing.','Routine de gainage : moteur de la rotation.');
@@ -1666,11 +1668,18 @@ function phaseName(tag){tag=tag||(SESS&&SESS.tag)||'';const l=tag.toLowerCase();
   return t('phBase')}
 /* Peso sugerido para accesorios (el PDF no fija peso): estimado con tus máximos,
    ratios típicos de fuerza y la fase de la semana. Orientativo — ajústalo. */
+/* lb -> unidad del usuario, redondeado a 0.5 kg / 1 lb (pesos ligeros) */
+function lbW(v){return U()==='lb'?v:Math.round(v*0.4536*2)/2}
 function accessoryWeight(e){
   if(e.ref!=='bw')return null;
   const bn=CUR.maxes.bench,sq=CUR.maxes.squat,n=(e.n||'').toLowerCase();
   const k=weekIntensity(SESS&&SESS.tag);
   const R=v=>roundW(v*k);
+  /* --- series de hombro: peso FIJO y ligero (no escala con el 1RM) --- */
+  if(/hughsten/.test(n))return{perHand:lbW(5),fixed:true};
+  if(/shoulder crossover.*2|crossover.*#\s*2/.test(n))return{perHand:lbW(25),fixed:true};
+  if(/shoulder crossover/.test(n))return{perHand:lbW(20),fixed:true};
+  if(/shoulder routine|shoulder symmetry/.test(n))return{perHand:lbW(5),fixed:true};
   if(/incline/.test(n)&&/\bdb\b|dumbbell/.test(n))return bn?{perHand:R(bn*0.27)}:null;
   if(/\bdb\b|ds sb|dumbbell|mancuerna/.test(n))return bn?{perHand:R(bn*0.30)}:null;   // press con mancuernas
   if(/low row|bent over row|\bbb\b.*row|\brow\b/.test(n))return bn?{total:R(bn*0.50)}:null; // remo
@@ -1734,7 +1743,7 @@ function renderExercise(){const e=SESS.ex[SESS.idx];const body=document.getEleme
   }else if(e.ref==='bw'){
     const sug=accessoryWeight(e);
     html+=`<div class="ex-ref">${t('bodyweight')}</div>`;
-    if(sug)html+=`<div class="coach-box" style="margin:0 0 12px;border-color:rgba(255,176,58,.4);background:linear-gradient(135deg,rgba(255,176,58,.13),rgba(255,176,58,.02))"><div class="coach-ava" style="background:linear-gradient(135deg,#ffb03a,#E10600)">💡</div><div><div class="who" style="color:#ffb03a">${t('sugWeight')} · ${phaseName()}</div><p><b style="color:#fff;font-size:17px">${sugText(sug)}</b><br><span style="font-size:12px">${t('adjustLevel')} · ${t('adaptsPhase')}</span></p></div></div>`;
+    if(sug)html+=`<div class="coach-box" style="margin:0 0 12px;border-color:rgba(255,176,58,.4);background:linear-gradient(135deg,rgba(255,176,58,.13),rgba(255,176,58,.02))"><div class="coach-ava" style="background:linear-gradient(135deg,#ffb03a,#E10600)">💡</div><div><div class="who" style="color:#ffb03a">${t('sugWeight')}${sug.fixed?'':' · '+phaseName()}</div><p><b style="color:#fff;font-size:17px">${sugText(sug)}</b><br><span style="font-size:12px">${sug.fixed?t('fixedLight'):t('adjustLevel')+' · '+t('adaptsPhase')}</span></p></div></div>`;
     html+=`<div class="set-list">`;
     e.s.forEach((st,i)=>{const done=SESS.setDone[SESS.idx][i];const sw=sug?sugSetW(sug):'';
       html+=`<div class="set ${done?'done':''} ${RO?'ro':''}" ${RO?'':`onclick="toggleSet(${i})"`}><div class="set-chk">${done?'✓':i+1}</div><div class="set-info">${sw?`<div class="set-w">${sw}</div><div class="set-meta">${st.r} ${t('reps')}${st.tag?' · '+st.tag:''}</div>`:`<div class="set-w">${st.r}<small> ${t('reps')}${st.tag?' · '+st.tag:''}</small></div>`}</div></div>`});
