@@ -1537,6 +1537,20 @@ function videoSoon(){toast(t('videoSoon'),'ok')}
 function videoFor(e){if(!e)return null;const n=(e.n||'').toLowerCase();
   /* variantes laterales: aún sin vídeo propio (no usar el de la versión frontal) */
   if(/lateral|step lateral/.test(n)&&/med ball|target throw/.test(n))return null;
+  /* --- vídeos propios TopVelocity (subidos al canal, no listados) --- */
+  if(/3x drive drill.*separation|med throws.*drive/.test(n))return'Y8lGRnT2Pp0';
+  if(/3x load series/.test(n))return'QFeQSphj4Kk';
+  if(/3x power throws/.test(n))return'Vj8Hod1ypfQ';
+  if(/lateral drives over mound|drives over mound/.test(n))return'BANvLje5yFM';
+  if(/back squat/.test(n))return'J265IZwrKFI';
+  if(/below the knee clean|below knee clean/.test(n))return'smEvEJzD5T4';
+  if(/power lunge/.test(n))return'OZ294aZM4lY';
+  if(/hip thrust/.test(n))return'KDdQajqcelQ';
+  if(/3 position push|position push-?ups/.test(n))return'l3t9CspAbps';
+  if(/hughsten/.test(n))return'U57BeEYxT84';
+  if(/stability ball double|db stability ball/.test(n))return'Q9XkWtwhSjk';
+  if(/jump rope/.test(n))return'l9AOhuBtS28';
+  if(/hurdle step over/.test(n))return'TsGIY0QsDq0';
   /* tiro — balón medicinal */
   if(/med ball open.*(on knee|knee)/.test(n))return'soERA_Bi2_8';
   if(/med ball open.*full stride/.test(n))return'6M_KDaJsS5I';
